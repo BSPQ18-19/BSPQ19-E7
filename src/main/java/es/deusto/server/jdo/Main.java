@@ -1,12 +1,7 @@
 package es.deusto.server.jdo;
 
-
-import java.util.Iterator;
-
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
-import javax.jdo.Extent;
-import javax.jdo.Query;
 import javax.jdo.JDOHelper;
 import javax.jdo.Transaction;
 
@@ -29,16 +24,16 @@ public class Main
         Transaction tx=pm.currentTransaction();
         try
         {	
-            tx.begin();
-            System.out.println("Persisting users");
-			User dipina = new User("dipina", "dipina");
-			Message message1 = new Message("This is a test message!");
-			Message message2 = new Message("This is a SECOND test message!");
-			dipina.getMessages().add(message1);
-			dipina.getMessages().add(message2);
-			pm.makePersistent(dipina);					 
-            tx.commit();
-            System.out.println("User and his messages have been persisted");
+//          tx.begin();
+//          System.out.println("Persisting users");
+//			User dipina = new User("dipina", "dipina");
+//			Message message1 = new Message("This is a test message!");
+//			Message message2 = new Message("This is a SECOND test message!");
+//			dipina.getMessages().add(message1);
+//			dipina.getMessages().add(message2);
+//			pm.makePersistent(dipina);					 
+//          tx.commit();
+//          System.out.println("User and his messages have been persisted");
         }
         finally
         {
@@ -59,13 +54,13 @@ public class Main
         {
             tx.begin();
             System.out.println("Retrieving Extent for Messages");
-            Extent<Message> e = pm.getExtent(Message.class, true);
-            Iterator<Message> iter = e.iterator();
-            while (iter.hasNext())
-            {
-                Object obj = iter.next();
-                System.out.println(">  " + obj);
-            }
+//            Extent<Message> e = pm.getExtent(Message.class, true);
+//            Iterator<Message> iter = e.iterator();
+//            while (iter.hasNext())
+//            {
+//                Object obj = iter.next();
+//                System.out.println(">  " + obj);
+//            }
             tx.commit();
         }
         catch (Exception e)
@@ -92,9 +87,9 @@ public class Main
             tx.begin();
 	
             System.out.println("Deleting all users from persistence");
-            Query<User> q2 = pm.newQuery(User.class);
-            long numberInstancesDeleted2 = q2.deletePersistentAll();
-            System.out.println("Deleted " + numberInstancesDeleted2 + " users");
+//          Query<User> q2 = pm.newQuery(User.class);
+//          long numberInstancesDeleted2 = q2.deletePersistentAll();
+//          System.out.println("Deleted " + numberInstancesDeleted2 + " users");
 			
             tx.commit();
         }
