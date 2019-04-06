@@ -17,6 +17,7 @@ public interface IServer extends Remote {
 	 *
 	 */
 	enum UserKind {
+		NONE,
 		ADMIN,
 		HOST,
 		GUEST

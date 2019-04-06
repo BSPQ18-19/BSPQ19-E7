@@ -2,13 +2,18 @@ package es.deusto.client;
 
 import java.rmi.RemoteException;
 
+import javax.swing.JFrame;
+
 import es.deusto.server.IServer;
+import es.deusto.server.IServer.UserKind;
 
 public class Controller {
 
 	private IServer server;
+	private JFrame window;
 	
-	public Controller(String[] args) {
+	public Controller(JFrame window, String[] args) {
+		this.window = window;
 		if (args.length != 3) {
 			System.out.println("Use: java [policy] [codebase] Client.Client [host] [port] [server]");
 			System.exit(0);
@@ -32,11 +37,31 @@ public class Controller {
 	}
 	
 	public void login(String username, String password) {
+		boolean success = false;
+		UserKind kind = UserKind.NONE;
 		try {
-			server.login(username, password);
+			kind = server.login(username, password);
+			success = true;
 		} catch (RemoteException e) {
 			System.out.println("There was an error when login the user " + username);
 			e.printStackTrace();
+		}
+		
+		if (success) {
+			switch(kind) {
+			case ADMIN: {
+				window.getContentPane().removeAll();
+				window.getContentPane().add(Client.createMainWindowAdmin(this, "Default name"));
+			} break;
+			case HOST: {
+				window.getContentPane().removeAll();
+				window.getContentPane().add(Client.createMainWindowHost(this, "Default name"));
+			} break;
+			case GUEST: {
+				window.getContentPane().removeAll();
+				window.getContentPane().add(Client.createMainWindowGuest(this, "Default name"));
+			} break;
+			}
 		}
 	}
 	
