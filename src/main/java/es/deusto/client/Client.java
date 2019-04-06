@@ -3,7 +3,9 @@ package es.deusto.client;
 
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,7 +42,7 @@ public class Client {
 
 		Controller controller = new Controller(window, args);
 		
-		window.setSize(434, 248);
+		window.setSize(450, 248);
 		
 		JPanel login_panel = createLogin(controller);
 				/*new JPanel();
@@ -98,7 +100,7 @@ public class Client {
 		pLogin.add(tfUser);
 		tfUser.setColumns(10);
 		
-		JLabel lblImg = new JLabel("img");
+		JLabel lblImg = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
 		lblImg.setBounds(10, 11, 414, 93);
 		pLogin.add(lblImg);
 		
@@ -140,7 +142,7 @@ public class Client {
 		tfName1.setBounds(102, 125, 132, 20);
 		pReg.add(tfName1);
 		
-		JLabel imgBanner1 = new JLabel("img");
+		JLabel imgBanner1 = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
 		imgBanner1.setBounds(10, 11, 414, 93);
 		pReg.add(imgBanner1);
 		
