@@ -4,30 +4,19 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
-public class Client {
+public class Client extends User {
 	@PrimaryKey
-	String id = null;
 	String telephone = null;
 	String email = null;
 	String name = null;
-	String password = null;
 	
 	public Client(String id, String telephone, String email, String name, String password) {
-		super();
-		this.id = id;
+		super(id, name, password);
 		this.telephone = telephone;
 		this.email = email;
 		this.name = name;
-		this.password = password;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getTelephone() {
 		return telephone;
@@ -45,25 +34,10 @@ public class Client {
 		this.email = email;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	@Override
 	public String toString() {
-		return "Client [id=" + id + ", telephone=" + telephone + ", email=" + email + ", name=" + name + ", password="
+		return "Client [id=" + username + ", telephone=" + telephone + ", email=" + email + ", name=" + name + ", password="
 				+ password + "]";
 	}
 	

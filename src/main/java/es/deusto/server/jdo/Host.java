@@ -4,31 +4,18 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
-public class Host {
+public class Host extends User {
 	@PrimaryKey
-	String id = null;
 	boolean verified = false;
 	String telephone = null;
 	String email = null;
 	String name = null;
-	String password = null;
 	
 	public Host(String id, boolean verified, String telephone, String email, String name, String password) {
-		super();
-		this.id = id;
+		super(id, name, password);
 		this.verified = verified;
 		this.telephone = telephone;
 		this.email = email;
-		this.name = name;
-		this.password = password;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public boolean isVerified() {
@@ -55,25 +42,10 @@ public class Host {
 		this.email = email;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	@Override
 	public String toString() {
-		return "Host [id=" + id + ", verified=" + verified + ", telephone=" + telephone + ", email=" + email + ", name="
+		return "Host [id=" + username + ", verified=" + verified + ", telephone=" + telephone + ", email=" + email + ", name="
 				+ name + ", password=" + password + "]";
 	}
 		

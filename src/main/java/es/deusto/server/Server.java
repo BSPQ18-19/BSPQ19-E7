@@ -19,8 +19,8 @@ public class Server extends UnicastRemoteObject implements IServer {
 	protected Server() throws RemoteException {
 		super();
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
-		this.pm = pmf.getPersistenceManager();
-		this.tx = pm.currentTransaction();
+//		this.pm = pmf.getPersistenceManager();
+//		this.tx = pm.currentTransaction();
 	}
 	
 	protected void finalize () throws Throwable {
@@ -100,6 +100,13 @@ public class Server extends UnicastRemoteObject implements IServer {
 //		
 //		
 	}
+	
+	public UserKind login(String username, String password) {
+		
+		// TODO: Check in the database if this user exists
+		
+		return UserKind.ADMIN;
+	}
 
 	public static void main(String[] args) {
 		if (args.length != 3) {
@@ -117,10 +124,10 @@ public class Server extends UnicastRemoteObject implements IServer {
 			IServer objServer = new Server();
 			Naming.rebind(name, objServer);
 			System.out.println("Server '" + name + "' active and waiting...");
-			java.io.InputStreamReader inputStreamReader = new java.io.InputStreamReader ( System.in );
-			java.io.BufferedReader stdin = new java.io.BufferedReader ( inputStreamReader );
-			@SuppressWarnings("unused")
-			String line  = stdin.readLine();
+//			java.io.InputStreamReader inputStreamReader = new java.io.InputStreamReader ( System.in );
+//			java.io.BufferedReader stdin = new java.io.BufferedReader ( inputStreamReader );
+//			@SuppressWarnings("unused")
+//			String line  = stdin.readLine();
 		} catch (Exception e) {
 			System.err.println("Hello exception: " + e.getMessage());
 			e.printStackTrace();
