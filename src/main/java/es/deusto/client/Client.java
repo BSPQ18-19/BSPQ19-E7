@@ -1,6 +1,16 @@
 package es.deusto.client;
 
 
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+
 import es.deusto.server.IServer;
 
 public class Client {
@@ -26,5 +36,56 @@ public class Client {
 			System.err.println("RMI Example exception: " + e.getMessage());
 			e.printStackTrace();
 		}
+		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+     	}
+		catch(Exception e) {
+			System.out.println("Could not set the system look and feel");
+		}
+		
+		new Client();
+	}
+	
+	private JFrame window;
+	
+	private Controller controller;
+	
+	public Client() {
+		
+		controller = new Controller();
+		
+		window = new JFrame("Window name");
+		
+		window.setSize(600, 400);
+		
+		JPanel login_panel = new JPanel();
+		login_panel.setLayout(new GridLayout(0, 2));
+		
+		JTextField username_field = new JTextField();
+		JPasswordField password_field = new JPasswordField();
+		
+		login_panel.add(new JLabel("Username:"));
+		login_panel.add(username_field);
+		login_panel.add(new JLabel("Password:"));
+		login_panel.add(password_field);
+		
+		JButton enter_button = new JButton("Enter");
+		enter_button.addActionListener((e) -> {controller.login(username_field.getText(), new String(password_field.getPassword()));});
+		
+		JButton close_button = new JButton("Exit");
+		close_button.addActionListener((e) -> {System.exit(0);});
+		
+		
+		login_panel.add(enter_button);
+		login_panel.add(close_button);
+		
+		
+		
+		window.add(login_panel);
+		
+		// window.pack();
+		
+		window.setVisible(true);
 	}
 }
