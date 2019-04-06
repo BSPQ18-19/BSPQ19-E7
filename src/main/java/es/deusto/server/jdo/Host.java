@@ -5,7 +5,6 @@ import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
 public class Host extends User {
-	@PrimaryKey
 	boolean verified = false;
 	String telephone = null;
 	String email = null;

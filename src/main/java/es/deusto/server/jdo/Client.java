@@ -5,7 +5,6 @@ import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
 public class Client extends User {
-	@PrimaryKey
 	String telephone = null;
 	String email = null;
 	String name = null;
