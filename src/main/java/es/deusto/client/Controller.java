@@ -40,6 +40,7 @@ public class Controller {
 		boolean success = false;
 		UserKind kind = UserKind.NONE;
 		try {
+			System.out.println("Login...");
 			kind = server.login(username, password);
 			success = true;
 		} catch (RemoteException e) {
@@ -62,6 +63,8 @@ public class Controller {
 				window.getContentPane().add(Client.createMainWindowGuest(this, "Default name"));
 			} break;
 			}
+			
+			window.paintComponents(window.getGraphics());
 		}
 	}
 	

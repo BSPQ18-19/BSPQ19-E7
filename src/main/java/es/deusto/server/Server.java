@@ -103,6 +103,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	
 	public UserKind login(String username, String password) {
 		
+		System.out.println("Login " + username);
 		// TODO: Check in the database if this user exists
 		
 		return UserKind.ADMIN;
@@ -123,11 +124,8 @@ public class Server extends UnicastRemoteObject implements IServer {
 		try {
 			IServer objServer = new Server();
 			Naming.rebind(name, objServer);
-			System.out.println("Server '" + name + "' active and waiting...");
-//			java.io.InputStreamReader inputStreamReader = new java.io.InputStreamReader ( System.in );
-//			java.io.BufferedReader stdin = new java.io.BufferedReader ( inputStreamReader );
-//			@SuppressWarnings("unused")
-//			String line  = stdin.readLine();
+			System.out.println("Server '" + name + "' active and waiting...");			
+			System.in.read();
 		} catch (Exception e) {
 			System.err.println("Hello exception: " + e.getMessage());
 			e.printStackTrace();

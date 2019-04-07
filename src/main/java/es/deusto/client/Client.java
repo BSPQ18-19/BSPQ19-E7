@@ -199,8 +199,12 @@ public class Client {
 	}
 	
 	public static JPanel createMainWindowAdmin(Controller controller, String id) {
-		// TODO
-		return new JPanel();
+		JPanel main_panel = new JPanel();
+		
+		JLabel label = new JLabel("You are an administrator");
+		main_panel.add(label);
+		
+		return main_panel;
 	}
 	
 	public static JPanel createMainWindowHost(Controller controller, String name /*, Other data for*/) {
