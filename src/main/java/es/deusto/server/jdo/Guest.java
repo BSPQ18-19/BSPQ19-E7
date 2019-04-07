@@ -1,15 +1,18 @@
 package es.deusto.server.jdo;
 
+import javax.jdo.annotations.Inheritance;
+import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.PrimaryKey;
+
 
 @PersistenceCapable
-public class Client extends User {
+@Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
+public class Guest extends User {
 	String telephone = null;
 	String email = null;
 	String name = null;
 	
-	public Client(String id, String telephone, String email, String name, String password) {
+	public Guest(String id, String telephone, String email, String name, String password) {
 		super(id, name, password);
 		this.telephone = telephone;
 		this.email = email;

@@ -3,68 +3,40 @@ package es.deusto.server;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.security.GuardedObject;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.JDOHelper;
 import javax.jdo.Transaction;
 
+import es.deusto.server.jdo.Administrator;
+import es.deusto.server.jdo.Guest;
+import es.deusto.server.jdo.Host;
+import es.deusto.server.jdo.User;
+
 public class Server extends UnicastRemoteObject implements IServer {
 
 	private static final long serialVersionUID = 1L;
 	//private int cont = 0;
 	private PersistenceManager pm=null;
-	private Transaction tx=null;
+	//private Transaction tx=null;
 
 	protected Server() throws RemoteException {
 		super();
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
-//		this.pm = pmf.getPersistenceManager();
+		this.pm = pmf.getPersistenceManager();
 //		this.tx = pm.currentTransaction();
 	}
 	
 	protected void finalize () throws Throwable {
-		if (tx.isActive()) {
-            tx.rollback();
-        }
+//		if (tx.isActive()) {
+//            tx.rollback();
+//        }
         pm.close();
 	}
-
-	public String sayMessage(String login, String password, String message) throws RemoteException {
-//		User user = null;
-//		try{
-//			tx.begin();
-//			System.out.println("Creating query ...");
-//			
-//			
-//			Query<User> q = pm.newQuery("SELECT FROM " + User.class.getName() + " WHERE login == \"" + login + "\" &&  password == \"" + password + "\"");
-//			q.setUnique(true);
-//			user = (User)q.execute();
-//			
-//			System.out.println("User retrieved: " + user);
-//			if (user != null)  {
-//				Message message1 = new Message(message);
-//				user.getMessages().add(message1);
-//				pm.makePersistent(user);					 
-//			}
-//			tx.commit();
-//		} finally {
-//			if (tx.isActive()) {
-//				tx.rollback();
-//			}
-//		
-//		}
-//		
-//		if (user != null) {
-//			cont++;
-//			System.out.println(" * Client number: " + cont);
-//			return message;
-//		} else {
-//			throw new RemoteException("Login details supplied for message delivery are not correct");
-//		} 
-		return null;
-	}
 	
+	@Override
 	public void registerUser(String login, String password) {
 //		try
 //        {	
@@ -101,12 +73,45 @@ public class Server extends UnicastRemoteObject implements IServer {
 //		
 	}
 	
+	@Override
 	public UserKind login(String username, String password) {
 		
 		System.out.println("Login " + username);
 		// TODO: Check in the database if this user exists
+		User user = null;
+		Transaction tx = null;
+		try {
+			tx = pm.currentTransaction();
+			tx.begin();
+			
+			user = pm.getObjectById(User.class, username);
+			
+			tx.commit();
+			
+		} catch (Exception e) {
+			
+			System.out.println("ERROR: When login user " + username);
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			
+			
+		}
 		
-		return UserKind.ADMIN;
+		if (user == null) {
+			return UserKind.NONE;
+		}
+		else if (user instanceof Administrator) {
+			return UserKind.ADMIN;
+		}
+		else if (user instanceof Host) {
+			return UserKind.HOST;
+		}
+		else if (user instanceof Guest) {
+			return UserKind.GUEST;
+		}
+		return UserKind.NONE;
 	}
 
 	public static void main(String[] args) {

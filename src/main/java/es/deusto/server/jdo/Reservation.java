@@ -8,12 +8,12 @@ public class Reservation {
 	@PrimaryKey
 	String id = null;
 	Property property;
-	Client client;
+	Guest client;
 	Host host;
 	String date = null;
 	int duration = 0;
 	
-	public Reservation(String id, Property property, Client client, Host host, String date, int duration) {
+	public Reservation(String id, Property property, Guest client, Host host, String date, int duration) {
 		super();
 		this.id = id;
 		this.property = property;
@@ -39,11 +39,11 @@ public class Reservation {
 		this.property = property;
 	}
 
-	public Client getClient() {
+	public Guest getClient() {
 		return client;
 	}
 
-	public void setClient(Client client) {
+	public void setClient(Guest client) {
 		this.client = client;
 	}
 
