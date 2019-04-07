@@ -3,19 +3,19 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>Messaging</groupId>
-	<artifactId>SavingMessagesJDORMI</artifactId>
+	<groupId>BSPQ19-E7</groupId>
+	<artifactId>RoomRentalJDORMI</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>SavingMessagesJDORMI</name>
+	<name>RoomRentalJDORMI</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<server.IP>127.0.0.1</server.IP>
 		<server.port>1099</server.port>
-		<server.Name>MessagerJDORMI</server.Name>
+		<server.Name>RentalJDORMI</server.Name>
 		<policy.file>${basedir}/src/main/resources/security/java.policy</policy.file>
 		<config.files.dir>${basedir}/src/main/resources</config.files.dir>
 	</properties>
