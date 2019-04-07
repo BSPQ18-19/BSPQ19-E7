@@ -8,6 +8,7 @@ import java.security.GuardedObject;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.JDOHelper;
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Transaction;
 
 import es.deusto.server.jdo.Administrator;
@@ -74,7 +75,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	}
 	
 	@Override
-	public UserKind login(String username, String password) {
+	public User login(String username, String password) {
 		
 		System.out.println("Login " + username);
 		// TODO: Check in the database if this user exists
@@ -88,9 +89,9 @@ public class Server extends UnicastRemoteObject implements IServer {
 			
 			tx.commit();
 			
-		} catch (Exception e) {
+		} catch (JDOObjectNotFoundException e) {
+			System.out.println("User not found: " + username);
 			
-			System.out.println("ERROR: When login user " + username);
 		} finally {
 			if (tx.isActive()) {
 				tx.rollback();
@@ -98,20 +99,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 			
 			
 		}
-		
-		if (user == null) {
-			return UserKind.NONE;
-		}
-		else if (user instanceof Administrator) {
-			return UserKind.ADMIN;
-		}
-		else if (user instanceof Host) {
-			return UserKind.HOST;
-		}
-		else if (user instanceof Guest) {
-			return UserKind.GUEST;
-		}
-		return UserKind.NONE;
+		return user;
 	}
 
 	public static void main(String[] args) {

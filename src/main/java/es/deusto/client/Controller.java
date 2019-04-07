@@ -5,7 +5,10 @@ import java.rmi.RemoteException;
 import javax.swing.JFrame;
 
 import es.deusto.server.IServer;
-import es.deusto.server.IServer.UserKind;
+import es.deusto.server.jdo.Administrator;
+import es.deusto.server.jdo.Guest;
+import es.deusto.server.jdo.Host;
+import es.deusto.server.jdo.User;
 
 public class Controller {
 
@@ -37,33 +40,28 @@ public class Controller {
 	}
 	
 	public void login(String username, String password) {
-		boolean success = false;
-		UserKind kind = UserKind.NONE;
+		User user = null;
 		try {
 			System.out.println("Login...");
-			kind = server.login(username, password);
-			success = true;
+			user = server.login(username, password);
 		} catch (RemoteException e) {
 			System.out.println("There was an error when login the user " + username);
 			e.printStackTrace();
 		}
 		
-		if (success) {
-			switch(kind) {
-			case ADMIN: {
+		if (user != null) {
+			if (user instanceof Administrator) {
 				window.getContentPane().removeAll();
 				window.getContentPane().add(Client.createMainWindowAdmin(this, "Default name"));
-			} break;
-			case HOST: {
+			} 
+			else if (user instanceof Host) {
 				window.getContentPane().removeAll();
 				window.getContentPane().add(Client.createMainWindowHost(this, "Default name"));
-			} break;
-			case GUEST: {
+			}
+			else if (user instanceof Guest) {
 				window.getContentPane().removeAll();
 				window.getContentPane().add(Client.createMainWindowGuest(this, "Default name"));
-			} break;
 			}
-			
 			window.paintComponents(window.getGraphics());
 		}
 	}
