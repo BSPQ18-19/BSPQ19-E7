@@ -203,12 +203,12 @@ public class Client {
 		return new JPanel();
 	}
 	
-	public JPanel createMainWindowHost(Controller controller, String name /*, Other data for*/) {
+	public static JPanel createMainWindowHost(Controller controller, String name /*, Other data for*/) {
 		// TODO
 		return new JPanel();
 	}
 	
-	public JPanel createMainWindowGuest(Controller controller, String name /*, Other data for*/) {
+	public static JPanel createMainWindowGuest(Controller controller, String name /*, Other data for*/) {
 		// TODO
 		return new JPanel();
 	}
