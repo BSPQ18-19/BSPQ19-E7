@@ -43,6 +43,7 @@ public class Client {
 		Controller controller = new Controller(window, args);
 		
 		window.setSize(450, 248);
+		window.setResizable(false);
 		
 		JPanel login_panel = createLogin(controller);
 				/*new JPanel();
@@ -119,7 +120,7 @@ public class Client {
 	public static JPanel createRegisterWindow(Controller controller) {
 		JPanel pReg = new JPanel();
 		pReg.setLayout(null);
-		pReg.setBounds(0, 0, 434, 338);
+		pReg.setBounds(0, 0, 434, 286);
 		pReg.setVisible(true);
 		
 		JLabel lblName1 = new JLabel("Name:");
@@ -134,12 +135,12 @@ public class Client {
 		
 		JTextField tfUserName1 = new JTextField();
 		tfUserName1.setColumns(10);
-		tfUserName1.setBounds(102, 151, 132, 20);
+		tfUserName1.setBounds(89, 153, 118, 20);
 		pReg.add(tfUserName1);
 		
 		JTextField tfName1 = new JTextField();
 		tfName1.setColumns(10);
-		tfName1.setBounds(102, 125, 132, 20);
+		tfName1.setBounds(89, 125, 118, 20);
 		pReg.add(tfName1);
 		
 		JLabel imgBanner1 = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
@@ -148,11 +149,11 @@ public class Client {
 		
 		JButton btnBack1 = new JButton("Back");
 		btnBack1.addActionListener( (e) -> {switchLog(controller,pReg);} );
-		btnBack1.setBounds(212, 304, 89, 23);
+		btnBack1.setBounds(212, 210, 89, 23);
 		pReg.add(btnBack1);
 		
 		JButton btnReg1 = new JButton("Register");
-		btnReg1.setBounds(311, 304, 89, 23);
+		btnReg1.setBounds(311, 210, 89, 23);
 		pReg.add(btnReg1);
 		
 		JLabel lblEmail = new JLabel("Email:");
@@ -162,37 +163,37 @@ public class Client {
 		
 		JTextField tfEmail = new JTextField();
 		tfEmail.setColumns(10);
-		tfEmail.setBounds(102, 182, 132, 20);
+		tfEmail.setBounds(89, 179, 118, 20);
 		pReg.add(tfEmail);
 		
 		JLabel lblPhone = new JLabel("Phone:");
 		lblPhone.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblPhone.setBounds(20, 209, 62, 15);
+		lblPhone.setBounds(212, 127, 62, 15);
 		pReg.add(lblPhone);
 		
 		JTextField tfPhone = new JTextField();
 		tfPhone.setColumns(10);
-		tfPhone.setBounds(102, 207, 132, 20);
+		tfPhone.setBounds(292, 125, 118, 20);
 		pReg.add(tfPhone);
 		
 		JPasswordField tfPassword1 = new JPasswordField();
 		tfPassword1.setColumns(10);
-		tfPassword1.setBounds(102, 233, 132, 20);
+		tfPassword1.setBounds(292, 151, 118, 20);
 		pReg.add(tfPassword1);
 		
 		JLabel lblPassword1 = new JLabel("Password:");
 		lblPassword1.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblPassword1.setBounds(20, 235, 59, 15);
+		lblPassword1.setBounds(212, 153, 59, 15);
 		pReg.add(lblPassword1);
 		
 		JLabel lblRepeat = new JLabel("Repeat Pass:");
 		lblRepeat.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblRepeat.setBounds(20, 263, 82, 15);
+		lblRepeat.setBounds(212, 181, 82, 15);
 		pReg.add(lblRepeat);
 		
 		JPasswordField tfRepeat = new JPasswordField();
 		tfRepeat.setColumns(10);
-		tfRepeat.setBounds(102, 261, 132, 20);
+		tfRepeat.setBounds(292, 179, 118, 20);
 		pReg.add(tfRepeat);
 		return pReg;
 	}
@@ -216,7 +217,7 @@ public class Client {
 		window.getContentPane().remove(pLogin);
 		window.add(createRegisterWindow(controller));
 		window.setTitle("[RoomRental] Register");
-		window.setSize(450, 377);
+		window.setSize(450, 286);
 		
 	}
 	public static void switchLog(Controller controller, JPanel pReg) {
