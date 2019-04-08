@@ -28,6 +28,8 @@ public class Server extends UnicastRemoteObject implements IServer {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		this.pm = pmf.getPersistenceManager();
 //		this.tx = pm.currentTransaction();
+		
+//		registerUser("admin", "admin");
 	}
 	
 	protected void finalize () throws Throwable {
@@ -39,38 +41,39 @@ public class Server extends UnicastRemoteObject implements IServer {
 	
 	@Override
 	public void registerUser(String login, String password) {
-//		try
-//        {	
-//            tx.begin();
-//            System.out.println("Checking whether the user already exits or not: '" + login +"'");
-//			User user = null;
-//			try {
-//				user = pm.getObjectById(User.class, login);
-//			} catch (javax.jdo.JDOObjectNotFoundException jonfe) {
-//				System.out.println("Exception launched: " + jonfe.getMessage());
-//			}
-//			System.out.println("User: " + user);
-//			if (user != null) {
-//				System.out.println("Setting password user: " + user);
-//				user.setPassword(password);
-//				System.out.println("Password set user: " + user);
-//			} else {
-//				System.out.println("Creating user: " + user);
-//				user = new User(login, password);
-//				pm.makePersistent(user);					 
-//				System.out.println("User created: " + user);
-//			}
-//			tx.commit();
-//        }
-//        finally
-//        {
-//            if (tx.isActive())
-//            {
-//                tx.rollback();
-//            }
-//      
-//        }
-//		
+		Transaction tx = pm.currentTransaction();
+		try
+        {	
+            tx.begin();
+            System.out.println("Checking whether the user already exits or not: '" + login +"'");
+			User user = null;
+			try {
+				user = pm.getObjectById(User.class, login);
+			} catch (javax.jdo.JDOObjectNotFoundException jonfe) {
+				System.out.println("Exception launched: " + jonfe.getMessage());
+			}
+			System.out.println("User: " + user);
+			if (user != null) {
+				System.out.println("Setting password user: " + user);
+				user.setPassword(password);
+				System.out.println("Password set user: " + user);
+			} else {
+				System.out.println("Creating user: " + login);
+				user = new Administrator(login, password);
+				pm.makePersistent(user);					 
+				System.out.println("User created: " + user);
+			}
+			tx.commit();
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+      
+        }
+		
 //		
 	}
 	
@@ -78,14 +81,13 @@ public class Server extends UnicastRemoteObject implements IServer {
 	public User login(String username, String password) {
 		
 		System.out.println("Login " + username);
-		// TODO: Check in the database if this user exists
 		User user = null;
 		Transaction tx = null;
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
 			
-			user = pm.getObjectById(User.class, username);
+			user = pm.getObjectById(Administrator.class, username);
 			
 			tx.commit();
 			

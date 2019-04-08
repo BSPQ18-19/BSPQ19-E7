@@ -1,34 +1,27 @@
 package es.deusto.server.jdo;
 
+import javax.jdo.annotations.ForeignKey;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
 public class Reservation {
-	@PrimaryKey
-	String id = null;
+	@ForeignKey
 	Property property;
+	@ForeignKey
 	Guest client;
+	@ForeignKey
 	Host host;
 	String date = null;
 	int duration = 0;
 	
-	public Reservation(String id, Property property, Guest client, Host host, String date, int duration) {
+	public Reservation(Property property, Guest client, Host host, String date, int duration) {
 		super();
-		this.id = id;
 		this.property = property;
 		this.client = client;
 		this.host = host;
 		this.date = date;
 		this.duration = duration;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public Property getProperty() {
@@ -73,7 +66,7 @@ public class Reservation {
 
 	@Override
 	public String toString() {
-		return "Reservation [id=" + id + ", property=" + property + ", client=" + client + ", host=" + host + ", date="
+		return "Reservation [property=" + property + ", client=" + client + ", host=" + host + ", date="
 				+ date + ", duration=" + duration + "]";
 	}
 	

@@ -46,28 +46,7 @@ public class Client {
 		window.setResizable(false);
 		
 		JPanel login_panel = createLogin(controller);
-				/*new JPanel();
-		login_panel.setLayout(new GridLayout(0, 2));
-		
-		JTextField username_field = new JTextField();
-		JPasswordField password_field = new JPasswordField();
-		
-		login_panel.add(new JLabel("Username:"));
-		login_panel.add(username_field);
-		login_panel.add(new JLabel("Password:"));
-		login_panel.add(password_field);
-		
-		JButton enter_button = new JButton("Enter");
-		enter_button.addActionListener((e) -> {controller.login(username_field.getText(), new String(password_field.getPassword()));});
-		
-		JButton close_button = new JButton("Exit");
-		close_button.addActionListener((e) -> {controller.exit();});
-		
-		
-		login_panel.add(enter_button);
-		login_panel.add(close_button);
-		
-		*/
+
 		
 		window.add(login_panel);
 		
@@ -152,10 +131,6 @@ public class Client {
 		btnBack1.setBounds(212, 210, 89, 23);
 		pReg.add(btnBack1);
 		
-		JButton btnReg1 = new JButton("Register");
-		btnReg1.setBounds(311, 210, 89, 23);
-		pReg.add(btnReg1);
-		
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblEmail.setBounds(20, 181, 82, 15);
@@ -195,6 +170,12 @@ public class Client {
 		tfRepeat.setColumns(10);
 		tfRepeat.setBounds(292, 179, 118, 20);
 		pReg.add(tfRepeat);
+		
+		JButton btnReg1 = new JButton("Register");
+		btnReg1.addActionListener((e) -> {controller.register(tfName1.getText(), new String(tfPassword1.getPassword()));});
+		btnReg1.setBounds(311, 210, 89, 23);
+		pReg.add(btnReg1);
+		
 		return pReg;
 	}
 	

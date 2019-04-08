@@ -6,14 +6,14 @@ import javax.jdo.annotations.PersistenceCapable;
 
 
 @PersistenceCapable
-@Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
+@Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
 public class Guest extends User {
 	String telephone = null;
 	String email = null;
 	String name = null;
 	
-	public Guest(String id, String telephone, String email, String name, String password) {
-		super(id, name, password);
+	public Guest(String telephone, String email, String name, String password) {
+		super(name, password);
 		this.telephone = telephone;
 		this.email = email;
 		this.name = name;

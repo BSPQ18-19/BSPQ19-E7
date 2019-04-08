@@ -48,7 +48,7 @@ public class Controller {
 			System.out.println("There was an error when login the user " + username);
 			e.printStackTrace();
 		}
-		
+		System.out.println(user);
 		if (user != null) {
 			if (user instanceof Administrator) {
 				window.getContentPane().removeAll();
@@ -64,6 +64,19 @@ public class Controller {
 			}
 			window.paintComponents(window.getGraphics());
 		}
+	}
+	
+	public void register(String username, String password) {
+		
+		try {
+			System.out.println("Registering user: " + username);
+			server.registerUser(username, password);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// TODO: Show some kind of error
 	}
 	
 	public void exit() {

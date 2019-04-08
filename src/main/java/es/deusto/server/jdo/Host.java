@@ -6,15 +6,15 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
-@Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
+@Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
 public class Host extends User {
 	boolean verified = false;
 	String telephone = null;
 	String email = null;
 	String name = null;
 	
-	public Host(String id, boolean verified, String telephone, String email, String name, String password) {
-		super(id, name, password);
+	public Host(boolean verified, String telephone, String email, String name, String password) {
+		super(name, password);
 		this.verified = verified;
 		this.telephone = telephone;
 		this.email = email;

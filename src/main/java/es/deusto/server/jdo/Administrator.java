@@ -6,11 +6,11 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
-@Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
+@Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
 public class Administrator extends User {
 	
-	public Administrator(String id, String name, String password) {
-		super(id, name, password);
+	public Administrator(String name, String password) {
+		super(name, password);
 	}
 
 
