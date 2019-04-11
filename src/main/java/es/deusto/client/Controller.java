@@ -3,6 +3,7 @@ package es.deusto.client;
 import java.rmi.RemoteException;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import es.deusto.server.IServer;
 import es.deusto.server.jdo.Administrator;
@@ -39,6 +40,20 @@ public class Controller {
 		}
 	}
 	
+	public void switchReg(JPanel pLogin) {
+		window.getContentPane().remove(pLogin);
+		window.add(PanelBuilder.createRegisterWindow(this));
+		window.setTitle("[RoomRental] Register");
+		window.setSize(450, 286);
+		
+	}
+	public void switchLog(JPanel pReg) {
+		window.getContentPane().remove(pReg);
+		window.add(PanelBuilder.createLogin(this));
+		window.setTitle("[RoomRental] Login");
+		window.setSize(450, 248);
+	}
+	
 	public void login(String username, String password) {
 		User user = null;
 		try {
@@ -52,15 +67,15 @@ public class Controller {
 		if (user != null) {
 			if (user instanceof Administrator) {
 				window.getContentPane().removeAll();
-				window.getContentPane().add(Client.createMainWindowAdmin(this, "Default name"));
+				window.getContentPane().add(PanelBuilder.createMainWindowAdmin(this, "Default name"));
 			} 
 			else if (user instanceof Host) {
 				window.getContentPane().removeAll();
-				window.getContentPane().add(Client.createMainWindowHost(this, "Default name"));
+				window.getContentPane().add(PanelBuilder.createMainWindowHost(this, "Default name"));
 			}
 			else if (user instanceof Guest) {
 				window.getContentPane().removeAll();
-				window.getContentPane().add(Client.createMainWindowGuest(this, "Default name"));
+				window.getContentPane().add(PanelBuilder.createMainWindowGuest(this, "Default name"));
 			}
 			window.paintComponents(window.getGraphics());
 		}
