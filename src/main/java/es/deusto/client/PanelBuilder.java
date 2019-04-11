@@ -128,7 +128,7 @@ public class PanelBuilder {
 		pReg.add(tfRepeat);
 		
 		JButton btnReg1 = new JButton("Register");
-		btnReg1.addActionListener((e) -> {controller.register(tfName1.getText(), new String(tfPassword1.getPassword()));});
+		btnReg1.addActionListener((e) -> {controller.register(tfName1.getText(), tfUserName1.getText(), tfEmail.getText(), tfPhone.getText(), new String(tfPassword1.getPassword()));});
 		btnReg1.setBounds(311, 210, 89, 23);
 		pReg.add(btnReg1);
 		

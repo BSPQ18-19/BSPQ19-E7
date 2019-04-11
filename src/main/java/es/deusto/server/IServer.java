@@ -20,6 +20,15 @@ public interface IServer extends Remote {
 	 * @throws RemoteException
 	 */
 	User login(String username, String password) throws RemoteException;
-	void registerUser(String login, String password) throws RemoteException;
+	enum RegistrationError {
+		NONE,
+		INVALID_NAME,
+		
+		// @Temporary: This should be handled by the client application not the server?
+		INVALID_EMAIL,
+		INVALID_TELEPHONE,
+		PASSWORD_MISMATCH,
+	}
+	RegistrationError registerUser(String name, String username, String email, String telephone, String password) throws RemoteException;
 	
 }

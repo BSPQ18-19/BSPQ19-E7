@@ -40,7 +40,6 @@ public class Client {
 		
 		window.add(login_panel);
 		
-		// window.pack();
 		
 		window.setVisible(true);
 	}
