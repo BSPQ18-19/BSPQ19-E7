@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 
 public class PanelBuilder {
 
-	public static JPanel createLogin(Controller controller) {
+	public static JPanel createLogin(Client client) {
 		JPanel pLogin = new JPanel();
 		pLogin.setBounds(0, 0, 434, 209);
 		pLogin.setLayout(null);
@@ -41,18 +41,18 @@ public class PanelBuilder {
 		pLogin.add(lblImg);
 		
 		JButton btnLogin = new JButton("Login");
-		btnLogin.addActionListener((e) -> {controller.login(tfUser.getText(), new String(tfPass.getPassword()));});
+		btnLogin.addActionListener((e) -> {client.login(tfUser.getText(), new String(tfPass.getPassword()));});
 		btnLogin.setBounds(193, 166, 89, 23);
 		pLogin.add(btnLogin);
 		
 		JButton btnReg = new JButton("Register");
-		btnReg.addActionListener( (e) -> {controller.switchReg(pLogin);} );
+		btnReg.addActionListener( (e) -> {client.switchReg(pLogin);} );
 		btnReg.setBounds(320, 166, 89, 23);
 		pLogin.add(btnReg);
 		return pLogin;
 	}
 	
-	public static JPanel createRegisterWindow(Controller controller) {
+	public static JPanel createRegisterWindow(Client client) {
 		JPanel pReg = new JPanel();
 		pReg.setLayout(null);
 		pReg.setBounds(0, 0, 434, 286);
@@ -83,7 +83,7 @@ public class PanelBuilder {
 		pReg.add(imgBanner1);
 		
 		JButton btnBack1 = new JButton("Back");
-		btnBack1.addActionListener( (e) -> {controller.switchLog(pReg);} );
+		btnBack1.addActionListener( (e) -> {client.switchLog(pReg);} );
 		btnBack1.setBounds(212, 210, 89, 23);
 		pReg.add(btnBack1);
 		
@@ -128,14 +128,14 @@ public class PanelBuilder {
 		pReg.add(tfRepeat);
 		
 		JButton btnReg1 = new JButton("Register");
-		btnReg1.addActionListener((e) -> {controller.register(tfName1.getText(), tfUserName1.getText(), tfEmail.getText(), tfPhone.getText(), new String(tfPassword1.getPassword()));});
+		btnReg1.addActionListener((e) -> {client.register(tfName1.getText(), tfUserName1.getText(), tfEmail.getText(), tfPhone.getText(), new String(tfPassword1.getPassword()));});
 		btnReg1.setBounds(311, 210, 89, 23);
 		pReg.add(btnReg1);
 		
 		return pReg;
 	}
 	
-	public static JPanel createMainWindowAdmin(Controller controller, String id) {
+	public static JPanel createMainWindowAdmin(Client client, String id) {
 		JPanel main_panel = new JPanel();
 		
 		JLabel label = new JLabel("You are an administrator: " + id);
@@ -144,12 +144,12 @@ public class PanelBuilder {
 		return main_panel;
 	}
 	
-	public static JPanel createMainWindowHost(Controller controller, String name /*, Other data for*/) {
+	public static JPanel createMainWindowHost(Client client, String name /*, Other data for*/) {
 		// TODO
 		return new JPanel();
 	}
 	
-	public static JPanel createMainWindowGuest(Controller controller, String name /*, Other data for*/) {
+	public static JPanel createMainWindowGuest(Client client, String name /*, Other data for*/) {
 		// TODO
 		return new JPanel();
 	}
