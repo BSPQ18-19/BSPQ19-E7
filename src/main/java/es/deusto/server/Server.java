@@ -13,6 +13,8 @@ import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Transaction;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 import org.datanucleus.util.RegularExpressionConverter;
 
 import es.deusto.server.jdo.Administrator;
@@ -26,6 +28,8 @@ public class Server extends UnicastRemoteObject implements IServer {
 	//private int cont = 0;
 	private PersistenceManager pm=null;
 	//private Transaction tx=null;
+	
+	private static Logger log;
 
 	// Copied from: http://emailregex.com/
 	private  String email_regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
@@ -34,10 +38,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		super();
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		this.pm = pmf.getPersistenceManager();
-//		this.tx = pm.currentTransaction();
-		
-//		registerUser("admin", "admin");
-		
+
 	}
 	
 	protected void finalize () throws Throwable {
@@ -60,15 +61,18 @@ public class Server extends UnicastRemoteObject implements IServer {
         {	
             tx.begin();
             System.out.println("Checking whether the user already exits or not: '" + username+"'");
-			User user = null;
+			log.info("Checking whether the user already exits or not: '" + username+"'");
+            User user = null;
 			try {
 				user = pm.getObjectById(User.class, username);
 			} catch (javax.jdo.JDOObjectNotFoundException jonfe) {
 				System.out.println("Exception launched: " + jonfe.getMessage());
 			}
 			System.out.println("User: " + user);
+			log.info("User: " + user);
+			
 			if (user != null) {
-				return RegistrationError.INVALID_EMAIL;
+				return RegistrationError.INVALID_NAME;
 				
 				// @Todo: Is this the supposed behavior?
 				/*
@@ -77,10 +81,12 @@ public class Server extends UnicastRemoteObject implements IServer {
 				System.out.println("Password set user: " + user);*/
 			} else {
 				System.out.println("Creating user: " + username);
-				user = new Administrator(username, password);
+				log.info("Creating user: " + username);
+	            	user = new Administrator(username, password);
 				pm.makePersistent(user);					 
 				System.out.println("User created: " + user);
-			}
+				log.info("User created: " + user);
+	        }
 			tx.commit();
         }
         finally
@@ -100,6 +106,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	public User login(String username, String password) {
 		
 		System.out.println("Login " + username);
+		log.info("Login " + username);
 		User user = null;
 		Transaction tx = null;
 		try {
@@ -112,7 +119,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 			
 		} catch (JDOObjectNotFoundException e) {
 			System.out.println("User not found: " + username);
-			
+			log.error("User not found: " + username);
 		} finally {
 			if (tx.isActive()) {
 				tx.rollback();
@@ -124,24 +131,34 @@ public class Server extends UnicastRemoteObject implements IServer {
 	}
 
 	public static void main(String[] args) {
+		//BasicConfigurator.configure();
+		log = Logger.getLogger(Server.class);
+
 		if (args.length != 3) {
 			System.out.println("How to invoke: java [policy] [codebase] Server.Server [host] [port] [server]");
+			log.warn("Wrong number of arguments passed: " + args);
 			System.exit(0);
 		}
 
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new SecurityManager());
+			log.trace("Security manager updated");
 		}
 
 		String name = "//" + args[0] + ":" + args[1] + "/" + args[2];
-
+		log.info("server name: " + name);
+		
+		
 		try {
 			IServer objServer = new Server();
 			Naming.rebind(name, objServer);
 			System.out.println("Server '" + name + "' active and waiting...");			
+			log.info("Server ready");
 			System.in.read();
 		} catch (Exception e) {
 			System.err.println("Hello exception: " + e.getMessage());
+			log.error("RMI error: could not bind the server to the registry");
+			log.error(e.getStackTrace());
 			e.printStackTrace();
 		}
 	}
