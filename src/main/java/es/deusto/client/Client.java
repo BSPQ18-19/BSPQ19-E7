@@ -44,7 +44,7 @@ public class Client {
 		this.window = createInitWindow(this);
 		
 		BasicConfigurator.configure();
-		log = Logger.getLogger(Controller.class);
+		log = Logger.getLogger(Client.class);
 		
 		if (args.length != 3) {
 			System.out.println("Use: java [policy] [codebase] Client.Client [host] [port] [server]");
@@ -159,7 +159,7 @@ public class Client {
 			
 			default: {
 					// Do nothing.
-				}
+			}
 			}
 		} catch (RemoteException e) {
 			log.error("Error registering user");
