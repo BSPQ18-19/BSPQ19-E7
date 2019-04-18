@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+
 import es.deusto.server.IServer;
 import es.deusto.server.IServer.RegistrationError;
 import es.deusto.server.jdo.Administrator;
@@ -17,21 +20,30 @@ public class Controller {
 
 	private IServer server;
 	private JFrame window;
+
+	private static Logger log;
 	
 	public Controller(JFrame window, String[] args) {
 		this.window = window;
+		
+		BasicConfigurator.configure();
+		log = Logger.getLogger(Controller.class);
+		
 		if (args.length != 3) {
 			System.out.println("Use: java [policy] [codebase] Client.Client [host] [port] [server]");
+			log.error("Wrong number of cmd line arguments: " + args);
 			System.exit(0);
 		}
 
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new SecurityManager());
+			log.info("Updated security manager");
 		}
 
 		try {
 			String name = "//" + args[0] + ":" + args[1] + "/" + args[2];
 			server = (IServer) java.rmi.Naming.lookup(name);
+			log.info("Server connection ready");
 			// Register to be allowed to send messages
 			//objHello.registerUser("dipina", "dipina");
 			//System.out.println("* Message coming from the server: '" + objHello.sayMessage("dipina", "dipina", "This is a test!") + "'");
@@ -39,6 +51,7 @@ public class Controller {
 		} catch (Exception e) {
 			System.err.println("RMI Example exception: " + e.getMessage());
 			e.printStackTrace();
+			log.error("RMI Example exception: " + e.getMessage());
 		}
 	}
 	
@@ -63,10 +76,10 @@ public class Controller {
 	public void login(String username, String password) {
 		User user = null;
 		try {
-			System.out.println("Login...");
+			log.info("Trying to log user: " + username);
 			user = server.login(username, password);
 			
-			System.out.println(user);
+			log.debug("Login result: " + user);
 			
 			if (user != null) {
 				if (user instanceof Administrator) {
@@ -86,6 +99,7 @@ public class Controller {
 		} catch (RemoteException e) {
 			System.out.println("There was an error when login the user " + username);
 			e.printStackTrace();
+			log.error("There was an error when login the user " + username);
 		}
 		
 	}
@@ -94,8 +108,10 @@ public class Controller {
 		
 		try {
 			System.out.println("Registering user: " + username);
+			log.info("Registering user: " + username);
 			RegistrationError error = server.registerUser(name, username, email, telephone, password);
 			
+			log.debug("Registration result " + error);
 			switch (error) {
 			case INVALID_EMAIL: {
 				JOptionPane.showMessageDialog(window, "Invalid e-mail. E-mail address is already in use or is incorrectly typed.", "Alert", JOptionPane.WARNING_MESSAGE, null);
@@ -110,14 +126,14 @@ public class Controller {
 				}
 			}
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			log.error("Error registering user");
 			e.printStackTrace();
 		}
 		
 	}
 	
 	public void exit() {
-		// TODO: We may want to do other things in the future
+		// TODO: We may want to do other things in the future. Close connections, release resources, ...
 		System.exit(0);
 	}
 	
