@@ -16,12 +16,12 @@ public class PanelBuilder {
 		pLogin.setBounds(0, 0, 434, 209);
 		pLogin.setLayout(null);
 		
-		JLabel lblUsername = new JLabel("Username:");
+		JLabel lblUsername = new JLabel(client.text.getString("Username")+ ":");
 		lblUsername.setBounds(20, 127, 62, 15);
 		pLogin.add(lblUsername);
 		lblUsername.setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		JLabel lblPassword = new JLabel("Password:");
+		JLabel lblPassword = new JLabel(client.text.getString("Password")+":");
 		lblPassword.setBounds(223, 127, 59, 15);
 		pLogin.add(lblPassword);
 		lblPassword.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -40,12 +40,12 @@ public class PanelBuilder {
 		lblImg.setBounds(10, 11, 414, 93);
 		pLogin.add(lblImg);
 		
-		JButton btnLogin = new JButton("Login");
+		JButton btnLogin = new JButton(client.text.getString("Login"));
 		btnLogin.addActionListener((e) -> {client.login(tfUser.getText(), new String(tfPass.getPassword()));});
 		btnLogin.setBounds(193, 166, 89, 23);
 		pLogin.add(btnLogin);
 		
-		JButton btnReg = new JButton("Register");
+		JButton btnReg = new JButton(client.text.getString("Register"));
 		btnReg.addActionListener( (e) -> {client.switchReg(pLogin);} );
 		btnReg.setBounds(320, 166, 89, 23);
 		pLogin.add(btnReg);
@@ -58,12 +58,12 @@ public class PanelBuilder {
 		pReg.setBounds(0, 0, 434, 286);
 		pReg.setVisible(true);
 		
-		JLabel lblName1 = new JLabel("Name:");
+		JLabel lblName1 = new JLabel(client.text.getString("Name")+":");
 		lblName1.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblName1.setBounds(20, 127, 62, 15);
 		pReg.add(lblName1);
 		
-		JLabel lblUserName1 = new JLabel("Username:");
+		JLabel lblUserName1 = new JLabel(client.text.getString("Username")+":");
 		lblUserName1.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblUserName1.setBounds(20, 153, 72, 15);
 		pReg.add(lblUserName1);
@@ -82,12 +82,12 @@ public class PanelBuilder {
 		imgBanner1.setBounds(10, 11, 414, 93);
 		pReg.add(imgBanner1);
 		
-		JButton btnBack1 = new JButton("Back");
+		JButton btnBack1 = new JButton(client.text.getString("Back"));
 		btnBack1.addActionListener( (e) -> {client.switchLog(pReg);} );
 		btnBack1.setBounds(212, 210, 89, 23);
 		pReg.add(btnBack1);
 		
-		JLabel lblEmail = new JLabel("Email:");
+		JLabel lblEmail = new JLabel(client.text.getString("Email")+":");
 		lblEmail.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblEmail.setBounds(20, 181, 82, 15);
 		pReg.add(lblEmail);
@@ -97,7 +97,7 @@ public class PanelBuilder {
 		tfEmail.setBounds(89, 179, 118, 20);
 		pReg.add(tfEmail);
 		
-		JLabel lblPhone = new JLabel("Phone:");
+		JLabel lblPhone = new JLabel(client.text.getString("Phone")+":");
 		lblPhone.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblPhone.setBounds(212, 127, 62, 15);
 		pReg.add(lblPhone);
@@ -112,12 +112,12 @@ public class PanelBuilder {
 		tfPassword1.setBounds(292, 151, 118, 20);
 		pReg.add(tfPassword1);
 		
-		JLabel lblPassword1 = new JLabel("Password:");
+		JLabel lblPassword1 = new JLabel(client.text.getString("Password")+":");
 		lblPassword1.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblPassword1.setBounds(212, 153, 59, 15);
 		pReg.add(lblPassword1);
 		
-		JLabel lblRepeat = new JLabel("Repeat Pass:");
+		JLabel lblRepeat = new JLabel(client.text.getString("Repeat_Password")+":");
 		lblRepeat.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblRepeat.setBounds(212, 181, 82, 15);
 		pReg.add(lblRepeat);
@@ -127,7 +127,7 @@ public class PanelBuilder {
 		tfRepeat.setBounds(292, 179, 118, 20);
 		pReg.add(tfRepeat);
 		
-		JButton btnReg1 = new JButton("Register");
+		JButton btnReg1 = new JButton(client.text.getString("Register"));
 		btnReg1.addActionListener((e) -> {client.register(tfName1.getText(), tfUserName1.getText(), tfEmail.getText(), tfPhone.getText(), new String(tfPassword1.getPassword()));});
 		btnReg1.setBounds(311, 210, 89, 23);
 		pReg.add(btnReg1);
@@ -138,7 +138,8 @@ public class PanelBuilder {
 	public static JPanel createMainWindowAdmin(Client client, String id) {
 		JPanel main_panel = new JPanel();
 		
-		JLabel label = new JLabel("You are an administrator: " + id);
+		JLabel label = new JLabel(client.text.getString("Welcome administrator")+" " + id);
+		
 		main_panel.add(label);
 		
 		return main_panel;

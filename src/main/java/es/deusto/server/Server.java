@@ -22,9 +22,7 @@ import es.deusto.server.jdo.User;
 public class Server extends UnicastRemoteObject implements IServer {
 
 	private static final long serialVersionUID = 1L;
-	//private int cont = 0;
 	private PersistenceManager pm=null;
-	//private Transaction tx=null;
 	
 	private static Logger log;
 
@@ -101,7 +99,6 @@ public class Server extends UnicastRemoteObject implements IServer {
         }
 		
 		return RegistrationError.NONE;
-//		
 	}
 	
 	@Override

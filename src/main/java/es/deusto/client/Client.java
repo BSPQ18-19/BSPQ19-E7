@@ -2,6 +2,8 @@ package es.deusto.client;
 
 
 import java.rmi.RemoteException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -38,9 +40,18 @@ public class Client {
 	private IServer server;
 	private JFrame window;
 
+	// i18n
+	public ResourceBundle text;
+	
 	private static Logger log;
 	
 	public Client(String[] args) {
+		Locale locale = Locale.ENGLISH;
+		text = ResourceBundle.getBundle("app_text", locale);
+
+		System.out.println();
+		
+		
 		this.window = createInitWindow(this);
 		
 		BasicConfigurator.configure();
