@@ -33,6 +33,8 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	// Copied from: http://emailregex.com/
 	private  String email_regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+	// Copied from: https://stackoverflow.com/a/18626090
+	private String telephone_regex = "\\(?\\+[0-9]{1,3}\\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})? ?(\\w{1,10}\\s?\\d{1,6})?";
 	
 	protected Server() throws RemoteException {
 		super();
@@ -55,6 +57,9 @@ public class Server extends UnicastRemoteObject implements IServer {
 		// Check all the input are correct
 		if (!Pattern.matches(email_regex, email)) {
 			return RegistrationError.INVALID_EMAIL;
+		}
+		if (!Pattern.matches(telephone_regex, telephone)) {
+			return RegistrationError.INVALID_TELEPHONE;
 		}
 		
 		try
