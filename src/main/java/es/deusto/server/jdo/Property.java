@@ -8,6 +8,7 @@ public class Property {
 	@PrimaryKey
 	String id = null;
 	String address = null;
+	String city = null;
 	int capacity = 0;
 	String ocupancy = null; //?
 	double cost = 0.0;

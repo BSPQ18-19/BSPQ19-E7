@@ -3,23 +3,20 @@ package es.deusto.server;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.security.GuardedObject;
-import java.util.regex.Matcher;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Query;
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Transaction;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-import org.datanucleus.util.RegularExpressionConverter;
 
 import es.deusto.server.jdo.Administrator;
-import es.deusto.server.jdo.Guest;
-import es.deusto.server.jdo.Host;
+import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.User;
 
 public class Server extends UnicastRemoteObject implements IServer {
@@ -79,7 +76,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 			if (user != null) {
 				return RegistrationError.INVALID_NAME;
 				
-				// @Todo: Is this the supposed behavior?
+				// @Todo: Is this the supposed behavior? We should make a method that exclusively changes passwords
 				/*
 				System.out.println("Setting password user: " + user);
 				user.setPassword(password);
@@ -108,6 +105,35 @@ public class Server extends UnicastRemoteObject implements IServer {
 	}
 	
 	@Override
+	public List<Property> getPropertiesByCity(String city) {
+		List<Property> result = null;
+
+		// @Robustness: I don't know if pm.currentTransaction can fail
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			
+			
+			Query<Property> query = pm.newQuery(Property.class);
+			query.setFilter("city = " + city);
+			
+			result = query.executeList();
+			
+			tx.commit();
+		} catch (JDOObjectNotFoundException e) {
+			System.out.println("Property not found: " + city);
+			log.error("Property not found: " + city);
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			
+			
+		}
+		return result;
+	}
+	
+	@Override
 	public User login(String username, String password) {
 		
 		System.out.println("Login " + username);
@@ -126,6 +152,9 @@ public class Server extends UnicastRemoteObject implements IServer {
 			System.out.println("User not found: " + username);
 			log.error("User not found: " + username);
 		} finally {
+			// @Robustness: I don't know if pm.currentTransaction can fail, but if it does
+			// this code is not correct because it does not check if tx is null
+			// in case currentTransaction cannot fail we should take it out of the try block
 			if (tx.isActive()) {
 				tx.rollback();
 			}

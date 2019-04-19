@@ -2,7 +2,9 @@ package es.deusto.server;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
+import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.User;
 
 public interface IServer extends Remote {
@@ -30,5 +32,5 @@ public interface IServer extends Remote {
 		PASSWORD_MISMATCH,
 	}
 	RegistrationError registerUser(String name, String username, String email, String telephone, String password) throws RemoteException;
-	
+	List<Property> getPropertiesByCity(String city) throws RemoteException;
 }
