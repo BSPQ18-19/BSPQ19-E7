@@ -192,18 +192,18 @@ public class PanelBuilder {
 		top.add(userSearch);
 		top.add(searchButton);
 		
-		// @Todo: Add buttons and fields to modify/create accounts
+		// @Todo: Add delete button
+		
 		JPanel bottom = new JPanel();
 		JButton editButton = new JButton(client.text.getString("Edit"));
 		editButton.addActionListener((e) -> {
-			// @Todo
 			client.switchAdminAccountEdit(searchResults.getSelectedValue());
 		});
 		
 		
 		JButton newButton = new JButton(client.text.getString("New"));
 		newButton.addActionListener((e) -> {
-			// @Todo
+			client.switchAdminAccountNew();
 		});
 		
 		bottom.add(editButton);
@@ -218,8 +218,9 @@ public class PanelBuilder {
 		return result;
 	}
 	
-	public static JPanel createAdminAccountEdit(Client client, User selectedUser) {
-		assert selectedUser != null : "User must be a valid object!";
+	public static JPanel createAdminAccountEdit(Client client, User selectedUser, boolean isNewUser) {
+		
+		// @Todo: Instead of having 'isNewUser' could we just check if 'selectedUser' is not null?
 		
 		JPanel result = new JPanel();
 		result.setBounds(0, 0, 434, 209);
@@ -238,15 +239,16 @@ public class PanelBuilder {
 		lblUserName1.setBounds(20, 153, 72, 15);
 		result.add(lblUserName1);
 		
-		// @Note: Username cannot be changed
-		JLabel tfUserName1 = new JLabel(selectedUser.getUsername());
+		JTextField tfUserName1 = new JTextField(selectedUser != null ? selectedUser.getUsername() : "");
+		tfUserName1.setColumns(10);
 		tfUserName1.setBounds(89, 153, 118, 20);
+		tfUserName1.setEnabled(isNewUser);
 		result.add(tfUserName1);
 		
 		JTextField tfName1 = new JTextField();
 		tfName1.setColumns(10);
 		tfName1.setBounds(89, 125, 118, 20);
-		tfName1.setText(selectedUser.getName());
+		tfName1.setText(selectedUser != null ? selectedUser.getName() : "");
 		result.add(tfName1);
 		
 		JLabel lblEmail = new JLabel(client.text.getString("Email")+":");
@@ -257,7 +259,7 @@ public class PanelBuilder {
 		JTextField tfEmail = new JTextField();
 		tfEmail.setColumns(10);
 		tfEmail.setBounds(89, 179, 118, 20);
-		tfEmail.setText(selectedUser.getEmail());
+		tfEmail.setText(selectedUser != null ? selectedUser.getEmail() : "");
 		result.add(tfEmail);
 		
 		JLabel lblPhone = new JLabel(client.text.getString("Phone")+":");
@@ -268,7 +270,7 @@ public class PanelBuilder {
 		JTextField tfPhone = new JTextField();
 		tfPhone.setColumns(10);
 		tfPhone.setBounds(292, 125, 118, 20);
-		tfPhone.setText(selectedUser.getTelephone());
+		tfPhone.setText(selectedUser != null ? selectedUser.getTelephone() : "");
 		result.add(tfPhone);
 		
 		
@@ -277,7 +279,7 @@ public class PanelBuilder {
 		JPasswordField tfPassword1 = new JPasswordField();
 		tfPassword1.setColumns(10);
 		tfPassword1.setBounds(292, 151, 118, 20);
-		tfPassword1.setText(selectedUser.getPassword());
+		tfPassword1.setText(selectedUser != null ? selectedUser.getPassword() : "");
 		result.add(tfPassword1);
 		
 		JLabel lblPassword1 = new JLabel(client.text.getString("Password")+":");
@@ -293,7 +295,7 @@ public class PanelBuilder {
 		JPasswordField tfRepeat = new JPasswordField();
 		tfRepeat.setColumns(10);
 		tfRepeat.setBounds(292, 179, 118, 20);
-		tfRepeat.setText(selectedUser.getPassword());
+		tfRepeat.setText(selectedUser != null ? selectedUser.getPassword() : "");
 		result.add(tfRepeat);
 		
 		
@@ -305,14 +307,21 @@ public class PanelBuilder {
 		
 		JButton btnUpdate = new JButton(client.text.getString("Update"));
 		btnUpdate.addActionListener((e) -> {
-			// @Todo
 			String password = new String(tfPassword1.getPassword());
 			String password2 = new String(tfRepeat.getPassword());
 			if (password.equals(password2)) {
-				client.adminUpdateAccount(selectedUser.getUsername(), password,
-						                  selectedUser.getKind(), // @Todo read the value from the combo box
+				if (!isNewUser) {
+				client.adminUpdateAccount(tfUserName1.getText(), password,
+						                  selectedUser != null ? selectedUser.getKind() : User.UserKind.GUEST, // @Todo read the value from the combo box
 						                  tfPhone.getText(), tfEmail.getText(), tfUserName1.getText(),
 						                  false); // @Todo: Read from the check box
+				}
+				else {
+					client.adminUpdateAccount(tfUserName1.getText(), password,
+			                  selectedUser != null ? selectedUser.getKind() : User.UserKind.GUEST, // @Todo read the value from the combo box
+			                  tfPhone.getText(), tfEmail.getText(), tfUserName1.getText(),
+			                  false); // @Todo: Read from the check box
+				}
 			}
 			else {
 				// @Todo: Show some kind of error

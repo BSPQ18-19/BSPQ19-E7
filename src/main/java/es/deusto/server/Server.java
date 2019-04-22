@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
+import javax.jdo.JDOException;
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Transaction;
@@ -223,29 +224,20 @@ public class Server extends UnicastRemoteObject implements IServer {
 	
 	public void updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException {
 		Transaction tx = null;
+		User user = null;
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
 			
 			// Get the original user 
-			User user = pm.getObjectById(User.class, username);
+			user = pm.getObjectById(User.class, username);
 			
-			// Update the user
-			user.setPassword(password);
-			user.setKind(kind);
-			user.setTelephone(telephone);
-			user.setEmail(email);
-			user.setName(name);
-			user.setVerified(verified);
-			
-			// Store the updated user
-			pm.makePersistent(user);
 			
 			tx.commit();
 			
 		} catch (JDOObjectNotFoundException e) {
 			System.out.println("User not found: " + username);
-			log.error("User not found: " + username);
+			log.info("User not found: " + username);
 		} finally {
 			// @Robustness: I don't know if pm.currentTransaction can fail, but if it does
 			// this code is not correct because it does not check if tx is null
@@ -254,7 +246,49 @@ public class Server extends UnicastRemoteObject implements IServer {
 				tx.rollback();
 			}
 		}
+		
+		try {
+			tx = pm.currentTransaction();
+			tx.begin();
+			
+			if (user != null) {
+				// Update the user
+				log.info("Updating existing user");
+				System.out.println("Updating existing user");
+				user.setPassword(password);
+				user.setKind(kind);
+				user.setTelephone(telephone);
+				user.setEmail(email);
+				user.setName(name);
+				user.setVerified(verified);
+			}
+			else {
+				// Create a new user
+				log.info("Creating new user");
+				System.out.println("Creating new user");
+				user = new User(username, password, kind, telephone, email, name, verified);
+			}
+			
+			// Store the updated user
+			pm.makePersistent(user);
+			log.info("User successfully saved");
+			
+			tx.commit();
+			
+		} catch (JDOException e) {
+			log.error("User: " + user);
+			log.error(e.getStackTrace());
+		} finally {
+			// @Robustness: I don't know if pm.currentTransaction can fail, but if it does
+			// this code is not correct because it does not check if tx is null
+			// in case currentTransaction cannot fail we should take it out of the try block
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+	
 	}
+
 
 	public static void main(String[] args) {
 		{

@@ -266,9 +266,14 @@ public class Client {
 	}
 	
 	public void switchAdminAccountEdit(User selectedUser) {
-		// TODO Auto-generated method stub
 		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createAdminAccountEdit(this, selectedUser));
+		window.getContentPane().add(PanelBuilder.createAdminAccountEdit(this, selectedUser, false));
+		window.paintComponents(window.getGraphics());
+	}
+	
+	public void switchAdminAccountNew() {
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createAdminAccountEdit(this, null, true));
 		window.paintComponents(window.getGraphics());
 	}
 	

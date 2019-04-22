@@ -34,8 +34,9 @@ public interface IServer extends Remote {
 		PASSWORD_MISMATCH,
 	}
 	RegistrationError registerUser(String name, String username, String email, String telephone, String password) throws RemoteException;
-	List<Property> getPropertiesByCity(String city) throws RemoteException;
+	
 	List<User> getUser(String username) throws RemoteException;
 	void updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException;
-		
+			
+	List<Property> getPropertiesByCity(String city) throws RemoteException;
 }
