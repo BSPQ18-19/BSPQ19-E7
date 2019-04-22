@@ -38,7 +38,26 @@ public class Server extends UnicastRemoteObject implements IServer {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		this.pm = pmf.getPersistenceManager();
 		
-		// @Todo: Check that there is the admin/admin user. If not create it.
+		
+		// Check that there is the admin/admin user. If not create it.
+		{
+			Transaction tx = null;
+			try {
+				tx = pm.currentTransaction();
+				
+				tx.begin();
+				User user = pm.getObjectById(User.class, "admin");
+				
+				tx.commit();
+			}
+			catch(JDOObjectNotFoundException e) {
+				// @Temp: Add the missing account
+				tx = pm.currentTransaction();
+				User user = new User("admin", "admin", User.UserKind.ADMINISTRATOR, null, null, null, false);
+				pm.makePersistent(user);
+				tx.commit();
+			}
+		}
 
 	}
 	

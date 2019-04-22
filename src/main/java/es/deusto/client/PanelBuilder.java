@@ -6,6 +6,7 @@ import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -18,6 +19,10 @@ import es.deusto.server.jdo.User;
 public class PanelBuilder {
 
 	public static JPanel createLogin(Client client) {
+		
+		// @Todo @Performance Avoid creating the font each time
+		
+		
 		JPanel pLogin = new JPanel();
 		pLogin.setBounds(0, 0, 434, 209);
 		pLogin.setLayout(null);
@@ -59,6 +64,10 @@ public class PanelBuilder {
 	}
 	
 	public static JPanel createRegisterWindow(Client client) {
+		
+		// @Todo @Performance Avoid creating the font each time
+		
+		
 		JPanel pReg = new JPanel();
 		pReg.setLayout(null);
 		pReg.setBounds(0, 0, 434, 286);
@@ -173,9 +182,9 @@ public class PanelBuilder {
 	
 	public static JPanel createAdminAccountManagement(Client client) {
 		JPanel result = new JPanel();
-		
 		result.setLayout(new BorderLayout());
-		// @Todo: Put this elements pretty
+		
+		// @Todo: Put this pretty
 		
 		JLabel searchLabel = new JLabel(client.text.getString("Username"));
 		JTextField userSearch = new JTextField();
@@ -195,7 +204,6 @@ public class PanelBuilder {
 		
 		JPanel bottom = new JPanel();
 		
-		// @Todo: Add delete button
 		JButton deleteButton = new JButton(client.text.getString("Delete"));
 		deleteButton.addActionListener((e) -> {
 			client.deleteAccount(searchResults.getSelectedValue());
@@ -212,6 +220,7 @@ public class PanelBuilder {
 			client.switchAdminAccountNew();
 		});
 		
+		bottom.add(deleteButton);
 		bottom.add(editButton);
 		bottom.add(newButton);
 		
@@ -228,8 +237,10 @@ public class PanelBuilder {
 		
 		// @Todo: Instead of having 'isNewUser' could we just check if 'selectedUser' is not null?
 		
+		// @Todo @Performance Avoid creating the font each time
+		
 		JPanel result = new JPanel();
-		result.setBounds(0, 0, 434, 209);
+		//result.setBounds(0, 0, 434, 209);
 		result.setLayout(null);
 		
 		// @Copied and adapted from createRegisterWindow
@@ -280,7 +291,15 @@ public class PanelBuilder {
 		result.add(tfPhone);
 		
 		
-		// @Todo: Add JComboBox for the userkind
+		JLabel lblUserkind = new JLabel(client.text.getString("Kind"));
+		lblUserkind.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblUserkind.setBounds(20, 25, 118, 20);
+		result.add(lblUserkind);
+
+		JComboBox<User.UserKind> userkindCombo = new JComboBox<User.UserKind>(User.UserKind.values());
+		userkindCombo.setSelectedItem(selectedUser != null ? selectedUser.getKind() : User.UserKind.GUEST);
+		userkindCombo.setBounds(89, 25, 118, 20);
+		result.add(userkindCombo);
 		
 		JPasswordField tfPassword1 = new JPasswordField();
 		tfPassword1.setColumns(10);
@@ -317,16 +336,16 @@ public class PanelBuilder {
 			String password2 = new String(tfRepeat.getPassword());
 			if (password.equals(password2)) {
 				if (!isNewUser) {
-				client.adminUpdateAccount(tfUserName1.getText(), password,
-						                  selectedUser != null ? selectedUser.getKind() : User.UserKind.GUEST, // @Todo read the value from the combo box
-						                  tfPhone.getText(), tfEmail.getText(), tfUserName1.getText(),
-						                  false); // @Todo: Read from the check box
+					client.adminUpdateAccount(tfUserName1.getText(), password,
+							                  (User.UserKind) userkindCombo.getSelectedItem(),
+							                  tfPhone.getText(), tfEmail.getText(), tfUserName1.getText(),
+							                  false); // @Todo: Read from the check box
 				}
 				else {
 					client.adminUpdateAccount(tfUserName1.getText(), password,
-			                  selectedUser != null ? selectedUser.getKind() : User.UserKind.GUEST, // @Todo read the value from the combo box
-			                  tfPhone.getText(), tfEmail.getText(), tfUserName1.getText(),
-			                  false); // @Todo: Read from the check box
+							                  (User.UserKind) userkindCombo.getSelectedItem(),
+							                  tfPhone.getText(), tfEmail.getText(), tfUserName1.getText(),
+			                                  false); // @Todo: Read from the check box
 				}
 			}
 			else {
