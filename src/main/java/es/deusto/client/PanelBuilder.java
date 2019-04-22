@@ -5,9 +5,13 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import es.deusto.server.jdo.Property;
+import es.deusto.server.jdo.User;
 
 public class PanelBuilder {
 
@@ -135,12 +139,68 @@ public class PanelBuilder {
 		return pReg;
 	}
 	
+	public static JPanel createPropertySearch(Client client) {
+		JPanel result = new JPanel();
+		
+		// @Todo: Put this elements pretty
+		
+		JLabel searchLabel = new JLabel(client.text.getString("City"));
+		JTextField citySearch = new JTextField();
+		JButton searchButton = new JButton(client.text.getString("Search"));
+		JList<Property> searchResults = new JList<Property>();
+
+		searchButton.addActionListener((e) -> {
+			client.searchPropertiesByCity(citySearch.getText(), searchResults);
+			
+		});
+		
+		
+		result.add(searchLabel);
+		result.add(citySearch);
+		result.add(searchButton);
+		result.add(searchResults);
+		
+		return result;
+	}
+	
+	public static JPanel createAdminAccountManagement(Client client) {
+		JPanel result = new JPanel();
+		
+		// @Todo: Put this elements pretty
+		
+		JLabel searchLabel = new JLabel(client.text.getString("Username"));
+		JTextField citySearch = new JTextField();
+		JButton searchButton = new JButton(client.text.getString("Search"));
+		JList<User> searchResults = new JList<User>();
+
+		searchButton.addActionListener((e) -> {
+			client.searchUsers(citySearch.getText(), searchResults);
+			
+		});
+		
+		
+		result.add(searchLabel);
+		result.add(citySearch);
+		result.add(searchButton);
+		result.add(searchResults);
+		
+		
+		return result;
+	}
+	
 	public static JPanel createMainWindowAdmin(Client client, String id) {
 		JPanel main_panel = new JPanel();
 		
-		JLabel label = new JLabel(client.text.getString("Welcome administrator")+" " + id);
+		JLabel label = new JLabel(client.text.getString("Welcome_administrator")+" " + id);
+		
+		JButton properties = new JButton(client.text.getString("Properties"));
+		properties.addActionListener((e) -> {client.switchPropertiesSearch();});
+		
+		JButton accounts = new JButton(client.text.getString("Accounts"));
+		accounts.addActionListener((e) -> {client.switchAccountManagment();});
 		
 		main_panel.add(label);
+		main_panel.add(properties);
 		
 		return main_panel;
 	}

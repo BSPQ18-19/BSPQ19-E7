@@ -9,16 +9,16 @@ public class Reservation {
 	@ForeignKey
 	Property property;
 	@ForeignKey
-	Guest client;
+	User guest;
 	@ForeignKey
-	Host host;
+	User host;
 	String date = null;
 	int duration = 0;
 	
-	public Reservation(Property property, Guest client, Host host, String date, int duration) {
+	public Reservation(Property property, User guest, User host, String date, int duration) {
 		super();
 		this.property = property;
-		this.client = client;
+		this.guest = guest;
 		this.host = host;
 		this.date = date;
 		this.duration = duration;
@@ -32,19 +32,19 @@ public class Reservation {
 		this.property = property;
 	}
 
-	public Guest getClient() {
-		return client;
+	public User getClient() {
+		return guest;
 	}
 
-	public void setClient(Guest client) {
-		this.client = client;
+	public void setClient(User guest) {
+		this.guest = guest;
 	}
 
-	public Host getHost() {
+	public User getHost() {
 		return host;
 	}
 
-	public void setHost(Host host) {
+	public void setHost(User host) {
 		this.host = host;
 	}
 
@@ -66,7 +66,7 @@ public class Reservation {
 
 	@Override
 	public String toString() {
-		return "Reservation [property=" + property + ", client=" + client + ", host=" + host + ", date="
+		return "Reservation [property=" + property + ", client=" + guest + ", host=" + host + ", date="
 				+ date + ", duration=" + duration + "]";
 	}
 	

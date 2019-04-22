@@ -2,12 +2,16 @@ package es.deusto.client;
 
 
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.ListModel;
 import javax.swing.UIManager;
 
 import org.apache.log4j.BasicConfigurator;
@@ -15,9 +19,7 @@ import org.apache.log4j.Logger;
 
 import es.deusto.server.IServer;
 import es.deusto.server.IServer.RegistrationError;
-import es.deusto.server.jdo.Administrator;
-import es.deusto.server.jdo.Guest;
-import es.deusto.server.jdo.Host;
+import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.User;
 
 
@@ -126,17 +128,25 @@ public class Client {
 			log.debug("Login result: " + user);
 			
 			if (user != null) {
-				if (user instanceof Administrator) {
+				
+				switch(user.getKind()) {
+				case ADMINISTRATOR: {
 					window.getContentPane().removeAll();
 					window.getContentPane().add(PanelBuilder.createMainWindowAdmin(this, user.getUsername()));
-				} 
-				else if (user instanceof Host) {
+				} break;
+				case HOST: {
 					window.getContentPane().removeAll();
 					window.getContentPane().add(PanelBuilder.createMainWindowHost(this, user.getUsername()));
-				}
-				else if (user instanceof Guest) {
+				} break;
+				case GUEST: {
 					window.getContentPane().removeAll();
 					window.getContentPane().add(PanelBuilder.createMainWindowGuest(this, user.getUsername()));
+				} break;
+				
+				default: {
+					// This should be unreachable
+					assert false : "This code should be unreachable!";
+				}				
 				}
 				window.paintComponents(window.getGraphics());
 			}
@@ -176,10 +186,79 @@ public class Client {
 		
 	}
 	
+	/**This method searches for all the properties of a given city and adds them to the JList
+	 * 
+	 * @param cityname Name of the city in which to search for all the properties
+	 * @param resultList JList in which to display the results
+	 */
+	public void searchPropertiesByCity(String cityname, JList<Property> resultList) {
+		List<Property> properties = null;
+		try {
+			properties = server.getPropertiesByCity(cityname);
+		} catch (RemoteException e) {
+			log.error("Error retrieving properties by city");
+			e.printStackTrace();
+		}
+		
+		// @Todo: What does the server return when it does not find any?
+		if (properties == null || properties.isEmpty()) {
+			// @Temp: In the future we will want it to show some kind of message to the user
+			return;
+		}
+		
+		DefaultListModel<Property> model = new DefaultListModel<Property>();
+		
+		for (Property p : properties) {
+			model.addElement(p);
+		}
+		
+		resultList.setModel(model);
+		
+	}
+	
+	public void searchUsers(String username, JList<User> resultList) {
+		List<User> users = null;
+		try {
+			users = server.getUser(username);
+		} catch (RemoteException e) {
+			log.error("Error retrieving properties by city");
+			e.printStackTrace();
+		}
+		
+		// @Todo: What does the server return when it does not find any?
+		if (users == null || users.isEmpty()) {
+			// @Temp: In the future we will want it to show some kind of message to the user
+			return;
+		}
+		
+		DefaultListModel<User> model = new DefaultListModel<User>();
+		
+		for (User u : users) {
+			model.addElement(u);
+		}
+		
+		resultList.setModel(model);
+		
+	}
+	
+
+	public void switchPropertiesSearch() {
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createPropertySearch(this));
+		window.paintComponents(window.getGraphics());
+	}
+	
+	public void switchAccountManagment() {
+		// Only Admins should be able to call this
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createAdminAccountManagement(this));
+	}
+	
 	public void exit() {
 		// TODO: We may want to do other things in the future. Close connections, release resources, ...
 		System.exit(0);
 	}
+
 	
 	
 	
