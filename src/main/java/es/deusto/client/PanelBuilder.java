@@ -192,9 +192,15 @@ public class PanelBuilder {
 		top.add(userSearch);
 		top.add(searchButton);
 		
-		// @Todo: Add delete button
 		
 		JPanel bottom = new JPanel();
+		
+		// @Todo: Add delete button
+		JButton deleteButton = new JButton(client.text.getString("Delete"));
+		deleteButton.addActionListener((e) -> {
+			client.deleteAccount(searchResults.getSelectedValue());
+		});
+		
 		JButton editButton = new JButton(client.text.getString("Edit"));
 		editButton.addActionListener((e) -> {
 			client.switchAdminAccountEdit(searchResults.getSelectedValue());

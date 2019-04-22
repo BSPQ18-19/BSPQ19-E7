@@ -288,6 +288,35 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	
 	}
+	
+	public void deleteUser(String username) throws RemoteException {
+		// @Security: How can we guarantee that this is called by a user onto its own account,
+		// or by an administrator?
+		
+		Transaction tx = null;
+		try {
+			tx = pm.currentTransaction();
+			tx.begin();
+			
+			User user = pm.getObjectById(User.class, username);
+			pm.deletePersistent(user);
+			
+			tx.commit();
+			
+		} catch (JDOObjectNotFoundException e) {
+			System.out.println("User not found: " + username);
+			log.info("User not found: " + username);
+		} finally {
+			// @Robustness: I don't know if pm.currentTransaction can fail, but if it does
+			// this code is not correct because it does not check if tx is null
+			// in case currentTransaction cannot fail we should take it out of the try block
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+		
+		
+	}
 
 
 	public static void main(String[] args) {

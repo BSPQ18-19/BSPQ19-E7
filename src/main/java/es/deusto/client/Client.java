@@ -196,6 +196,16 @@ public class Client {
 		}
 	}
 	
+	public void deleteAccount(User user) {
+		try {
+			server.deleteUser(user.getUsername());
+		} catch (RemoteException e) {
+			log.error("Error deleting user " + user);
+
+			e.printStackTrace();
+		}
+	}
+	
 	/**This method searches for all the properties of a given city and adds them to the JList
 	 * 
 	 * @param cityname Name of the city in which to search for all the properties
