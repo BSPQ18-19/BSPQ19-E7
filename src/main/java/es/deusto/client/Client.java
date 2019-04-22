@@ -21,6 +21,7 @@ import es.deusto.server.IServer;
 import es.deusto.server.IServer.RegistrationError;
 import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.User;
+import es.deusto.server.jdo.User.UserKind;
 
 
 public class Client {
@@ -252,6 +253,7 @@ public class Client {
 		// Only Admins should be able to call this
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createAdminAccountManagement(this));
+		window.paintComponents(window.getGraphics());
 	}
 	
 	public void exit() {

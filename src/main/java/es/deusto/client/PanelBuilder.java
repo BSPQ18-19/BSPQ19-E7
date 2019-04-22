@@ -1,5 +1,6 @@
 package es.deusto.client;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
@@ -141,11 +142,13 @@ public class PanelBuilder {
 	
 	public static JPanel createPropertySearch(Client client) {
 		JPanel result = new JPanel();
+		result.setLayout(new BorderLayout());
 		
 		// @Todo: Put this elements pretty
 		
 		JLabel searchLabel = new JLabel(client.text.getString("City"));
 		JTextField citySearch = new JTextField();
+		citySearch.setColumns(20);
 		JButton searchButton = new JButton(client.text.getString("Search"));
 		JList<Property> searchResults = new JList<Property>();
 
@@ -155,10 +158,14 @@ public class PanelBuilder {
 		});
 		
 		
-		result.add(searchLabel);
-		result.add(citySearch);
-		result.add(searchButton);
-		result.add(searchResults);
+		JPanel top = new JPanel();
+		
+		top.add(searchLabel);
+		top.add(citySearch);
+		top.add(searchButton);
+		
+		result.add(top, BorderLayout.NORTH);
+		result.add(searchResults, BorderLayout.CENTER);
 		
 		return result;
 	}
@@ -166,23 +173,30 @@ public class PanelBuilder {
 	public static JPanel createAdminAccountManagement(Client client) {
 		JPanel result = new JPanel();
 		
+		result.setLayout(new BorderLayout());
 		// @Todo: Put this elements pretty
 		
 		JLabel searchLabel = new JLabel(client.text.getString("Username"));
-		JTextField citySearch = new JTextField();
+		JTextField userSearch = new JTextField();
+		userSearch.setColumns(20);
 		JButton searchButton = new JButton(client.text.getString("Search"));
 		JList<User> searchResults = new JList<User>();
 
 		searchButton.addActionListener((e) -> {
-			client.searchUsers(citySearch.getText(), searchResults);
+			client.searchUsers(userSearch.getText(), searchResults);
 			
 		});
 		
+		JPanel top = new JPanel();
+		top.add(searchLabel);
+		top.add(userSearch);
+		top.add(searchButton);
 		
-		result.add(searchLabel);
-		result.add(citySearch);
-		result.add(searchButton);
-		result.add(searchResults);
+		result.add(top, BorderLayout.NORTH);
+		result.add(searchResults, BorderLayout.CENTER);
+		
+		
+		// @Todo: Add buttons and fields to modify/create accounts
 		
 		
 		return result;
@@ -190,6 +204,9 @@ public class PanelBuilder {
 	
 	public static JPanel createMainWindowAdmin(Client client, String id) {
 		JPanel main_panel = new JPanel();
+		
+		// @Todo: Put this pretty
+		
 		
 		JLabel label = new JLabel(client.text.getString("Welcome_administrator")+" " + id);
 		
@@ -201,6 +218,7 @@ public class PanelBuilder {
 		
 		main_panel.add(label);
 		main_panel.add(properties);
+		main_panel.add(accounts);
 		
 		return main_panel;
 	}
