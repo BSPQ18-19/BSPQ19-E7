@@ -6,6 +6,7 @@ import java.util.List;
 
 import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.User;
+import es.deusto.server.jdo.User.UserKind;
 
 public interface IServer extends Remote {
 	/**
@@ -35,4 +36,6 @@ public interface IServer extends Remote {
 	RegistrationError registerUser(String name, String username, String email, String telephone, String password) throws RemoteException;
 	List<Property> getPropertiesByCity(String city) throws RemoteException;
 	List<User> getUser(String username) throws RemoteException;
+	void updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException;
+		
 }

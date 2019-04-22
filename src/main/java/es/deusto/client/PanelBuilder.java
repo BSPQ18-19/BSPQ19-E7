@@ -1,6 +1,7 @@
 package es.deusto.client;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
@@ -184,7 +185,6 @@ public class PanelBuilder {
 
 		searchButton.addActionListener((e) -> {
 			client.searchUsers(userSearch.getText(), searchResults);
-			
 		});
 		
 		JPanel top = new JPanel();
@@ -192,11 +192,134 @@ public class PanelBuilder {
 		top.add(userSearch);
 		top.add(searchButton);
 		
+		// @Todo: Add buttons and fields to modify/create accounts
+		JPanel bottom = new JPanel();
+		JButton editButton = new JButton(client.text.getString("Edit"));
+		editButton.addActionListener((e) -> {
+			// @Todo
+			client.switchAdminAccountEdit(searchResults.getSelectedValue());
+		});
+		
+		
+		JButton newButton = new JButton(client.text.getString("New"));
+		newButton.addActionListener((e) -> {
+			// @Todo
+		});
+		
+		bottom.add(editButton);
+		bottom.add(newButton);
+		
+		
 		result.add(top, BorderLayout.NORTH);
 		result.add(searchResults, BorderLayout.CENTER);
+		result.add(bottom, BorderLayout.SOUTH);
 		
 		
-		// @Todo: Add buttons and fields to modify/create accounts
+		return result;
+	}
+	
+	public static JPanel createAdminAccountEdit(Client client, User selectedUser) {
+		assert selectedUser != null : "User must be a valid object!";
+		
+		JPanel result = new JPanel();
+		result.setBounds(0, 0, 434, 209);
+		result.setLayout(null);
+		
+		// @Copied and adapted from createRegisterWindow
+		// We could @Refactor the things both methods have in common
+		
+		JLabel lblName1 = new JLabel(client.text.getString("Name")+":");
+		lblName1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblName1.setBounds(20, 127, 62, 15);
+		result.add(lblName1);
+		
+		JLabel lblUserName1 = new JLabel(client.text.getString("Username")+":");
+		lblUserName1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblUserName1.setBounds(20, 153, 72, 15);
+		result.add(lblUserName1);
+		
+		// @Note: Username cannot be changed
+		JLabel tfUserName1 = new JLabel(selectedUser.getUsername());
+		tfUserName1.setBounds(89, 153, 118, 20);
+		result.add(tfUserName1);
+		
+		JTextField tfName1 = new JTextField();
+		tfName1.setColumns(10);
+		tfName1.setBounds(89, 125, 118, 20);
+		tfName1.setText(selectedUser.getName());
+		result.add(tfName1);
+		
+		JLabel lblEmail = new JLabel(client.text.getString("Email")+":");
+		lblEmail.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblEmail.setBounds(20, 181, 82, 15);
+		result.add(lblEmail);
+		
+		JTextField tfEmail = new JTextField();
+		tfEmail.setColumns(10);
+		tfEmail.setBounds(89, 179, 118, 20);
+		tfEmail.setText(selectedUser.getEmail());
+		result.add(tfEmail);
+		
+		JLabel lblPhone = new JLabel(client.text.getString("Phone")+":");
+		lblPhone.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblPhone.setBounds(212, 127, 62, 15);
+		result.add(lblPhone);
+		
+		JTextField tfPhone = new JTextField();
+		tfPhone.setColumns(10);
+		tfPhone.setBounds(292, 125, 118, 20);
+		tfPhone.setText(selectedUser.getTelephone());
+		result.add(tfPhone);
+		
+		
+		// @Todo: Add JComboBox for the userkind
+		
+		JPasswordField tfPassword1 = new JPasswordField();
+		tfPassword1.setColumns(10);
+		tfPassword1.setBounds(292, 151, 118, 20);
+		tfPassword1.setText(selectedUser.getPassword());
+		result.add(tfPassword1);
+		
+		JLabel lblPassword1 = new JLabel(client.text.getString("Password")+":");
+		lblPassword1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblPassword1.setBounds(212, 153, 59, 15);
+		result.add(lblPassword1);
+		
+		JLabel lblRepeat = new JLabel(client.text.getString("Repeat_Password")+":");
+		lblRepeat.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblRepeat.setBounds(212, 181, 82, 15);
+		result.add(lblRepeat);
+		
+		JPasswordField tfRepeat = new JPasswordField();
+		tfRepeat.setColumns(10);
+		tfRepeat.setBounds(292, 179, 118, 20);
+		tfRepeat.setText(selectedUser.getPassword());
+		result.add(tfRepeat);
+		
+		
+		JButton btnBack1 = new JButton(client.text.getString("Back"));
+		// @Todo
+		//btnBack1.addActionListener( (e) -> {client.switchLog(pReg);} );
+		btnBack1.setBounds(212, 210, 89, 23);
+		result.add(btnBack1);
+		
+		JButton btnUpdate = new JButton(client.text.getString("Update"));
+		btnUpdate.addActionListener((e) -> {
+			// @Todo
+			String password = new String(tfPassword1.getPassword());
+			String password2 = new String(tfRepeat.getPassword());
+			if (password.equals(password2)) {
+				client.adminUpdateAccount(selectedUser.getUsername(), password,
+						                  selectedUser.getKind(), // @Todo read the value from the combo box
+						                  tfPhone.getText(), tfEmail.getText(), tfUserName1.getText(),
+						                  false); // @Todo: Read from the check box
+			}
+			else {
+				// @Todo: Show some kind of error
+			}
+		});
+		btnUpdate.setBounds(311, 210, 89, 23);
+		result.add(btnUpdate);
 		
 		
 		return result;
@@ -214,7 +337,7 @@ public class PanelBuilder {
 		properties.addActionListener((e) -> {client.switchPropertiesSearch();});
 		
 		JButton accounts = new JButton(client.text.getString("Accounts"));
-		accounts.addActionListener((e) -> {client.switchAccountManagment();});
+		accounts.addActionListener((e) -> {client.switchAdminAccountManagment();});
 		
 		main_panel.add(label);
 		main_panel.add(properties);
@@ -232,6 +355,8 @@ public class PanelBuilder {
 		// TODO
 		return new JPanel();
 	}
+
+	
 	
 
 	

@@ -187,6 +187,15 @@ public class Client {
 		
 	}
 	
+	public void adminUpdateAccount(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) {
+		try {
+			server.updateUser(username, password, kind, telephone, email, name, verified);
+		} catch (RemoteException e) {
+			log.error("Error updating user: " + username);
+			e.printStackTrace();
+		}
+	}
+	
 	/**This method searches for all the properties of a given city and adds them to the JList
 	 * 
 	 * @param cityname Name of the city in which to search for all the properties
@@ -249,10 +258,17 @@ public class Client {
 		window.paintComponents(window.getGraphics());
 	}
 	
-	public void switchAccountManagment() {
+	public void switchAdminAccountManagment() {
 		// Only Admins should be able to call this
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createAdminAccountManagement(this));
+		window.paintComponents(window.getGraphics());
+	}
+	
+	public void switchAdminAccountEdit(User selectedUser) {
+		// TODO Auto-generated method stub
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createAdminAccountEdit(this, selectedUser));
 		window.paintComponents(window.getGraphics());
 	}
 	
@@ -260,6 +276,8 @@ public class Client {
 		// TODO: We may want to do other things in the future. Close connections, release resources, ...
 		System.exit(0);
 	}
+
+	
 
 	
 	
