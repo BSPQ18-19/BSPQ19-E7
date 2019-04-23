@@ -1,9 +1,7 @@
 package es.deusto.client;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Font;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -377,6 +375,74 @@ public class PanelBuilder {
 		return result;
 	}
 	
+	public static JPanel createHostPropertiesManagement(Client client) {
+		JPanel result = new JPanel();
+		result.setLayout(new BorderLayout());
+		
+		JLabel searchLabel = new JLabel(client.text.getString("Property_id"));	//Temporary
+		JTextField propertySearch = new JTextField();
+		propertySearch.setColumns(20);
+		JButton searchButton = new JButton(client.text.getString("Search"));
+		JList<Property> searchResults = new JList<Property>();
+
+		searchButton.addActionListener((e) -> {
+			client.searchPropertiesHost(propertySearch.getText(), searchResults);
+		});
+		
+		JPanel top = new JPanel();
+		top.add(searchLabel);
+		top.add(propertySearch);
+		top.add(searchButton);
+		
+		
+		JPanel bottom = new JPanel();
+		
+		JButton deleteButton = new JButton(client.text.getString("Delete"));
+		deleteButton.addActionListener((e) -> {
+			client.deleteProperty(searchResults.getSelectedValue());
+		});
+		
+		JButton editButton = new JButton(client.text.getString("Edit"));
+		editButton.addActionListener((e) -> {
+			client.switchHostPropertyEdit(searchResults.getSelectedValue());
+		});
+		
+		JButton newButton = new JButton(client.text.getString("New"));
+		newButton.addActionListener((e) -> {
+			client.switchHostPropertyNew();
+		});
+		
+		bottom.add(deleteButton);
+		bottom.add(editButton);
+		bottom.add(newButton);
+		
+		result.add(top, BorderLayout.NORTH);
+		result.add(searchResults, BorderLayout.CENTER);
+		result.add(bottom, BorderLayout.SOUTH);
+		
+		return result;
+	}
+
+	public static JPanel createHostPropertyEdit(Client client, Property selectedProp, boolean isNewProperty) {
+		JPanel result = new JPanel();
+		result.setLayout(null);
+		
+		// @Copied and adapted from createRegisterWindow
+		
+		
+		return result;
+	}
+	
+	public static JPanel createHostAccountManagement(Client client) {
+		/*TODO
+		 * change password
+		 * change telephone number
+		 */
+
+		JPanel result = new JPanel();
+		return result;
+	}
+	
 	public static JPanel createMainWindowAdmin(Client client, String id) {
 		JPanel main_panel = new JPanel();
 		
@@ -399,8 +465,22 @@ public class PanelBuilder {
 	}
 	
 	public static JPanel createMainWindowHost(Client client, String name /*, Other data for*/) {
-		// TODO
-		return new JPanel();
+		// @Copied and adapted from createMainWindowAdmin
+		JPanel main_panel = new JPanel();
+		
+		JLabel label = new JLabel(client.text.getString("Welcome_host") + " " + name);
+
+		JButton properties = new JButton(client.text.getString("Properties"));
+		properties.addActionListener((e) -> {client.switchHostPropertiesManagement();});
+		
+		JButton account_data = new JButton(client.text.getString("Account_data"));
+		properties.addActionListener((e) -> {client.switchHostAccountManagement();});
+
+		main_panel.add(label);
+		main_panel.add(properties);
+		main_panel.add(account_data);
+
+		return main_panel;
 	}
 	
 	public static JPanel createMainWindowGuest(Client client, String name /*, Other data for*/) {

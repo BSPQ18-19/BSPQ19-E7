@@ -30,6 +30,7 @@ public interface IServer extends Remote {
 	List<User> getUser(String username) throws RemoteException;
 	void updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException;
 	void deleteUser(String username) throws RemoteException;
+	void deleteProperty(String id) throws RemoteException;
 	
 	List<Property> getPropertiesByCity(String city) throws RemoteException;
 }
