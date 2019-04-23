@@ -6,6 +6,7 @@ import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -239,6 +240,8 @@ public class PanelBuilder {
 		
 		// @Todo @Performance Avoid creating the font each time
 		
+		// @Todo: Enable/disable fields based on the selected UserKind
+		
 		JPanel result = new JPanel();
 		//result.setBounds(0, 0, 434, 209);
 		result.setLayout(null);
@@ -301,6 +304,16 @@ public class PanelBuilder {
 		userkindCombo.setBounds(89, 25, 118, 20);
 		result.add(userkindCombo);
 		
+		JLabel lblVerified = new JLabel(client.text.getString("Verified"));
+		lblVerified.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblVerified.setBounds(20, 55, 118, 20);
+		result.add(lblVerified);
+		
+		JCheckBox verifiedCheckBox = new JCheckBox();
+		verifiedCheckBox.setBounds(89, 55, 118, 20);
+		verifiedCheckBox.setSelected(selectedUser != null ? selectedUser.isVerified() : false);
+		result.add(verifiedCheckBox);
+		
 		JPasswordField tfPassword1 = new JPasswordField();
 		tfPassword1.setColumns(10);
 		tfPassword1.setBounds(292, 151, 118, 20);
@@ -339,13 +352,13 @@ public class PanelBuilder {
 					client.adminUpdateAccount(tfUserName1.getText(), password,
 							                  (User.UserKind) userkindCombo.getSelectedItem(),
 							                  tfPhone.getText(), tfEmail.getText(), tfUserName1.getText(),
-							                  false); // @Todo: Read from the check box
+							                  verifiedCheckBox.isSelected()); // @Todo: Read from the check box
 				}
 				else {
 					client.adminUpdateAccount(tfUserName1.getText(), password,
 							                  (User.UserKind) userkindCombo.getSelectedItem(),
 							                  tfPhone.getText(), tfEmail.getText(), tfUserName1.getText(),
-			                                  false); // @Todo: Read from the check box
+							                  verifiedCheckBox.isSelected()); // @Todo: Read from the check box
 				}
 			}
 			else {
