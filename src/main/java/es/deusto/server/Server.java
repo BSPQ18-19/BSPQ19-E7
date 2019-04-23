@@ -31,7 +31,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	// Copied from: http://emailregex.com/
 	private  String email_regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 	// Copied from: https://stackoverflow.com/a/18626090
-	private String telephone_regex = "\\(?\\+[0-9]{1,3}\\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})? ?(\\w{1,10}\\s?\\d{1,6})?";
+	private String telephone_regex = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$";
 	
 	protected Server() throws RemoteException {
 		super();
@@ -69,7 +69,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	}
 	
 	@Override
-	public RegistrationError registerUser(String name, String username, String email, String telephone, String password) {
+	public RegistrationError registerUser(String name, String username, String email, String telephone, String password, boolean isHost) {
 		
 		// @Todo: In the future this method will only be used to register hosts and guests
 		// @Security Administrators will only be able to be created by other administrators. And should be
@@ -89,9 +89,9 @@ public class Server extends UnicastRemoteObject implements IServer {
 		if (!Pattern.matches(email_regex, email)) {
 			return RegistrationError.INVALID_EMAIL;
 		}
-//		if (!Pattern.matches(telephone_regex, telephone)) {
-//			return RegistrationError.INVALID_TELEPHONE;
-//		}
+		if (!Pattern.matches(telephone_regex, telephone)) {
+			return RegistrationError.INVALID_TELEPHONE;
+		}
 		
 		try
         {	
@@ -118,8 +118,11 @@ public class Server extends UnicastRemoteObject implements IServer {
 			} else {
 				System.out.println("Creating user: " + username);
 				log.info("Creating user: " + username);
-	            	user = new User(username, password, User.UserKind.ADMINISTRATOR, null, null, null, false);
+				
+				// @Note: Hosts are not verified by default. Verification must be done by an administrator manually.
+	            user = new User(username, password, isHost ? User.UserKind.HOST : User.UserKind.GUEST, telephone, email, name, false);
 				pm.makePersistent(user);					 
+				
 				System.out.println("User created: " + user);
 				log.info("User created: " + user);
 	        }

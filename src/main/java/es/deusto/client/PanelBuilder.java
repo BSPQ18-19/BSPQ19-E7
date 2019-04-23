@@ -138,13 +138,18 @@ public class PanelBuilder {
 		lblRepeat.setBounds(212, 181, 82, 15);
 		pReg.add(lblRepeat);
 		
+		JCheckBox hostCheckBox = new JCheckBox(client.text.getString("Host"));
+		hostCheckBox.setFont(new Font("Arial", Font.PLAIN, 12));
+		hostCheckBox.setBounds(112, 210, 82, 15);
+		pReg.add(hostCheckBox);
+		
 		JPasswordField tfRepeat = new JPasswordField();
 		tfRepeat.setColumns(10);
 		tfRepeat.setBounds(292, 179, 118, 20);
 		pReg.add(tfRepeat);
 		
 		JButton btnReg1 = new JButton(client.text.getString("Register"));
-		btnReg1.addActionListener((e) -> {client.register(tfName1.getText(), tfUserName1.getText(), tfEmail.getText(), tfPhone.getText(), new String(tfPassword1.getPassword()));});
+		btnReg1.addActionListener((e) -> {client.register(tfName1.getText(), tfUserName1.getText(), tfEmail.getText(), tfPhone.getText(), new String(tfPassword1.getPassword()), hostCheckBox.isSelected());});
 		btnReg1.setBounds(311, 210, 89, 23);
 		pReg.add(btnReg1);
 		

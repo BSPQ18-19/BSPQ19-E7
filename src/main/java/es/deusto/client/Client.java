@@ -159,12 +159,12 @@ public class Client {
 		
 	}
 	
-	public void register(String name, String username, String email, String telephone, String password) {
+	public void register(String name, String username, String email, String telephone, String password, boolean isHost) {
 		
 		try {
 			System.out.println("Registering user: " + username);
 			log.info("Registering user: " + username);
-			RegistrationError error = server.registerUser(name, username, email, telephone, password);
+			RegistrationError error = server.registerUser(name, username, email, telephone, password, isHost);
 			
 			log.debug("Registration result " + error);
 			switch (error) {
@@ -177,7 +177,7 @@ public class Client {
 			} break;
 			
 			default: {
-					// Do nothing.
+				// Do nothing.
 			}
 			}
 		} catch (RemoteException e) {
