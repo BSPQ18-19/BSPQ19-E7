@@ -101,20 +101,16 @@ public class Client {
 		return result;
 	}
 	
-	
-	// @Todo: I think there is no reason to pass the old JPanel to this methods.
-	// We can just make "getContentPane().removeAll()".
-	// Although we could use it if we were to keep the previous panel for a back button
-	public void switchReg(JPanel pLogin) {
-		window.getContentPane().remove(pLogin);
-		window.add(PanelBuilder.createRegisterWindow(this));
+	public void switchReg() {
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createRegisterWindow(this));
 		window.setTitle("[RoomRental] Register");
 		window.setSize(450, 286);
 		
 	}
 	
-	public void switchLog(JPanel pReg) {
-		window.getContentPane().remove(pReg);
+	public void switchLog() {
+		window.getContentPane().removeAll();
 		window.add(PanelBuilder.createLogin(this));
 		window.setTitle("[RoomRental] Login");
 		window.setSize(450, 248);

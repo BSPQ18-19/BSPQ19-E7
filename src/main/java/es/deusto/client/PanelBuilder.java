@@ -56,7 +56,7 @@ public class PanelBuilder {
 		pLogin.add(btnLogin);
 		
 		JButton btnReg = new JButton(client.text.getString("Register"));
-		btnReg.addActionListener( (e) -> {client.switchReg(pLogin);} );
+		btnReg.addActionListener( (e) -> {client.switchReg();} );
 		btnReg.setBounds(320, 166, 89, 23);
 		pLogin.add(btnReg);
 		return pLogin;
@@ -97,7 +97,7 @@ public class PanelBuilder {
 		pReg.add(imgBanner1);
 		
 		JButton btnBack1 = new JButton(client.text.getString("Back"));
-		btnBack1.addActionListener( (e) -> {client.switchLog(pReg);} );
+		btnBack1.addActionListener( (e) -> {client.switchLog();} );
 		btnBack1.setBounds(212, 210, 89, 23);
 		pReg.add(btnBack1);
 		
