@@ -333,8 +333,10 @@ public class Server extends UnicastRemoteObject implements IServer {
 				tx.rollback();
 			}
 		}
-		
-		
+	}
+	
+	public void deleteProperty(String id) throws RemoteException {
+		//TODO
 	}
 
 

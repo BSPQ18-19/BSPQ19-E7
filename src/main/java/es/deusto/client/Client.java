@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.ListModel;
 import javax.swing.UIManager;
 
 import org.apache.log4j.BasicConfigurator;
@@ -261,7 +260,43 @@ public class Client {
 		
 	}
 	
-
+	public void deleteProperty(Property property) {
+		try {
+			server.deleteProperty(property.getId());
+		} catch (RemoteException e) {
+			log.error("Error deleting property " + property);
+			e.printStackTrace();
+		}
+	}
+	
+	public void searchPropertiesHost(String id, JList<Property> resultList) {
+		//TODO
+	}
+	
+	public void switchHostPropertyNew() {
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createHostPropertyEdit(this, null, false));
+		window.paintComponents(window.getGraphics());
+	}
+	
+	public void switchHostPropertyEdit(Property selectedProp) {
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createHostPropertyEdit(this, selectedProp, false));
+		window.paintComponents(window.getGraphics());
+	}
+	
+	public void switchHostPropertiesManagement() {
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createHostPropertiesManagement(this));
+		window.paintComponents(window.getGraphics());
+	}
+	
+	public void switchHostAccountManagement() {
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createHostAccountManagement(this));
+		window.paintComponents(window.getGraphics());
+	}
+	
 	public void switchPropertiesSearch() {
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createPropertySearch(this));
