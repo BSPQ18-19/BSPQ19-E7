@@ -17,7 +17,6 @@ import javax.jdo.Transaction;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import es.deusto.server.IServer.RegistrationError;
 import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.User;
 import es.deusto.server.jdo.User.UserKind;
@@ -81,10 +80,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 		// to the client and check on the server-side that the secret password of the administrator matches
 		// For this we will need to create a UserDTO or stub that does not contain that secret password when
 		// transferring the User object to the client application.
-		
-		
-		
-		
 		
 		Transaction tx = pm.currentTransaction();
 		
@@ -341,9 +336,92 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 	
-	public void deleteProperty(String id) throws RemoteException {
-		//TODO
+	public void deleteProperty(String address) throws RemoteException {
+		//@Security We should guarantee that only the host who published the property can delete a property
+		
+		Transaction tx = null;
+		try {
+			tx = pm.currentTransaction();
+			tx.begin();
+			Property property = pm.getObjectById(Property.class, address);
+			pm.deletePersistent(property);
+			tx.commit();
+		} catch (Exception e) {
+			log.info("Property not found: " + address);
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
 	}
+	
+	public void updateProperty (String address, String city, int capacity, String ocupancy, double cost) throws RemoteException {
+		//@Security We should guarantee that only the host who published the property can update a property
+		Transaction tx = null;
+		Property property = null;
+		try {
+			tx = pm.currentTransaction();
+			tx.begin();
+			property = pm.getObjectById(Property.class, address);
+			tx.commit();	
+		} catch (JDOObjectNotFoundException e) {
+			log.info("Property not found: " + address);
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+		
+		try {
+			tx = pm.currentTransaction();
+			tx.begin();
+			
+			if (property != null) {
+				log.info("Updating existing property");
+				property.setCity(city);
+				property.setCapacity(capacity);
+				property.setOcupancy(ocupancy);
+				property.setCost(cost);
+			} else {
+				log.info("Creating new property");
+				property = new Property(address, city, capacity, ocupancy, cost);
+			}
+			
+			pm.makePersistent(property);
+			log.info("Property successfully saved");
+			
+			tx.commit();
+			
+		} catch (JDOException e) {
+			log.error("Property: " + property);
+			log.error(e.getStackTrace());
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+	}
+
+	
+	@Override
+	public List<Property> getProperties() throws RemoteException {
+		List<Property> result = null;
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			Query<Property> query = pm.newQuery(Property.class);			
+			result = query.executeList();
+			tx.commit();
+		} catch (JDOObjectNotFoundException e) {
+			log.error("Properties not found");
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+		return result;
+	}
+	
 	
 	public RegistrationError registerProperty(String address, String city, int capacity, double cost) throws RemoteException {
 		Transaction tx = pm.currentTransaction();
@@ -371,6 +449,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 			if(property == null) {
 				log.info("Creating property: " + address);
+				//TODO Occupancy variable empty. Change it so that it indicates the dates when the property is occupied
 				property = new Property(address, city, capacity, "", cost);
 				pm.makePersistent(property);
 				log.info("Property created: " + property);

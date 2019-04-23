@@ -379,21 +379,15 @@ public class PanelBuilder {
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
 		
-		JLabel searchLabel = new JLabel(client.text.getString("Property_id"));	//Temporary
-		JTextField propertySearch = new JTextField();
-		propertySearch.setColumns(20);
-		JButton searchButton = new JButton(client.text.getString("Search"));
+		JButton searchButton = new JButton(client.text.getString("Show_properties")); //Temporary button
 		JList<Property> searchResults = new JList<Property>();
 
 		searchButton.addActionListener((e) -> {
-			client.searchPropertiesHost(propertySearch.getText(), searchResults);
+			client.searchPropertiesHost(searchResults);
 		});
 		
 		JPanel top = new JPanel();
-		top.add(searchLabel);
-		top.add(propertySearch);
 		top.add(searchButton);
-		
 		
 		JPanel bottom = new JPanel();
 		
@@ -425,86 +419,67 @@ public class PanelBuilder {
 
 	public static JPanel createHostPropertyEdit(Client client, Property selectedProp, boolean isNewProperty) {
 		JPanel result = new JPanel();
-//		result.setBounds(0, 0, 434, 209);
-//		result.setLayout(null);
-//
-//		//Address
-//		JLabel lblAddress = new JLabel(client.text.getString("Address")+":");
-//		lblAddress.setFont(new Font("Arial", Font.PLAIN, 12));
-//		lblAddress.setBounds(20, 127, 62, 15);
-//		result.add(lblAddress);
-//
-//		JTextField tfAddress = new JTextField();
-//		tfAddress.setColumns(10);
-//		tfAddress.setBounds(89, 125, 118, 20);
-//		tfAddress.setText(selectedProp != null ? selectedProp.getAddress() : "");
-//		result.add(tfAddress);
-//
-//
-//		//City		
-//		JLabel lblCity = new JLabel(client.text.getString("City")+":");
-//		lblCity.setFont(new Font("Arial", Font.PLAIN, 12));
-//		lblCity.setBounds(20, 153, 72, 15);
-//		result.add(lblCity);
-//
-//		JTextField tfCity = new JTextField(selectedProp != null ? selectedProp.getCity() : "");
-//		tfCity.setColumns(10);
-//		tfCity.setBounds(89, 153, 118, 20);
-//		tfCity.setEnabled(isNewProperty);
-//		result.add(tfCity);
-//
-//
-//		//Capacity
-//		JLabel lblCapacity = new JLabel(client.text.getString("Capacity")+":");
-//		lblCapacity.setFont(new Font("Arial", Font.PLAIN, 12));
-//		lblCapacity.setBounds(20, 181, 82, 15);
-//		result.add(lblCapacity);
-//
-//		JTextField tfCapacity = new JTextField();
-//		tfCapacity.setColumns(10);
-//		tfCapacity.setBounds(89, 179, 118, 20);
-//		tfCapacity.setText(selectedProp != 0 ? selectedProp.getCapacity() : "");
-//		result.add(tfCapacity);
-//
-//		//Cost
-//		JLabel lblCost = new JLabel(client.text.getString("Cost")+":");
-//		lblCost.setFont(new Font("Arial", Font.PLAIN, 12));
-//		lblCost.setBounds(212, 127, 62, 15);
-//		result.add(lblCost);
-//
-//		JTextField tfCost = new JTextField();
-//		tfCost.setColumns(10);
-//		tfCost.setBounds(292, 125, 118, 20);
-//		tfCost.setText(selectedProp != null ? selectedProp.getTelephone() : "");
-//		result.add(tfCost);
-//
-//		JButton btnBack = new JButton(client.text.getString("Back"));
-//		// @TODO
-//		//btnBack1.addActionListener( (e) -> {client.switchLog(pReg);} );
-//		btnBack.setBounds(212, 210, 89, 23);
-//		result.add(btnBack);
-//
-//		JButton btnUpdate = new JButton(client.text.getString("Update"));
-//		btnUpdate.addActionListener((e) -> {
-//			if (!isNewProperty) {
-//				client.adminUpdateAccount(tfCity.getText(), password,
-//						(User.UserKind) userkindCombo.getSelectedItem(),
-//						tfCost.getText(), tfCapacity.getText(), tfCity.getText(),
-//						verifiedCheckBox.isSelected()); // @Todo: Read from the check box
-//			}
-//			else {
-//				client.adminUpdateAccount(tfCity.getText(), password,
-//						(User.UserKind) userkindCombo.getSelectedItem(),
-//						tfCost.getText(), tfCapacity.getText(), tfCity.getText(),
-//						verifiedCheckBox.isSelected()); // @Todo: Read from the check box
-//			}
-//
-//		});
-//		btnUpdate.setBounds(311, 210, 89, 23);
-//		result.add(btnUpdate);	
+		result.setBounds(0, 0, 434, 209);
+		result.setLayout(null);
+
+		JLabel lblAddress = new JLabel(client.text.getString("Address")+":");
+		lblAddress.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblAddress.setBounds(20, 127, 62, 15);
+		result.add(lblAddress);
+
+		JTextField tfAddress = new JTextField(selectedProp != null ? selectedProp.getAddress() : "");
+		tfAddress.setColumns(10);
+		tfAddress.setBounds(89, 125, 118, 20);
+		tfAddress.setEnabled(false);
+		result.add(tfAddress);
+
+		JLabel lblCity = new JLabel(client.text.getString("City")+":");
+		lblCity.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCity.setBounds(20, 153, 72, 15);
+		result.add(lblCity);
+
+		JTextField tfCity = new JTextField();
+		tfCity.setColumns(10);
+		tfCity.setBounds(89, 153, 118, 20);
+		tfCity.setText(selectedProp != null ? selectedProp.getCity() : "");
+		result.add(tfCity);
+
+		JLabel lblCapacity = new JLabel(client.text.getString("Capacity")+":");
+		lblCapacity.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCapacity.setBounds(20, 181, 82, 15);
+		result.add(lblCapacity);
+
+		JTextField tfCapacity = new JTextField();
+		tfCapacity.setColumns(10);
+		tfCapacity.setBounds(89, 179, 118, 20);
+		tfCapacity.setText(selectedProp != null ? Integer.toString(selectedProp.getCapacity()) : "");
+		result.add(tfCapacity);
+
+		JLabel lblCost = new JLabel(client.text.getString("Cost")+":");
+		lblCost.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCost.setBounds(212, 127, 62, 15);
+		result.add(lblCost);
+
+		JTextField tfCost = new JTextField();
+		tfCost.setColumns(10);
+		tfCost.setBounds(292, 125, 118, 20);
+		tfCost.setText(selectedProp != null ? Double.toString(selectedProp.getCost()) : "");
+		result.add(tfCost);
+
+		JButton btnBack = new JButton(client.text.getString("Back"));
+		// TODO
+		//btnBack.addActionListener( (e) -> {client.switchLog(pReg);} );
+		btnBack.setBounds(212, 210, 89, 23);
+		result.add(btnBack);
+
+		JButton btnUpdate = new JButton(client.text.getString("Update"));
+		btnUpdate.addActionListener((e) -> {
+			client.updateProperty(tfAddress.getText(), tfCity.getText(), Integer.parseInt(tfCapacity.getText()), "", Double.parseDouble(tfCost.getText()));
+		});
+		btnUpdate.setBounds(311, 210, 89, 23);
+		result.add(btnUpdate);	
 
 		return result;
-
 	}
 	
 	public static JPanel createHostPropertyNew(Client client) {
@@ -512,7 +487,6 @@ public class PanelBuilder {
 		result.setBounds(0, 0, 434, 209);
 		result.setLayout(null);
 
-		//Address
 		JLabel lblAddress = new JLabel(client.text.getString("Address")+":");
 		lblAddress.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblAddress.setBounds(20, 127, 62, 15);
@@ -523,7 +497,6 @@ public class PanelBuilder {
 		tfAddress.setBounds(89, 125, 118, 20);
 		result.add(tfAddress);
 
-		//City		
 		JLabel lblCity = new JLabel(client.text.getString("City")+":");
 		lblCity.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblCity.setBounds(20, 153, 72, 15);
@@ -534,7 +507,6 @@ public class PanelBuilder {
 		tfCity.setBounds(89, 153, 118, 20);
 		result.add(tfCity);
 
-		//Capacity
 		JLabel lblCapacity = new JLabel(client.text.getString("Capacity")+":");
 		lblCapacity.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblCapacity.setBounds(20, 181, 82, 15);
@@ -545,7 +517,6 @@ public class PanelBuilder {
 		tfCapacity.setBounds(89, 179, 118, 20);
 		result.add(tfCapacity);
 
-		//Cost
 		JLabel lblCost = new JLabel(client.text.getString("Cost")+":");
 		lblCost.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblCost.setBounds(212, 127, 62, 15);
@@ -556,14 +527,12 @@ public class PanelBuilder {
 		tfCost.setBounds(292, 125, 118, 20);
 		result.add(tfCost);
 
-		//Back
 		JButton btnBack = new JButton(client.text.getString("Back"));
-		// @TODO
+		// TODO
 		//btnBack.addActionListener( (e) -> {client.switchLog(pReg);} );
 		btnBack.setBounds(212, 210, 89, 23);
 		result.add(btnBack);
 
-		//Publish
 		JButton btnPublish = new JButton(client.text.getString("Publish"));
 		btnPublish.addActionListener((e) -> {
 			client.publishProperty(tfAddress.getText(), tfCity.getText(), Integer.parseInt(tfCapacity.getText()), Double.parseDouble(tfCost.getText()));
@@ -572,7 +541,6 @@ public class PanelBuilder {
 		result.add(btnPublish);	
 
 		return result;
-		
 	}
 	
 	public static JPanel createHostAccountManagement(Client client) {

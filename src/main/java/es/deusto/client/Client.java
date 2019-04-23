@@ -112,6 +112,7 @@ public class Client {
 		window.setSize(450, 286);
 		
 	}
+	
 	public void switchLog(JPanel pReg) {
 		window.getContentPane().remove(pReg);
 		window.add(PanelBuilder.createLogin(this));
@@ -199,8 +200,7 @@ public class Client {
 		try {
 			server.deleteUser(user.getUsername());
 		} catch (RemoteException e) {
-			log.error("Error deleting user " + user);
-
+			log.error("Error deleting user: " + user);
 			e.printStackTrace();
 		}
 	}
@@ -260,17 +260,38 @@ public class Client {
 		
 	}
 	
-	public void deleteProperty(Property property) {
+	public void updateProperty(String address, String city, int capacity, String ocupancy, double cost) {
 		try {
-			server.deleteProperty(property.getAddress());
+			server.updateProperty(address, city, capacity, ocupancy, cost);
 		} catch (RemoteException e) {
-			log.error("Error deleting property " + property);
+			log.error("Error updating property: " + address);
 			e.printStackTrace();
 		}
 	}
 	
-	public void searchPropertiesHost(String id, JList<Property> resultList) {
-		//TODO
+	public void deleteProperty(Property property) {
+		try {
+			server.deleteProperty(property.getAddress());
+		} catch (RemoteException e) {
+			log.error("Error deleting property: " + property);
+			e.printStackTrace();
+		}
+	}
+	
+	public void searchPropertiesHost(JList<Property> list) {
+		List<Property> properties = null;
+		try {
+			properties = server.getProperties();
+		} catch (Exception e) {
+			log.error("Error retrieving properties" );
+			e.printStackTrace();
+		}
+		
+		DefaultListModel<Property> model = new DefaultListModel<Property>();
+		for (Property property : properties) {
+			model.addElement(property);
+		}
+		list.setModel(model);
 	}
 	
 	public void publishProperty(String address, String city, int capacity, double cost) {
@@ -355,10 +376,5 @@ public class Client {
 		// TODO: We may want to do other things in the future. Close connections, release resources, ...
 		System.exit(0);
 	}
-
-	
-
-	
-	
 	
 }

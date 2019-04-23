@@ -1,10 +1,13 @@
 package es.deusto.server.jdo;
 
+import java.io.Serializable;
+
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
 
+@SuppressWarnings("serial")
 @PersistenceCapable
-public class Property {
+public class Property implements Serializable {
 	@PrimaryKey
 	String address = null;
 	String city = null;
