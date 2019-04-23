@@ -6,28 +6,19 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable
 public class Property {
 	@PrimaryKey
-	String id = null;
 	String address = null;
 	String city = null;
 	int capacity = 0;
 	String ocupancy = null; //?
 	double cost = 0.0;
 	
-	public Property(String id, String address, int capacity, String ocupancy, double cost) {
+	public Property(String address, String city, int capacity, String ocupancy, double cost) {
 		super();
-		this.id = id;
 		this.address = address;
+		this.city = city;
 		this.capacity = capacity;
 		this.ocupancy = ocupancy;
 		this.cost = cost;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getAddress() {
@@ -36,6 +27,14 @@ public class Property {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public int getCapacity() {
@@ -64,9 +63,6 @@ public class Property {
 
 	@Override
 	public String toString() {
-		return "Property [id=" + id + ", address=" + address + ", capacity=" + capacity + ", ocupancy=" + ocupancy
-				+ ", cost=" + cost + "]";
-	}
-	
-		
+		return "Property [address=" + address + ", capacity=" + capacity + ", ocupancy=" + ocupancy + ", cost=" + cost + "]";
+	}		
 }

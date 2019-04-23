@@ -262,7 +262,7 @@ public class Client {
 	
 	public void deleteProperty(Property property) {
 		try {
-			server.deleteProperty(property.getId());
+			server.deleteProperty(property.getAddress());
 		} catch (RemoteException e) {
 			log.error("Error deleting property " + property);
 			e.printStackTrace();
@@ -273,9 +273,38 @@ public class Client {
 		//TODO
 	}
 	
+	public void publishProperty(String address, String city, int capacity, double cost) {
+		try {
+			log.info("Registering property: " + address);
+			RegistrationError error = server.registerProperty(address, city, capacity, cost);
+
+			log.debug("Registration result " + error);
+			switch (error) {
+			case INVALID_COST: {
+				JOptionPane.showMessageDialog(window, "Invalid cost. The value must be positive.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+
+			case INVALID_CAPACITY: {
+				JOptionPane.showMessageDialog(window, "Invalid capacity. The value must be positive.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+
+			case INVALID_CITY: {
+				JOptionPane.showMessageDialog(window, "Invalid city. It is incorrectly typed.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+
+			default: {
+				// Do nothing.
+			}
+			}
+		} catch (RemoteException e) {
+			log.error("Error registering property");
+			e.printStackTrace();
+		}
+	}
+	
 	public void switchHostPropertyNew() {
 		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createHostPropertyEdit(this, null, false));
+		window.getContentPane().add(PanelBuilder.createHostPropertyNew(this));
 		window.paintComponents(window.getGraphics());
 	}
 	

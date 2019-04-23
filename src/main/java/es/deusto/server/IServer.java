@@ -18,10 +18,11 @@ public interface IServer extends Remote {
 	enum RegistrationError {
 		NONE,
 		INVALID_NAME,
-		
 		INVALID_EMAIL,
 		INVALID_TELEPHONE,
-
+		INVALID_COST,
+		INVALID_CAPACITY,
+		INVALID_CITY,
 		// @Temporary: This should be handled by the client application not the server?
 		PASSWORD_MISMATCH,
 	}
@@ -31,6 +32,7 @@ public interface IServer extends Remote {
 	void updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException;
 	void deleteUser(String username) throws RemoteException;
 	void deleteProperty(String id) throws RemoteException;
+	RegistrationError registerProperty(String address, String city, int capacity, double cost) throws RemoteException;
 	
 	List<Property> getPropertiesByCity(String city) throws RemoteException;
 }

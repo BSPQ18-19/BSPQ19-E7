@@ -17,6 +17,7 @@ import javax.jdo.Transaction;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import es.deusto.server.IServer.RegistrationError;
 import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.User;
 import es.deusto.server.jdo.User.UserKind;
@@ -32,6 +33,8 @@ public class Server extends UnicastRemoteObject implements IServer {
 	private  String email_regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 	// Copied from: https://stackoverflow.com/a/18626090
 	private String telephone_regex = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$";
+	// Copied from: https://stackoverflow.com/questions/11757013/regular-expressions-for-city-name
+	private String city_regex = "^[a-zA-Z]+(?:[\\s-][a-zA-Z]+)*$";
 	
 	protected Server() throws RemoteException {
 		super();
@@ -341,7 +344,45 @@ public class Server extends UnicastRemoteObject implements IServer {
 	public void deleteProperty(String id) throws RemoteException {
 		//TODO
 	}
+	
+	public RegistrationError registerProperty(String address, String city, int capacity, double cost) throws RemoteException {
+		Transaction tx = pm.currentTransaction();
 
+		if(!Pattern.matches(city_regex, city)) {
+			return RegistrationError.INVALID_CITY;
+		}
+		if(cost <= 0) {
+			return RegistrationError.INVALID_COST;
+		}
+		if(capacity <= 0) {
+			return RegistrationError.INVALID_CAPACITY;
+		}
+
+		try {
+			tx.begin();
+			log.info("Checking whether the property already exits or not");
+			Property property = null;
+			try {
+				property = pm.getObjectById(Property.class, address);
+			} catch (javax.jdo.JDOObjectNotFoundException jonfe) {
+				log.info("Exception launched: " + jonfe.getMessage());
+			}
+			log.info("Property: " + property);
+
+			if(property == null) {
+				log.info("Creating property: " + address);
+				property = new Property(address, city, capacity, "", cost);
+				pm.makePersistent(property);
+				log.info("Property created: " + property);
+			}
+			tx.commit();
+		} finally {
+			if(tx.isActive()) {
+				tx.rollback();
+			}
+		}
+		return RegistrationError.NONE;
+	}
 
 	public static void main(String[] args) {
 		{
