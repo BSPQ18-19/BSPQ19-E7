@@ -171,15 +171,30 @@ public class PanelBuilder {
 			
 		});
 		
-		
 		JPanel top = new JPanel();
 		
 		top.add(searchLabel);
 		top.add(citySearch);
 		top.add(searchButton);
 		
+		JPanel bottom = new JPanel();
+		
+		JButton deleteButton = new JButton(client.text.getString("Delete"));
+		deleteButton.addActionListener((e) -> {
+			//TODO 
+		});
+		
+		JButton editButton = new JButton(client.text.getString("Edit"));
+		editButton.addActionListener((e) -> {
+			//TODO
+		});
+		
+		bottom.add(deleteButton);
+		bottom.add(editButton);
+		
 		result.add(top, BorderLayout.NORTH);
 		result.add(searchResults, BorderLayout.CENTER);
+		result.add(bottom, BorderLayout.SOUTH);
 		
 		return result;
 	}
