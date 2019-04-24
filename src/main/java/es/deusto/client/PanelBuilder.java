@@ -181,12 +181,12 @@ public class PanelBuilder {
 		
 		JButton deleteButton = new JButton(client.text.getString("Delete"));
 		deleteButton.addActionListener((e) -> {
-			//TODO 
+			client.deleteProperty(searchResults.getSelectedValue());
 		});
 		
 		JButton editButton = new JButton(client.text.getString("Edit"));
 		editButton.addActionListener((e) -> {
-			//TODO
+			client.switchPropertyEdit(searchResults.getSelectedValue());
 		});
 		
 		bottom.add(deleteButton);
@@ -413,7 +413,7 @@ public class PanelBuilder {
 		
 		JButton editButton = new JButton(client.text.getString("Edit"));
 		editButton.addActionListener((e) -> {
-			client.switchHostPropertyEdit(searchResults.getSelectedValue());
+			client.switchPropertyEdit(searchResults.getSelectedValue());
 		});
 		
 		JButton newButton = new JButton(client.text.getString("New"));
@@ -432,7 +432,7 @@ public class PanelBuilder {
 		return result;
 	}
 
-	public static JPanel createHostPropertyEdit(Client client, Property selectedProp, boolean isNewProperty) {
+	public static JPanel createPropertyEdit(Client client, Property selectedProp, boolean isNewProperty) {
 		JPanel result = new JPanel();
 		result.setBounds(0, 0, 434, 209);
 		result.setLayout(null);

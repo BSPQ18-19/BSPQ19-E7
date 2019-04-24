@@ -325,9 +325,9 @@ public class Client {
 		window.paintComponents(window.getGraphics());
 	}
 	
-	public void switchHostPropertyEdit(Property selectedProp) {
+	public void switchPropertyEdit(Property selectedProp) {
 		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createHostPropertyEdit(this, selectedProp, false));
+		window.getContentPane().add(PanelBuilder.createPropertyEdit(this, selectedProp, false));
 		window.paintComponents(window.getGraphics());
 	}
 	
