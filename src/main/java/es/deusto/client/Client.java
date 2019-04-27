@@ -283,10 +283,10 @@ public class Client {
 		}
 	}
 	
-	public void searchPropertiesHost(JList<Property> list) {
+	public void searchPropertiesHost(JList<Property> list, String hostname) {
 		List<Property> properties = null;
 		try {
-			properties = server.getProperties();
+			properties = server.getPropertiesByHost(hostname);
 		} catch (Exception e) {
 			log.error("Error retrieving properties" );
 			e.printStackTrace();

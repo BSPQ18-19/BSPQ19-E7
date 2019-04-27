@@ -37,5 +37,5 @@ public interface IServer extends Remote {
 	RegistrationError registerProperty(String address, String city, int capacity, double cost, String name) throws RemoteException;
 	
 	List<Property> getPropertiesByCity(String city) throws RemoteException;
-	List<Property> getProperties() throws RemoteException;
+	List<Property> getPropertiesByHost(String hostname) throws RemoteException;
 }

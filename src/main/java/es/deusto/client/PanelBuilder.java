@@ -394,42 +394,39 @@ public class PanelBuilder {
 	public static JPanel createHostPropertiesManagement(Client client, String name) {
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
-		
-		JButton searchButton = new JButton(client.text.getString("Show_properties")); //Temporary button
-		JList<Property> searchResults = new JList<Property>();
 
-		searchButton.addActionListener((e) -> {
-			client.searchPropertiesHost(searchResults);
-		});
-		
+		JList<Property> searchResults = new JList<Property>();
+		client.searchPropertiesHost(searchResults, name);
+
 		JPanel top = new JPanel();
-		top.add(searchButton);
-		
+		JLabel txt = new JLabel(name + ", these are your properties");
+		top.add(txt);
+
 		JPanel bottom = new JPanel();
-		
+
 		JButton deleteButton = new JButton(client.text.getString("Delete"));
 		deleteButton.addActionListener((e) -> {
 			client.deleteProperty(searchResults.getSelectedValue());
 		});
-		
+
 		JButton editButton = new JButton(client.text.getString("Edit"));
 		editButton.addActionListener((e) -> {
 			client.switchPropertyEdit(searchResults.getSelectedValue());
 		});
-		
+
 		JButton newButton = new JButton(client.text.getString("New"));
 		newButton.addActionListener((e) -> {
 			client.switchHostPropertyNew(name);
 		});
-		
+
 		bottom.add(deleteButton);
 		bottom.add(editButton);
 		bottom.add(newButton);
-		
+
 		result.add(top, BorderLayout.NORTH);
 		result.add(searchResults, BorderLayout.CENTER);
 		result.add(bottom, BorderLayout.SOUTH);
-		
+
 		return result;
 	}
 	

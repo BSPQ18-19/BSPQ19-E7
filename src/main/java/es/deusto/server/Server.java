@@ -148,7 +148,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 		try {
 			tx.begin();
 
-
 			Query<Property> query = pm.newQuery(Property.class);
 			query.setFilter("city == " + city);
 
@@ -162,8 +161,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 			if (tx.isActive()) {
 				tx.rollback();
 			}
-
-
 		}
 		return result;
 	}
@@ -426,12 +423,13 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 
 	@Override
-	public List<Property> getProperties() throws RemoteException {
+	public List<Property> getPropertiesByHost(String hostname) throws RemoteException {
 		List<Property> result = null;
 		Transaction tx = pm.currentTransaction();
 		try {
 			tx.begin();
-			Query<Property> query = pm.newQuery(Property.class);			
+			Query<Property> query = pm.newQuery(Property.class);
+			query.setFilter("host.username == '" + hostname + "'");
 			result = query.executeList();
 			tx.commit();
 		} catch (JDOObjectNotFoundException e) {
