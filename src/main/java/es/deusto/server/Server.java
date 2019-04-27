@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import es.deusto.server.jdo.Property;
+import es.deusto.server.jdo.Reservation;
 import es.deusto.server.jdo.User;
 import es.deusto.server.jdo.User.UserKind;
 
@@ -25,7 +26,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	private static final long serialVersionUID = 1L;
 	private PersistenceManager pm=null;
-	
+
 	private static Logger log;
 
 	// Copied from: http://emailregex.com/
@@ -34,22 +35,22 @@ public class Server extends UnicastRemoteObject implements IServer {
 	private String telephone_regex = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$";
 	// Copied from: https://stackoverflow.com/questions/11757013/regular-expressions-for-city-name
 	private String city_regex = "^[a-zA-Z]+(?:[\\s-][a-zA-Z]+)*$";
-	
+
 	protected Server() throws RemoteException {
 		super();
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		this.pm = pmf.getPersistenceManager();
-		
-		
+
+
 		// Check that there is the admin/admin user. If not create it.
 		{
 			Transaction tx = null;
 			try {
 				tx = pm.currentTransaction();
-				
+
 				tx.begin();
 				User user = pm.getObjectById(User.class, "admin");
-				
+
 				tx.commit();
 			}
 			catch(JDOObjectNotFoundException e) {
@@ -62,17 +63,17 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 
 	}
-	
+
 	protected void finalize () throws Throwable {
-//		if (tx.isActive()) {
-//            tx.rollback();
-//        }
-        pm.close();
+		//		if (tx.isActive()) {
+		//            tx.rollback();
+		//        }
+		pm.close();
 	}
-	
+
 	@Override
 	public RegistrationError registerUser(String name, String username, String email, String telephone, String password, boolean isHost) {
-		
+
 		// @Todo: In the future this method will only be used to register hosts and guests
 		// @Security Administrators will only be able to be created by other administrators. And should be
 		// created using another method that checks that the user requesting the information is
@@ -80,9 +81,9 @@ public class Server extends UnicastRemoteObject implements IServer {
 		// to the client and check on the server-side that the secret password of the administrator matches
 		// For this we will need to create a UserDTO or stub that does not contain that secret password when
 		// transferring the User object to the client application.
-		
+
 		Transaction tx = pm.currentTransaction();
-		
+
 		// Check all the input are correct
 		if (!Pattern.matches(email_regex, email)) {
 			return RegistrationError.INVALID_EMAIL;
@@ -90,13 +91,13 @@ public class Server extends UnicastRemoteObject implements IServer {
 		if (!Pattern.matches(telephone_regex, telephone)) {
 			return RegistrationError.INVALID_TELEPHONE;
 		}
-		
+
 		try
-        {	
-            tx.begin();
-            System.out.println("Checking whether the user already exits or not: '" + username+"'");
+		{	
+			tx.begin();
+			System.out.println("Checking whether the user already exits or not: '" + username+"'");
 			log.info("Checking whether the user already exits or not: '" + username+"'");
-            User user = null;
+			User user = null;
 			try {
 				user = pm.getObjectById(User.class, username);
 			} catch (javax.jdo.JDOObjectNotFoundException jonfe) {
@@ -104,10 +105,10 @@ public class Server extends UnicastRemoteObject implements IServer {
 			}
 			System.out.println("User: " + user);
 			log.info("User: " + user);
-			
+
 			if (user != null) {
 				return RegistrationError.INVALID_NAME;
-				
+
 				// @Todo: Is this the supposed behavior? We should make a method that exclusively changes passwords
 				/*
 				System.out.println("Setting password user: " + user);
@@ -116,28 +117,28 @@ public class Server extends UnicastRemoteObject implements IServer {
 			} else {
 				System.out.println("Creating user: " + username);
 				log.info("Creating user: " + username);
-				
+
 				// @Note: Hosts are not verified by default. Verification must be done by an administrator manually.
-	            user = new User(username, password, isHost ? User.UserKind.HOST : User.UserKind.GUEST, telephone, email, name, false);
+				user = new User(username, password, isHost ? User.UserKind.HOST : User.UserKind.GUEST, telephone, email, name, false);
 				pm.makePersistent(user);					 
-				
+
 				System.out.println("User created: " + user);
 				log.info("User created: " + user);
-	        }
+			}
 			tx.commit();
-        }
-        finally
-        {
-            if (tx.isActive())
-            {
-                tx.rollback();
-            }
-      
-        }
-		
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+
+		}
+
 		return RegistrationError.NONE;
 	}
-	
+
 	@Override
 	public List<Property> getPropertiesByCity(String city) {
 		List<Property> result = null;
@@ -146,13 +147,13 @@ public class Server extends UnicastRemoteObject implements IServer {
 		Transaction tx = pm.currentTransaction();
 		try {
 			tx.begin();
-			
-			
+
+
 			Query<Property> query = pm.newQuery(Property.class);
 			query.setFilter("city == " + city);
-			
+
 			result = query.executeList();
-			
+
 			tx.commit();
 		} catch (JDOObjectNotFoundException e) {
 			System.out.println("Property not found: " + city);
@@ -161,28 +162,28 @@ public class Server extends UnicastRemoteObject implements IServer {
 			if (tx.isActive()) {
 				tx.rollback();
 			}
-			
-			
+
+
 		}
 		return result;
 	}
-	
+
 	public List<User> getUser(String username) {
 		// @Security: We should pass some kind of token to verify that the user requesting data from a user is an administrator
-		
+
 		List<User> result = null;
 		Transaction tx = null;
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
-			
+
 			Query<User> query = pm.newQuery(User.class);
 			query.setFilter("this.username.startsWith(\""+ username + "\")");
-			
+
 			result = query.executeList();
-			
+
 			tx.commit();
-			
+
 		} catch (JDOObjectNotFoundException e) {
 			System.out.println("User not found: " + username);
 			log.error("User not found: " + username);
@@ -193,19 +194,19 @@ public class Server extends UnicastRemoteObject implements IServer {
 			if (tx.isActive()) {
 				tx.rollback();
 			}
-			
-			
+
+
 		}
-		
+
 		return result;
-		
+
 	}
-	
+
 	@Override
 	public User login(String username, String password) throws RemoteException {
-		
+
 		// @Refactor: Can we use 'getUser()' above, inside this method?
-		
+
 		System.out.println("Login " + username);
 		log.info("Login " + username);
 		User user = null;
@@ -213,11 +214,11 @@ public class Server extends UnicastRemoteObject implements IServer {
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
-			
+
 			user = pm.getObjectById(User.class, username);
-			
+
 			tx.commit();
-			
+
 		} catch (JDOObjectNotFoundException e) {
 			System.out.println("User not found: " + username);
 			log.error("User not found: " + username);
@@ -228,11 +229,11 @@ public class Server extends UnicastRemoteObject implements IServer {
 			if (tx.isActive()) {
 				tx.rollback();
 			}
-			
-			
+
+
 		}
-		
-		
+
+
 		// Check passwords match
 		if (password.equals(user.getPassword())) {
 			return user;
@@ -241,20 +242,20 @@ public class Server extends UnicastRemoteObject implements IServer {
 			return null;
 		}
 	}
-	
+
 	public void updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException {
 		Transaction tx = null;
 		User user = null;
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
-			
+
 			// Get the original user 
 			user = pm.getObjectById(User.class, username);
-			
-			
+
+
 			tx.commit();
-			
+
 		} catch (JDOObjectNotFoundException e) {
 			System.out.println("User not found: " + username);
 			log.info("User not found: " + username);
@@ -266,11 +267,11 @@ public class Server extends UnicastRemoteObject implements IServer {
 				tx.rollback();
 			}
 		}
-		
+
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
-			
+
 			if (user != null) {
 				// Update the user
 				log.info("Updating existing user");
@@ -288,13 +289,13 @@ public class Server extends UnicastRemoteObject implements IServer {
 				System.out.println("Creating new user");
 				user = new User(username, password, kind, telephone, email, name, verified);
 			}
-			
+
 			// Store the updated user
 			pm.makePersistent(user);
 			log.info("User successfully saved");
-			
+
 			tx.commit();
-			
+
 		} catch (JDOException e) {
 			log.error("User: " + user);
 			log.error(e.getStackTrace());
@@ -306,23 +307,23 @@ public class Server extends UnicastRemoteObject implements IServer {
 				tx.rollback();
 			}
 		}
-	
+
 	}
-	
+
 	public void deleteUser(String username) throws RemoteException {
 		// @Security: How can we guarantee that this is called by a user onto its own account,
 		// or by an administrator?
-		
+
 		Transaction tx = null;
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
-			
+
 			User user = pm.getObjectById(User.class, username);
 			pm.deletePersistent(user);
-			
+
 			tx.commit();
-			
+
 		} catch (JDOObjectNotFoundException e) {
 			System.out.println("User not found: " + username);
 			log.info("User not found: " + username);
@@ -335,10 +336,10 @@ public class Server extends UnicastRemoteObject implements IServer {
 			}
 		}
 	}
-	
+
 	public void deleteProperty(String address) throws RemoteException {
 		//@Security We should guarantee that only the host who published the property can delete a property
-		
+
 		Transaction tx = null;
 		try {
 			tx = pm.currentTransaction();
@@ -354,11 +355,29 @@ public class Server extends UnicastRemoteObject implements IServer {
 			}
 		}
 	}
-	
-	public void bookProperty(String address) throws RemoteException {
-		//TODO
+
+	public void bookProperty(String name, Property property, String date, String duration) throws RemoteException {
+		Transaction tx = null;
+		Reservation reservation = null;
+		try {
+			tx = pm.currentTransaction();
+			tx.begin();
+			log.info("Creating reservation... ");
+			User guest = pm.getObjectById(User.class, name);
+			User host = new User("test", "test", UserKind.HOST, "635952687", "test@test.com", "test", false);
+			//Temporary
+			reservation = new Reservation(pm.getObjectById(Property.class, property.getAddress()), guest, pm.getObjectById(User.class, host.getUsername()), date, Integer.parseInt(duration));
+			pm.makePersistent(reservation);
+			log.info("Reservation created: " + reservation);
+			tx.commit();
+		} finally {
+			if(tx.isActive()) {
+				tx.rollback();
+			}
+		}
+
 	}
-	
+
 	public void updateProperty (String address, String city, int capacity, String ocupancy, double cost) throws RemoteException {
 		//@Security We should guarantee that only the host who published the property can update a property
 		Transaction tx = null;
@@ -375,11 +394,11 @@ public class Server extends UnicastRemoteObject implements IServer {
 				tx.rollback();
 			}
 		}
-		
+
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
-			
+
 			if (property != null) {
 				log.info("Updating existing property");
 				property.setCity(city);
@@ -390,12 +409,12 @@ public class Server extends UnicastRemoteObject implements IServer {
 				log.info("Creating new property");
 				property = new Property(address, city, capacity, ocupancy, cost);
 			}
-			
+
 			pm.makePersistent(property);
 			log.info("Property successfully saved");
-			
+
 			tx.commit();
-			
+
 		} catch (JDOException e) {
 			log.error("Property: " + property);
 			log.error(e.getStackTrace());
@@ -406,7 +425,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 
-	
+
 	@Override
 	public List<Property> getProperties() throws RemoteException {
 		List<Property> result = null;
@@ -425,8 +444,8 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 		return result;
 	}
-	
-	
+
+
 	public RegistrationError registerProperty(String address, String city, int capacity, double cost) throws RemoteException {
 		Transaction tx = pm.currentTransaction();
 
@@ -470,20 +489,20 @@ public class Server extends UnicastRemoteObject implements IServer {
 	public static void main(String[] args) {
 		{
 			// @Investigate how to correctly configure the logger
-//			try {
-//				BasicConfigurator.configure();
+			//			try {
+			//				BasicConfigurator.configure();
 			log = Logger.getLogger(Server.class);
 			PropertyConfigurator.configure("src/main/resources/log4j.properties");
-//				FileAppender fa;
-//				fa = new FileAppender(new PatternLayout(PatternLayout.TTCC_CONVERSION_PATTERN),
-//						"logger_log.log", true);
-//				log.addAppender(fa);
-//			} catch (IOException e) {
-				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			//				FileAppender fa;
+			//				fa = new FileAppender(new PatternLayout(PatternLayout.TTCC_CONVERSION_PATTERN),
+			//						"logger_log.log", true);
+			//				log.addAppender(fa);
+			//			} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//				e.printStackTrace();
+			//			}
 		}
-		
+
 		if (args.length != 3) {
 			System.out.println("How to invoke: java [policy] [codebase] Server.Server [host] [port] [server]");
 			log.warn("Wrong number of arguments passed: " + args);
@@ -497,8 +516,8 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 		String name = "//" + args[0] + ":" + args[1] + "/" + args[2];
 		log.info("server name: " + name);
-		
-		
+
+
 		try {
 			IServer objServer = new Server();
 			Naming.rebind(name, objServer);

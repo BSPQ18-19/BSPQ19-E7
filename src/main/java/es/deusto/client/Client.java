@@ -274,13 +274,13 @@ public class Client {
 		}
 	}
 	
-	public void bookProperty() {
-//		try {
-//			server.deleteProperty(property.getAddress());
-//		} catch (RemoteException e) {
-//			log.error("Error booking property: " + property);
-//			e.printStackTrace();
-//		}
+	public void bookProperty(String name, Property property, String date, String duration) {
+		try {
+			server.bookProperty(name, property, date, duration);
+		} catch (RemoteException e) {
+			log.error("Error booking property ");
+			e.printStackTrace();
+		}
 	}
 	
 	public void searchPropertiesHost(JList<Property> list) {
@@ -346,15 +346,15 @@ public class Client {
 		window.paintComponents(window.getGraphics());
 	}
 	
-	public void switchGuestPropertiesManagement() {
+	public void switchGuestPropertiesManagement(String name) {
 		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createGuestPropertiesManagement(this));
+		window.getContentPane().add(PanelBuilder.createGuestPropertiesManagement(this, name));
 		window.paintComponents(window.getGraphics());
 	}
 	
-	public void switchGuestBookProperty() {
+	public void switchGuestBookProperty(String name, Property property) {
 		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createGuestBookProperty(this));
+		window.getContentPane().add(PanelBuilder.createGuestBookProperty(this, name, property));
 		window.paintComponents(window.getGraphics());
 	}
 	

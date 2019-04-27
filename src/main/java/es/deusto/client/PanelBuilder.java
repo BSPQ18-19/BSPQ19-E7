@@ -434,7 +434,7 @@ public class PanelBuilder {
 		return result;
 	}
 	
-	public static JPanel createGuestPropertiesManagement(Client client) {
+	public static JPanel createGuestPropertiesManagement(Client client, String name) {
 		// @Copied and adapted from createPropertySearch
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
@@ -461,7 +461,7 @@ public class PanelBuilder {
 		
 		JButton bookButton = new JButton(client.text.getString("Book"));
 		bookButton.addActionListener((e) -> {
-			client.switchGuestBookProperty();
+			client.switchGuestBookProperty(name, searchResults.getSelectedValue());
 		});
 		
 		bottom.add(bookButton);
@@ -473,7 +473,7 @@ public class PanelBuilder {
 		return result;	
 	}
 	
-	public static JPanel createGuestBookProperty(Client client) {
+	public static JPanel createGuestBookProperty(Client client, String name, Property property) {
 		// @Todo: Put this pretty
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
@@ -507,7 +507,7 @@ public class PanelBuilder {
 
 		JButton btnConfirm = new JButton(client.text.getString("Confirm"));
 		btnConfirm.addActionListener((e) -> {
-			client.bookProperty();
+			client.bookProperty(name, property, tfDate.getText(), tfDuration.getText());
 		});
 		south.add(btnConfirm);
 		
@@ -700,7 +700,7 @@ public class PanelBuilder {
 		JLabel label = new JLabel(client.text.getString("Welcome_guest") + " " + name);
 
 		JButton properties = new JButton(client.text.getString("Properties"));
-		properties.addActionListener((e) -> {client.switchGuestPropertiesManagement();});
+		properties.addActionListener((e) -> {client.switchGuestPropertiesManagement(name);});
 		
 		JButton account_data = new JButton(client.text.getString("Account_data"));
 		properties.addActionListener((e) -> {client.switchHostAccountManagement();});
