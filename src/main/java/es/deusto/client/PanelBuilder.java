@@ -169,8 +169,7 @@ public class PanelBuilder {
 		JList<Property> searchResults = new JList<Property>();
 
 		searchButton.addActionListener((e) -> {
-			client.searchPropertiesByCity(citySearch.getText(), searchResults);
-			
+			client.searchPropertiesByCity(citySearch.getText(), searchResults);			
 		});
 		
 		JPanel top = new JPanel();
@@ -392,7 +391,7 @@ public class PanelBuilder {
 		return result;
 	}
 	
-	public static JPanel createHostPropertiesManagement(Client client) {
+	public static JPanel createHostPropertiesManagement(Client client, String name) {
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
 		
@@ -420,7 +419,7 @@ public class PanelBuilder {
 		
 		JButton newButton = new JButton(client.text.getString("New"));
 		newButton.addActionListener((e) -> {
-			client.switchHostPropertyNew();
+			client.switchHostPropertyNew(name);
 		});
 		
 		bottom.add(deleteButton);
@@ -582,7 +581,7 @@ public class PanelBuilder {
 		return result;
 	}
 	
-	public static JPanel createHostPropertyNew(Client client) {
+	public static JPanel createHostPropertyNew(Client client, String name) {
 		JPanel result = new JPanel();
 		result.setBounds(0, 0, 434, 209);
 		result.setLayout(null);
@@ -635,7 +634,7 @@ public class PanelBuilder {
 
 		JButton btnPublish = new JButton(client.text.getString("Publish"));
 		btnPublish.addActionListener((e) -> {
-			client.publishProperty(tfAddress.getText(), tfCity.getText(), Integer.parseInt(tfCapacity.getText()), Double.parseDouble(tfCost.getText()));
+			client.publishProperty(tfAddress.getText(), tfCity.getText(), Integer.parseInt(tfCapacity.getText()), Double.parseDouble(tfCost.getText()), name);
 		});
 		btnPublish.setBounds(311, 210, 89, 23);
 		result.add(btnPublish);	
@@ -681,7 +680,7 @@ public class PanelBuilder {
 		JLabel label = new JLabel(client.text.getString("Welcome_host") + " " + name);
 
 		JButton properties = new JButton(client.text.getString("Properties"));
-		properties.addActionListener((e) -> {client.switchHostPropertiesManagement();});
+		properties.addActionListener((e) -> {client.switchHostPropertiesManagement(name);});
 		
 		JButton account_data = new JButton(client.text.getString("Account_data"));
 		properties.addActionListener((e) -> {client.switchHostAccountManagement();});

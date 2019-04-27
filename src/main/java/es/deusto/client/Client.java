@@ -299,10 +299,10 @@ public class Client {
 		list.setModel(model);
 	}
 	
-	public void publishProperty(String address, String city, int capacity, double cost) {
+	public void publishProperty(String address, String city, int capacity, double cost, String name) {
 		try {
 			log.info("Registering property: " + address);
-			RegistrationError error = server.registerProperty(address, city, capacity, cost);
+			RegistrationError error = server.registerProperty(address, city, capacity, cost, name);
 
 			log.debug("Registration result " + error);
 			switch (error) {
@@ -328,9 +328,9 @@ public class Client {
 		}
 	}
 	
-	public void switchHostPropertyNew() {
+	public void switchHostPropertyNew(String name) {
 		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createHostPropertyNew(this));
+		window.getContentPane().add(PanelBuilder.createHostPropertyNew(this, name));
 		window.paintComponents(window.getGraphics());
 	}
 	
@@ -340,9 +340,9 @@ public class Client {
 		window.paintComponents(window.getGraphics());
 	}
 	
-	public void switchHostPropertiesManagement() {
+	public void switchHostPropertiesManagement(String name) {
 		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createHostPropertiesManagement(this));
+		window.getContentPane().add(PanelBuilder.createHostPropertiesManagement(this, name));
 		window.paintComponents(window.getGraphics());
 	}
 	

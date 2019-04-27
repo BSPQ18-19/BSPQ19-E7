@@ -363,10 +363,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 			tx = pm.currentTransaction();
 			tx.begin();
 			log.info("Creating reservation... ");
-			User guest = pm.getObjectById(User.class, name);
-			User host = new User("test", "test", UserKind.HOST, "635952687", "test@test.com", "test", false);
-			//Temporary
-			reservation = new Reservation(pm.getObjectById(Property.class, property.getAddress()), guest, pm.getObjectById(User.class, host.getUsername()), date, Integer.parseInt(duration));
+			reservation = new Reservation(pm.getObjectById(Property.class, property.getAddress()), pm.getObjectById(User.class, name), date, Integer.parseInt(duration));
 			pm.makePersistent(reservation);
 			log.info("Reservation created: " + reservation);
 			tx.commit();
@@ -382,10 +379,12 @@ public class Server extends UnicastRemoteObject implements IServer {
 		//@Security We should guarantee that only the host who published the property can update a property
 		Transaction tx = null;
 		Property property = null;
+		User host = null;
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
 			property = pm.getObjectById(Property.class, address);
+			host = property.getHost();
 			tx.commit();	
 		} catch (JDOObjectNotFoundException e) {
 			log.info("Property not found: " + address);
@@ -407,7 +406,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 				property.setCost(cost);
 			} else {
 				log.info("Creating new property");
-				property = new Property(address, city, capacity, ocupancy, cost);
+				property = new Property(address, city, capacity, ocupancy, cost, host);
 			}
 
 			pm.makePersistent(property);
@@ -446,7 +445,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	}
 
 
-	public RegistrationError registerProperty(String address, String city, int capacity, double cost) throws RemoteException {
+	public RegistrationError registerProperty(String address, String city, int capacity, double cost, String name) throws RemoteException {
 		Transaction tx = pm.currentTransaction();
 
 		if(!Pattern.matches(city_regex, city)) {
@@ -473,7 +472,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 			if(property == null) {
 				log.info("Creating property: " + address);
 				//TODO Occupancy variable empty. Change it so that it indicates the dates when the property is occupied
-				property = new Property(address, city, capacity, "", cost);
+				property = new Property(address, city, capacity, "", cost, pm.getObjectById(User.class, name));
 				pm.makePersistent(property);
 				log.info("Property created: " + property);
 			}

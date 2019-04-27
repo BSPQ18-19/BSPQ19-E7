@@ -34,7 +34,7 @@ public interface IServer extends Remote {
 	void deleteProperty(String address) throws RemoteException;
 	void bookProperty(String name, Property property, String date, String duration) throws RemoteException;
 	void updateProperty (String address, String city, int capacity, String ocupancy, double cost) throws RemoteException;
-	RegistrationError registerProperty(String address, String city, int capacity, double cost) throws RemoteException;
+	RegistrationError registerProperty(String address, String city, int capacity, double cost, String name) throws RemoteException;
 	
 	List<Property> getPropertiesByCity(String city) throws RemoteException;
 	List<Property> getProperties() throws RemoteException;
