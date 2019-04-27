@@ -2,6 +2,8 @@ package es.deusto.client;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -431,6 +433,89 @@ public class PanelBuilder {
 		
 		return result;
 	}
+	
+	public static JPanel createGuestPropertiesManagement(Client client) {
+		// @Copied and adapted from createPropertySearch
+		JPanel result = new JPanel();
+		result.setLayout(new BorderLayout());
+		
+		// @Todo: Put this elements pretty
+		
+		JLabel searchLabel = new JLabel(client.text.getString("City"));
+		JTextField citySearch = new JTextField();
+		citySearch.setColumns(20);
+		JButton searchButton = new JButton(client.text.getString("Search"));
+		JList<Property> searchResults = new JList<Property>();
+
+		searchButton.addActionListener((e) -> {
+			client.searchPropertiesByCity(citySearch.getText(), searchResults);
+		});
+		
+		JPanel top = new JPanel();
+		
+		top.add(searchLabel);
+		top.add(citySearch);
+		top.add(searchButton);
+		
+		JPanel bottom = new JPanel();
+		
+		JButton bookButton = new JButton(client.text.getString("Book"));
+		bookButton.addActionListener((e) -> {
+			client.switchGuestBookProperty();
+		});
+		
+		bottom.add(bookButton);
+		
+		result.add(top, BorderLayout.NORTH);
+		result.add(searchResults, BorderLayout.CENTER);
+		result.add(bottom, BorderLayout.SOUTH);
+		
+		return result;	
+	}
+	
+	public static JPanel createGuestBookProperty(Client client) {
+		// @Todo: Put this pretty
+		JPanel result = new JPanel();
+		result.setLayout(new BorderLayout());
+		
+		JPanel center = new JPanel();
+		center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
+		
+		JLabel lblDate = new JLabel(client.text.getString("Start_date")+":");
+		lblDate.setFont(new Font("Arial", Font.PLAIN, 12));
+
+		JTextField tfDate = new JTextField();
+		tfDate.setColumns(10);
+		
+		JLabel lblDuration = new JLabel(client.text.getString("Duration_days")+":");
+		lblDuration.setFont(new Font("Arial", Font.PLAIN, 12));
+
+		JTextField tfDuration = new JTextField();
+		tfDuration.setColumns(10);
+		
+		center.add(lblDate);
+		center.add(tfDate);
+		center.add(lblDuration);
+		center.add(tfDuration);
+		
+		JPanel south = new JPanel();
+		
+		JButton btnBack = new JButton(client.text.getString("Back"));
+		// TODO
+		//btnBack.addActionListener( (e) -> {client.switchLog(pReg);} );
+		south.add(btnBack);
+
+		JButton btnConfirm = new JButton(client.text.getString("Confirm"));
+		btnConfirm.addActionListener((e) -> {
+			client.bookProperty();
+		});
+		south.add(btnConfirm);
+		
+		result.add(center, BorderLayout.CENTER);
+		result.add(south, BorderLayout.SOUTH);
+		
+		return result;
+	}
 
 	public static JPanel createPropertyEdit(Client client, Property selectedProp, boolean isNewProperty) {
 		JPanel result = new JPanel();
@@ -609,12 +694,22 @@ public class PanelBuilder {
 	}
 	
 	public static JPanel createMainWindowGuest(Client client, String name /*, Other data for*/) {
-		// TODO
-		return new JPanel();
+		// @Copied and adapted from createMainWindowAdmin
+		JPanel main_panel = new JPanel();
+		
+		JLabel label = new JLabel(client.text.getString("Welcome_guest") + " " + name);
+
+		JButton properties = new JButton(client.text.getString("Properties"));
+		properties.addActionListener((e) -> {client.switchGuestPropertiesManagement();});
+		
+		JButton account_data = new JButton(client.text.getString("Account_data"));
+		properties.addActionListener((e) -> {client.switchHostAccountManagement();});
+
+		main_panel.add(label);
+		main_panel.add(properties);
+		main_panel.add(account_data);
+
+		return main_panel;
 	}
-
-	
-	
-
 	
 }

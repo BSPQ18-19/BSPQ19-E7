@@ -355,6 +355,10 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 	
+	public void bookProperty(String address) throws RemoteException {
+		//TODO
+	}
+	
 	public void updateProperty (String address, String city, int capacity, String ocupancy, double cost) throws RemoteException {
 		//@Security We should guarantee that only the host who published the property can update a property
 		Transaction tx = null;
