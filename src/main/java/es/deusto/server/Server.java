@@ -379,8 +379,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 	}
 
 	public void deleteProperty(String address) throws RemoteException {
-		//@Security We should guarantee that only the host who published the property can delete a property
-
 		Transaction tx = null;
 		try {
 			tx = pm.currentTransaction();
@@ -390,6 +388,26 @@ public class Server extends UnicastRemoteObject implements IServer {
 			tx.commit();
 		} catch (Exception e) {
 			log.info("Property not found: " + address);
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+	}
+	
+	public void deleteReservation(String date, String guestUsername, String propertyAddress) throws RemoteException {
+		Transaction tx = null;
+		Reservation reservation;
+		try {
+			tx = pm.currentTransaction();
+			tx.begin();
+			Query<Reservation> query = pm.newQuery(Reservation.class);
+			query.setFilter("date == '" + date + "' && guest.username == '" + guestUsername + "' && property.address == '" + propertyAddress + "'");
+			reservation = query.executeUnique();
+			pm.deletePersistent(reservation);
+			tx.commit();
+		} catch (Exception e) {
+			log.info("Reservation not found ");
 		} finally {
 			if (tx.isActive()) {
 				tx.rollback();
@@ -417,7 +435,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 	}
 
 	public void updateProperty (String address, String city, int capacity, String ocupancy, double cost) throws RemoteException {
-		//@Security We should guarantee that only the host who published the property can update a property
 		Transaction tx = null;
 		Property property = null;
 		User host = null;

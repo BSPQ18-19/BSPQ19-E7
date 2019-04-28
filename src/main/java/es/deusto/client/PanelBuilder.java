@@ -678,8 +678,7 @@ public class PanelBuilder {
 		
 		JButton deleteButton = new JButton(client.text.getString("Delete"));
 		deleteButton.addActionListener((e) -> {
-			//TODO
-			//client.deleteProperty(searchResults.getSelectedValue());
+			client.deleteReservation(searchResults.getSelectedValue());
 		});
 		
 		JButton editButton = new JButton(client.text.getString("Edit"));

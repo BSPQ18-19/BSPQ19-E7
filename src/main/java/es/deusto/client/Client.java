@@ -319,6 +319,15 @@ public class Client {
 		}
 	}
 	
+	public void deleteReservation(Reservation reservation) {
+		try {
+			server.deleteReservation(reservation.getDate(), reservation.getClient().getUsername(), reservation.getProperty().getAddress());
+		} catch (RemoteException e) {
+			log.error("Error deleting reservation ");
+			e.printStackTrace();
+		}
+	}
+	
 	public void bookProperty(String name, Property property, String date, String duration) {
 		try {
 			server.bookProperty(name, property, date, duration);
