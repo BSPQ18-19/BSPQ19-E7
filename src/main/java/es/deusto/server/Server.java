@@ -481,6 +481,54 @@ public class Server extends UnicastRemoteObject implements IServer {
 			}
 		}
 	}
+	@Override
+	public void updateReservation(Property property, User guest, String date, int duration) throws RemoteException {
+		// TODO Auto-generated method stub
+		Transaction tx = null;
+		Reservation reservation = null;
+		try {
+			tx = pm.currentTransaction();
+			tx.begin();
+			reservation = pm.getObjectById(Reservation.class, property);
+			tx.commit();	
+		} catch (JDOObjectNotFoundException e) {
+			log.info("Reservation not found!");
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+
+		try {
+			tx = pm.currentTransaction();
+			tx.begin();
+
+			if (reservation != null) {
+				log.info("Updating existing reservation");
+				reservation.setProperty(property);
+				reservation.setClient(guest);
+				reservation.setDate(date);
+				reservation.setDuration(duration);
+			} else {
+				log.info("Creating new property");
+				reservation = new Reservation(property, guest, date, duration);
+			}
+
+			pm.makePersistent(reservation);
+			log.info("Reservation successfully saved");
+
+			tx.commit();
+
+		} catch (JDOException e) {
+			log.error("Reservation: " + reservation);
+			log.error(e.getStackTrace());
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+		
+	}
 
 	@Override
 	public List<Property> getPropertiesByHost(String hostname) throws RemoteException {
@@ -589,4 +637,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 			e.printStackTrace();
 		}
 	}
+
+	
 }
