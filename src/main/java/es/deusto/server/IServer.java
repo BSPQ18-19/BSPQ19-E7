@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import es.deusto.server.jdo.Property;
+import es.deusto.server.jdo.Reservation;
 import es.deusto.server.jdo.User;
 import es.deusto.server.jdo.User.UserKind;
 
@@ -38,4 +39,5 @@ public interface IServer extends Remote {
 	
 	List<Property> getPropertiesByCity(String city) throws RemoteException;
 	List<Property> getPropertiesByHost(String hostname) throws RemoteException;
+	List<Reservation> getReservationsByCity(String city) throws RemoteException;
 }

@@ -15,6 +15,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import es.deusto.server.jdo.Property;
+import es.deusto.server.jdo.Reservation;
 import es.deusto.server.jdo.User;
 
 public class PanelBuilder {
@@ -661,11 +662,10 @@ public class PanelBuilder {
 		JTextField citySearch = new JTextField();
 		citySearch.setColumns(20);
 		JButton searchButton = new JButton(client.text.getString("Search"));
-		JList<Property> searchResults = new JList<Property>();
+		JList<Reservation> searchResults = new JList<Reservation>();
 
 		searchButton.addActionListener((e) -> {
-			//TODO
-			//client.searchPropertiesByCity(citySearch.getText(), searchResults);			
+			client.searchReservationsByCity(citySearch.getText(), searchResults);			
 		});
 		
 		JPanel top = new JPanel();
