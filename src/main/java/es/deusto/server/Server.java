@@ -148,7 +148,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 			tx.begin();
 
 			Query<Property> query = pm.newQuery(Property.class);
-			query.setFilter("city == " + city);
+			query.setFilter("city == '" + city + "'");
 
 			result = query.executeList();
 
@@ -173,7 +173,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		try {
 			tx.begin();
 			Query<Reservation> query = pm.newQuery(Reservation.class);
-			query.setFilter("property.city == " + city);
+			query.setFilter("property.city == '" + city + "'");
 			result = query.executeList();
 			tx.commit();
 		} catch (JDOObjectNotFoundException e) {
