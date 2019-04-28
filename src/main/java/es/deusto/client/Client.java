@@ -102,21 +102,6 @@ public class Client {
 		return result;
 	}
 	
-	public void switchReg() {
-		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createRegisterWindow(this));
-		window.setTitle("[RoomRental] Register");
-		window.setSize(450, 286);
-		
-	}
-	
-	public void switchLog() {
-		window.getContentPane().removeAll();
-		window.add(PanelBuilder.createLogin(this));
-		window.setTitle("[RoomRental] Login");
-		window.setSize(450, 248);
-	}
-	
 	public void login(String username, String password) {
 		User user = null;
 		try {
@@ -391,51 +376,75 @@ public class Client {
 		}
 	}
 	
+	
+	public void switchRegister() {
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createRegisterWindow(this));
+		window.setTitle("[RoomRental] Register");
+		window.setSize(450, 286);
+		
+	}
+	
+	public void switchLogin() {
+		window.getContentPane().removeAll();
+		window.add(PanelBuilder.createLogin(this));
+		window.setTitle("[RoomRental] Login");
+		window.setSize(450, 248);
+	}
+	
 	public void switchHostPropertyNew(String name) {
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createHostPropertyNew(this, name));
+		window.setTitle("[RoomRental] Create Property");
 		window.paintComponents(window.getGraphics());
 	}
 	
 	public void switchPropertyEdit(Property selectedProp) {
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createPropertyEdit(this, selectedProp, false));
+		window.setTitle("[RoomRental] Edit Property");
 		window.paintComponents(window.getGraphics());
 	}
 	
 	public void switchHostPropertiesManagement(String name) {
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createHostPropertiesManagement(this, name));
+		window.setTitle("[RoomRental] Properties Management");
 		window.paintComponents(window.getGraphics());
 	}
 	
 	public void switchGuestPropertiesManagement(String name) {
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createGuestPropertiesManagement(this, name));
+		window.setTitle("[RoomRental] Properties Management");
 		window.paintComponents(window.getGraphics());
 	}
 	
 	public void switchGuestBookProperty(String name, Property property) {
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createGuestBookProperty(this, name, property));
+		window.setTitle("[RoomRental] Book Property");
 		window.paintComponents(window.getGraphics());
 	}
 	
 	public void switchHostAccountManagement() {
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createHostAccountManagement(this));
+		window.setTitle("[RoomRental] Account Management");
 		window.paintComponents(window.getGraphics());
 	}
 	
 	public void switchPropertiesSearch() {
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createPropertySearch(this));
+		window.setTitle("[RoomRental] Search Properties");
 		window.paintComponents(window.getGraphics());
 	}
 	
 	public void switchAdminReservationsSearch() {
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createAdminReservationsSearch(this));
+		window.setTitle("[RoomRental] Search Reservations");
 		window.paintComponents(window.getGraphics());
 	}
 	
@@ -443,18 +452,28 @@ public class Client {
 		// Only Admins should be able to call this
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createAdminAccountManagement(this));
+		window.setTitle("[RoomRental] Account Management");
 		window.paintComponents(window.getGraphics());
 	}
 	
 	public void switchAdminAccountEdit(User selectedUser) {
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createAdminAccountEdit(this, selectedUser, false));
+		window.setTitle("[RoomRental] Account Edit");
 		window.paintComponents(window.getGraphics());
 	}
 	
 	public void switchAdminAccountNew() {
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createAdminAccountEdit(this, null, true));
+		window.setTitle("[RoomRental] New Account");
+		window.paintComponents(window.getGraphics());
+	}	
+
+	public void switchReservationEdit(Reservation selectedReserv) {
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createReservationEdit(this, selectedReserv, false));
+		window.setTitle("[RoomRental] Edit Reservation");
 		window.paintComponents(window.getGraphics());
 	}
 	
