@@ -195,7 +195,7 @@ public class Client {
 	
 	public void changePassword(String username, String password) {
 		try {
-			server.changeUserPassword(username, password)
+			server.changeUserPassword(username, password);
 		} catch (RemoteException e) {
 			log.error("Error updating password: " + password);
 			e.printStackTrace();
@@ -204,7 +204,7 @@ public class Client {
 	
 	public void changeTelephone(String username, String telephone) {
 		try {
-			server.changeUserTelephone(username, telephone)
+			server.changeUserTelephone(username, telephone);
 		} catch (RemoteException e) {
 			log.error("Error updating telephone: " + telephone);
 			e.printStackTrace();

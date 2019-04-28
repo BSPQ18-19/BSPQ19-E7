@@ -40,4 +40,7 @@ public interface IServer extends Remote {
 	List<Property> getPropertiesByCity(String city) throws RemoteException;
 	List<Property> getPropertiesByHost(String hostname) throws RemoteException;
 	List<Reservation> getReservationsByCity(String city) throws RemoteException;
+	
+	void changeUserPassword(String username, String password) throws RemoteException;
+	void changeUserTelephone(String username, String telephone) throws RemoteException;
 }
