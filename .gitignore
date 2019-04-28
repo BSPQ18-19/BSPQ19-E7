@@ -4,6 +4,7 @@
 /datanucleus.log
 /.classpath
 
+
 #Ignore thumbnails created by Windows
 Thumbs.db
 #Ignore files built by Visual Studio
@@ -35,3 +36,6 @@ _ReSharper*/
 .vs/
 #Nuget packages folder
 packages/
+/.classpath
+/.project
+/.settings*
