@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import es.deusto.server.IServer;
 import es.deusto.server.IServer.RegistrationError;
 import es.deusto.server.jdo.Property;
+import es.deusto.server.jdo.Reservation;
 import es.deusto.server.jdo.User;
 import es.deusto.server.jdo.User.UserKind;
 
@@ -367,6 +368,12 @@ public class Client {
 	public void switchPropertiesSearch() {
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createPropertySearch(this));
+		window.paintComponents(window.getGraphics());
+	}
+	
+	public void switchAdminReservationsSearch() {
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createAdminReservationsSearch(this));
 		window.paintComponents(window.getGraphics());
 	}
 	

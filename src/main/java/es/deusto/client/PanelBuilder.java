@@ -649,11 +649,61 @@ public class PanelBuilder {
 		return result;
 	}
 	
+	public static JPanel createAdminReservationsSearch(Client client) {
+		//// @Copied and adapted createPropertySearch
+		
+		JPanel result = new JPanel();
+		result.setLayout(new BorderLayout());
+		
+		// @Todo: Put this elements pretty
+		
+		JLabel searchLabel = new JLabel(client.text.getString("City"));
+		JTextField citySearch = new JTextField();
+		citySearch.setColumns(20);
+		JButton searchButton = new JButton(client.text.getString("Search"));
+		JList<Property> searchResults = new JList<Property>();
+
+		searchButton.addActionListener((e) -> {
+			//TODO
+			//client.searchPropertiesByCity(citySearch.getText(), searchResults);			
+		});
+		
+		JPanel top = new JPanel();
+		
+		top.add(searchLabel);
+		top.add(citySearch);
+		top.add(searchButton);
+		
+		JPanel bottom = new JPanel();
+		
+		JButton deleteButton = new JButton(client.text.getString("Delete"));
+		deleteButton.addActionListener((e) -> {
+			//TODO
+			//client.deleteProperty(searchResults.getSelectedValue());
+		});
+		
+		JButton editButton = new JButton(client.text.getString("Edit"));
+		editButton.addActionListener((e) -> {
+			//TODO
+			//client.switchPropertyEdit(searchResults.getSelectedValue());
+		});
+		
+		bottom.add(deleteButton);
+		bottom.add(editButton);
+		
+		result.add(top, BorderLayout.NORTH);
+		result.add(searchResults, BorderLayout.CENTER);
+		result.add(bottom, BorderLayout.SOUTH);
+		
+		return result;
+
+		
+	}
+	
 	public static JPanel createMainWindowAdmin(Client client, String id) {
 		JPanel main_panel = new JPanel();
 		
 		// @Todo: Put this pretty
-		
 		
 		JLabel label = new JLabel(client.text.getString("Welcome_administrator")+" " + id);
 		
@@ -663,9 +713,13 @@ public class PanelBuilder {
 		JButton accounts = new JButton(client.text.getString("Accounts"));
 		accounts.addActionListener((e) -> {client.switchAdminAccountManagment();});
 		
+		JButton reservation = new JButton(client.text.getString("Reservations"));
+		reservation.addActionListener((e) -> {client.switchAdminReservationsSearch();});
+		
 		main_panel.add(label);
 		main_panel.add(properties);
 		main_panel.add(accounts);
+		main_panel.add(reservation);
 		
 		return main_panel;
 	}
