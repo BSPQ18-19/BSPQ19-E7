@@ -579,6 +579,71 @@ public class PanelBuilder {
 		return result;
 	}
 	
+	public static JPanel createReservationEdit(Client client, Reservation selectedReserv) {
+		JPanel result = new JPanel();
+		result.setBounds(0, 0, 434, 209);
+		result.setLayout(null);
+
+		JLabel lblProperty = new JLabel(client.text.getString("Property")+":");
+		lblProperty.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblProperty.setBounds(20, 127, 62, 15);
+		result.add(lblProperty);
+
+		JTextField tfProperty = new JTextField(selectedReserv != null ? selectedReserv.getProperty().getAddress() : "");
+		tfProperty.setColumns(10);
+		tfProperty.setBounds(89, 125, 118, 20);
+		tfProperty.setEnabled(false);
+		result.add(tfProperty);
+
+		JLabel lblGuest = new JLabel(client.text.getString("Name")+":");
+		lblGuest.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblGuest.setBounds(20, 153, 72, 15);
+		result.add(lblGuest);
+
+		JTextField tfGuest = new JTextField();
+		tfGuest.setColumns(10);
+		tfGuest.setBounds(89, 153, 118, 20);
+		tfGuest.setText(selectedReserv != null ? selectedReserv.getClient().getName() : "");
+		tfGuest.setEnabled(false);
+		result.add(tfGuest);
+
+		JLabel lblDate = new JLabel(client.text.getString("Date")+":");
+		lblDate.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblDate.setBounds(20, 181, 82, 15);
+		result.add(lblDate);
+
+		JTextField tfDate = new JTextField();
+		tfDate.setColumns(10);
+		tfDate.setBounds(89, 179, 118, 20);
+		tfDate.setText(selectedReserv != null ? selectedReserv.getDate() : "");
+		result.add(tfDate);
+
+		JLabel lblDuration = new JLabel(client.text.getString("Duration")+":");
+		lblDuration.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblDuration.setBounds(212, 127, 62, 15);
+		result.add(lblDuration);
+
+		JTextField tfDuration = new JTextField();
+		tfDuration.setColumns(10);
+		tfDuration.setBounds(292, 125, 118, 20);
+		tfDuration.setText(selectedReserv != null ? Integer.toString(selectedReserv.getDuration()) : "");
+		result.add(tfDuration);
+
+		JButton btnBack = new JButton(client.text.getString("Back"));
+		//btnBack.addActionListener( (e) -> {client.switchLog(pReg);} );
+		btnBack.setBounds(212, 210, 89, 23);
+		result.add(btnBack);
+
+		JButton btnUpdate = new JButton(client.text.getString("Update"));
+		btnUpdate.addActionListener((e) -> {
+			//client.updateReservation(tfProperty.getText(), tfGuest.getText(), tfDate.getText(), Integer.parseInt(tfDuration.getText()));
+		});
+		btnUpdate.setBounds(311, 210, 89, 23);
+		result.add(btnUpdate);	
+
+		return result;
+	}
+	
 	public static JPanel createHostPropertyNew(Client client, String name) {
 		JPanel result = new JPanel();
 		result.setBounds(0, 0, 434, 209);
