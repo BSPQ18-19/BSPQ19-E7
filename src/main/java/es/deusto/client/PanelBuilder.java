@@ -59,7 +59,7 @@ public class PanelBuilder {
 		pLogin.add(btnLogin);
 		
 		JButton btnReg = new JButton(client.text.getString("Register"));
-		btnReg.addActionListener( (e) -> {client.switchReg();} );
+		btnReg.addActionListener( (e) -> {client.switchRegister();} );
 		btnReg.setBounds(320, 166, 89, 23);
 		pLogin.add(btnReg);
 		return pLogin;
@@ -100,7 +100,7 @@ public class PanelBuilder {
 		pReg.add(imgBanner1);
 		
 		JButton btnBack1 = new JButton(client.text.getString("Back"));
-		btnBack1.addActionListener( (e) -> {client.switchLog();} );
+		btnBack1.addActionListener( (e) -> {client.switchLogin();} );
 		btnBack1.setBounds(212, 210, 89, 23);
 		pReg.add(btnBack1);
 		
@@ -579,7 +579,7 @@ public class PanelBuilder {
 		return result;
 	}
 	
-	public static JPanel createReservationEdit(Client client, Reservation selectedReserv) {
+	public static JPanel createReservationEdit(Client client, Reservation selectedReserv, boolean isReserv) {
 		JPanel result = new JPanel();
 		result.setBounds(0, 0, 434, 209);
 		result.setLayout(null);
