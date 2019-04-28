@@ -192,6 +192,24 @@ public class Client {
 		}
 	}
 	
+	public void changePassword(String username, String password) {
+		try {
+			server.changeUserPassword(username, password)
+		} catch (RemoteException e) {
+			log.error("Error updating password: " + password);
+			e.printStackTrace();
+		}
+	}
+	
+	public void changeTelephone(String username, String telephone) {
+		try {
+			server.changeUserTelephone(username, telephone)
+		} catch (RemoteException e) {
+			log.error("Error updating telephone: " + telephone);
+			e.printStackTrace();
+		}
+	}
+	
 	public void deleteAccount(User user) {
 		try {
 			server.deleteUser(user.getUsername());

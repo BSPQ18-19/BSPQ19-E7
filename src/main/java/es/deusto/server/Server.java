@@ -307,6 +307,24 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	}
 
+	public void changeUserPassword(String username, String password) {
+		user = pm.getObjectById(User.class, username);
+		
+		if(password.equals(user.getPassword()) {
+			//TODO: Notify user that password must be different than old one. Should there be other password conditions?
+			System.out.println("New password must be different than the old one.");
+		}
+		else user.setPassword(password);
+	}
+	
+	public void changeUserTelephone(String username, String telephone) {
+		user = pm.getObjectById(User.class, username);
+		
+		//TODO: Test and notify user of invalid phone number.
+		if (true) user.setTelephone(telephone);
+		else System.out.println("Invalid phone number.");
+	}
+	
 	public void deleteUser(String username) throws RemoteException {
 		// @Security: How can we guarantee that this is called by a user onto its own account,
 		// or by an administrator?
@@ -421,7 +439,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 
-
 	@Override
 	public List<Property> getPropertiesByHost(String hostname) throws RemoteException {
 		List<Property> result = null;
@@ -441,7 +458,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 		return result;
 	}
-
 
 	public RegistrationError registerProperty(String address, String city, int capacity, double cost, String name) throws RemoteException {
 		Transaction tx = pm.currentTransaction();
