@@ -26,7 +26,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	private static final long serialVersionUID = 1L;
 	private PersistenceManager pm=null;
-
 	private static Logger log;
 
 	// Copied from: http://emailregex.com/
@@ -188,7 +187,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return result;
 
 	}
-
 
 	public List<User> getUser(String username) {
 		// @Security: We should pass some kind of token to verify that the user requesting data from a user is an administrator
