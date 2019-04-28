@@ -1,10 +1,12 @@
 package es.deusto.server.jdo;
 
+import java.io.Serializable;
+
 import javax.jdo.annotations.ForeignKey;
 import javax.jdo.annotations.PersistenceCapable;
 
 @PersistenceCapable
-public class Reservation {
+public class Reservation implements Serializable {
 	@ForeignKey
 	Property property;
 	@ForeignKey

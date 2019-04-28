@@ -164,6 +164,31 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 		return result;
 	}
+	
+	public List<Reservation> getReservationsByCity(String city) throws RemoteException{
+		// @Copied and adapted from getPropertiesByCity
+		List<Reservation> result = null;
+
+		// @Robustness: I don't know if pm.currentTransaction can fail
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			Query<Reservation> query = pm.newQuery(Reservation.class);
+			query.setFilter("property.city == " + city);
+			result = query.executeList();
+			tx.commit();
+		} catch (JDOObjectNotFoundException e) {
+			System.out.println("Reservation not found: " + city);
+			log.error("Reservation not found: " + city);
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+		return result;
+
+	}
+
 
 	public List<User> getUser(String username) {
 		// @Security: We should pass some kind of token to verify that the user requesting data from a user is an administrator
