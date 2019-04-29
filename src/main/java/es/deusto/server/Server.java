@@ -61,6 +61,12 @@ public class Server extends UnicastRemoteObject implements IServer {
 			}
 		}
 
+		
+		// @Todo: Delete this code. This is a super @HACK so that tests can run!
+		if (log == null) {
+			log = Logger.getLogger(Server.class);
+			PropertyConfigurator.configure("src/main/resources/log4j.properties");
+		}
 	}
 
 	protected void finalize () throws Throwable {
