@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.Test;
 
 import es.deusto.server.IServer.RegistrationError;
+import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.User;
 
 public class ServerTest {
@@ -74,6 +75,29 @@ public class ServerTest {
 		assertTrue(user.getTelephone().equals("this method does not care about correct data!"));
 		assertTrue(user.getEmail().equals("this is not checked!"));
 		assertTrue(user.isVerified());
+		
+	}
+	
+	@Test
+	public void testProperties() throws RemoteException {
+		Server server = new Server();
+		
+		// Create properties	
+		RegistrationError error = server.registerProperty("Sesame street", "Barcelona", 5, 200, "admin");
+		assertTrue(error.toString(), error == RegistrationError.NONE);
+		
+		// @Todo: Check incorrect arguments
+		
+		
+		// Get properties
+		List<Property> results = server.getPropertiesByCity("Barcelona");
+		assertNotNull(results);
+		assertTrue(results.size() >= 1);
+		
+		// Delete the created properties
+		server.deleteProperty("Sesame street");
+		
+		
 		
 	}
 }

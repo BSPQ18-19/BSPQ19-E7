@@ -41,7 +41,7 @@ public interface IServer extends Remote {
 	void updateReservation(Property property, User guest, String date, int duration) throws RemoteException;
 	
 	// @Todo: Separate this error codes from the user registration error codes (Make another enum)
-	RegistrationError registerProperty(String address, String city, int capacity, double cost, String name) throws RemoteException;
+	RegistrationError registerProperty(String address, String city, int capacity, double cost, String hostname) throws RemoteException;
 	
 	List<Property> getPropertiesByCity(String city) throws RemoteException;
 	List<Property> getPropertiesByHost(String hostname) throws RemoteException;

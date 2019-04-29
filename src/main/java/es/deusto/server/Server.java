@@ -580,7 +580,10 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return result;
 	}
 
-	public RegistrationError registerProperty(String address, String city, int capacity, double cost, String name) throws RemoteException {
+	public RegistrationError registerProperty(String address, String city, int capacity, double cost, String hostname) throws RemoteException {
+		// @Robustness @Security: Do something more appropriate than passing the host/owner name as a parameter,
+		// Maybe pass a User object?
+		
 		Transaction tx = pm.currentTransaction();
 
 		if(!Pattern.matches(city_regex, city)) {
@@ -607,7 +610,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 			if(property == null) {
 				log.info("Creating property: " + address);
 				//TODO Occupancy variable empty. Change it so that it indicates the dates when the property is occupied
-				property = new Property(address, city, capacity, "", cost, pm.getObjectById(User.class, name));
+				property = new Property(address, city, capacity, "", cost, pm.getObjectById(User.class, hostname));
 				pm.makePersistent(property);
 				log.info("Property created: " + property);
 			}
