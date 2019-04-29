@@ -332,23 +332,45 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	public void changeUserPassword(String username, String password) throws RemoteException {
 		//TODO
+//		Transaction tx = null;
+//		User user = null;
+//		try{
+//		tx = pm.currentTransaction();
+//		tx.begin();
 //		user = pm.getObjectById(User.class, username);
-//		
+
 //		if(password.equals(user.getPassword()) {
 //			//TODO: Notify user that password must be different than old one. Should there be other password conditions?
 //			System.out.println("New password must be different than the old one.");
 //		} else {
 //			user.setPassword(password);
 //		}
+//		tx.commit;
+//		} catch (JDOObjectNotFoundException e) {
+//		}finally{
+//		if (tx.isActive()) {
+//		tx.rollback();
+//		}
 	}
 	
 	public void changeUserTelephone(String username, String telephone) {
 		//TODO
+//		Transaction tx = null;
+//		User user = null;
+//		try{
+//		tx = pm.currentTransaction();
+//		tx.begin();
 //		user = pm.getObjectById(User.class, username);
 //		
 //		//TODO: Test and notify user of invalid phone number.
 //		if (true) user.setTelephone(telephone);
 //		else System.out.println("Invalid phone number.");
+//		tx.commit;
+//		} catch (JDOObjectNotFoundException e) {
+//		}finally{
+//		if (tx.isActive()) {
+//		tx.rollback();
+//		}
 	}
 	
 	public void deleteUser(String username) throws RemoteException {
