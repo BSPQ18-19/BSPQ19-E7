@@ -351,6 +351,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 //		if (tx.isActive()) {
 //		tx.rollback();
 //		}
+//		}
 	}
 	
 	public void changeUserTelephone(String username, String telephone) {
@@ -370,6 +371,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 //		}finally{
 //		if (tx.isActive()) {
 //		tx.rollback();
+//		}
 //		}
 	}
 	
