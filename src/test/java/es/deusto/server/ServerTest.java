@@ -70,6 +70,8 @@ public class ServerTest {
 	}
 	
 	@Test
+	@PerfTest(duration = 2100)
+	@Required(max = 3500, average = 3500)
 	public void updateUser() throws RemoteException {
 		Server server = new Server();
 		// Admin user is created by default, let's modify it
@@ -103,6 +105,8 @@ public class ServerTest {
 	}
 	
 	@Test
+//	@PerfTest(invocations = 10, threads = 5)
+//	@Required(max = 10000, average = 10000)
 	public void testProperties() throws RemoteException {
 		Server server = new Server();
 		
