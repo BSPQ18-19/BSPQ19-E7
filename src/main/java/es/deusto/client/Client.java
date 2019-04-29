@@ -49,7 +49,7 @@ public class Client {
 	private static Logger log;
 	
 	public Client(String[] args) {
-		Locale locale = Locale.ENGLISH;
+		Locale locale = Locale.getDefault();
 		text = ResourceBundle.getBundle("app_text", locale);
 
 		System.out.println();

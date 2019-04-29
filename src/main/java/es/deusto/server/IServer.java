@@ -21,11 +21,13 @@ public interface IServer extends Remote {
 		INVALID_NAME,
 		INVALID_EMAIL,
 		INVALID_TELEPHONE,
+		// @Temporary: This should be handled by the client application not the server?
+		PASSWORD_MISMATCH,
+
+		// These only apply to properties
 		INVALID_COST,
 		INVALID_CAPACITY,
 		INVALID_CITY,
-		// @Temporary: This should be handled by the client application not the server?
-		PASSWORD_MISMATCH,
 	}
 	RegistrationError registerUser(String name, String username, String email, String telephone, String password, boolean isHost) throws RemoteException;
 	
