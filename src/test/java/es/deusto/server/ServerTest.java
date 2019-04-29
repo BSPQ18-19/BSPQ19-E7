@@ -8,11 +8,12 @@ import org.junit.Test;
 
 import es.deusto.server.IServer.RegistrationError;
 import es.deusto.server.jdo.Property;
+import es.deusto.server.jdo.Reservation;
 import es.deusto.server.jdo.User;
 
 public class ServerTest {
 
-	
+	// @TODO: Use '@Before' and '@After to only create the server once during the test suite!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	
 	@Test
 	public void createUser() throws RemoteException {
@@ -76,6 +77,17 @@ public class ServerTest {
 		assertTrue(user.getEmail().equals("this is not checked!"));
 		assertTrue(user.isVerified());
 		
+		
+		// Test getters and setters (just for code coverage)
+		
+		user.setUsername(user.getUsername());
+		user.setPassword(user.getPassword());
+		user.setKind(user.getKind());
+		user.setEmail(user.getEmail());
+		user.setTelephone(user.getTelephone());
+		user.setName(user.getName());
+		user.setVerified(user.isVerified());
+		
 	}
 	
 	@Test
@@ -126,6 +138,41 @@ public class ServerTest {
 		server.deleteProperty("Sesame street");
 		
 		
+		
+	}
+	
+	@Test
+	public void testLogin() throws RemoteException {
+		Server server = new Server();
+		
+		User user = server.login("admin", "admin");
+		
+		assertNotNull(user);
+		assertTrue(user.getUsername().equals("admin"));
+		assertTrue(user.getPassword().equals("admin")); // @Todo: We may want in the future to not send the password in plain text or even send it through Internet
+	}
+	
+	@Test
+	public void testReservation() throws RemoteException {
+		Server server = new Server();
+		
+		{
+			RegistrationError error = server.registerProperty("Sesame street", "Barcelona", 5, 200, "admin"); // :NotThisUser
+			assertTrue(error.toString(), error == RegistrationError.NONE);
+		}
+		
+		// @Todo: Properly make all the checks
+		
+		Property property = server.getPropertiesByCity("Barcelona").get(0);
+		
+		server.bookProperty("admin", property, "some date", "1");
+		
+		List<Reservation> reservations = server.getReservationsByCity("Barcelona");
+		
+		assertNotNull(reservations);
+		assertTrue(reservations.size() >= 1);
+		
+		// @Todo: Assert that the reservation is correct
 		
 	}
 }

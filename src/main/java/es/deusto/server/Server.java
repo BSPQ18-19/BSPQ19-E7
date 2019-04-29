@@ -446,6 +446,12 @@ public class Server extends UnicastRemoteObject implements IServer {
 	}
 
 	public void bookProperty(String name, Property property, String date, String duration) throws RemoteException {
+		
+		// @Todo: Why is duration a string?
+		
+		// @Todo: We could use java.util.Date for the date
+		
+		
 		Transaction tx = null;
 		Reservation reservation = null;
 		try {
