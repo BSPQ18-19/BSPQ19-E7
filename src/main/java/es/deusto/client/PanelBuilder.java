@@ -419,10 +419,16 @@ public class PanelBuilder {
 		newButton.addActionListener((e) -> {
 			client.switchHostPropertyNew(name);
 		});
+		
+		JButton backButton = new JButton(client.text.getString("Back"));
+		backButton.addActionListener((e) -> {
+			client.createMainWindowHost(name);
+		});
 
 		bottom.add(deleteButton);
 		bottom.add(editButton);
 		bottom.add(newButton);
+		bottom.add(backButton);
 
 		result.add(top, BorderLayout.NORTH);
 		result.add(searchResults, BorderLayout.CENTER);
@@ -461,7 +467,13 @@ public class PanelBuilder {
 			client.switchGuestBookProperty(name, searchResults.getSelectedValue());
 		});
 		
+		JButton backButton = new JButton(client.text.getString("Back"));
+		backButton.addActionListener((e) -> {
+			client.createMainWindowGuest(name);
+		});
+		
 		bottom.add(bookButton);
+		bottom.add(backButton);
 		
 		result.add(top, BorderLayout.NORTH);
 		result.add(searchResults, BorderLayout.CENTER);

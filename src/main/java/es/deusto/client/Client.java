@@ -477,6 +477,20 @@ public class Client {
 		window.paintComponents(window.getGraphics());
 	}
 	
+	public void createMainWindowHost(String name) {
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createMainWindowHost(this, name));
+		window.setTitle("[RoomRental] Host Main Window");
+		window.paintComponents(window.getGraphics());
+	}
+	
+	public void createMainWindowGuest(String name) {
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createMainWindowGuest(this, name));
+		window.setTitle("[RoomRental] Guest Main Window");
+		window.paintComponents(window.getGraphics());
+	}
+	
 	public void exit() {
 		// TODO: We may want to do other things in the future. Close connections, release resources, ...
 		System.exit(0);
