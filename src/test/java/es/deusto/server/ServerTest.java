@@ -82,19 +82,47 @@ public class ServerTest {
 	public void testProperties() throws RemoteException {
 		Server server = new Server();
 		
+		//
 		// Create properties	
-		RegistrationError error = server.registerProperty("Sesame street", "Barcelona", 5, 200, "admin");
-		assertTrue(error.toString(), error == RegistrationError.NONE);
+		//
 		
-		// @Todo: Check incorrect arguments
+		// @Todo: Create a user for this test!  :NotThisUser
+		{
+			RegistrationError error = server.registerProperty("Sesame street", "Barcelona", 5, 200, "admin"); // :NotThisUser
+			assertTrue(error.toString(), error == RegistrationError.NONE);
+		}
+		{
+			RegistrationError error = server.registerProperty("Sesame street", "51st area", 5, 200, "admin"); // :NotThisUser
+			assertTrue(error.toString(), error == RegistrationError.INVALID_CITY);
+		}
+		{
+			// Cost must be positive
+			RegistrationError error = server.registerProperty("Sesame street", "Barcelona", 5, -200, "admin"); // :NotThisUser
+			assertTrue(error.toString(), error == RegistrationError.INVALID_COST);
+		}
+		{
+			// Capacity must be positive
+			RegistrationError error = server.registerProperty("Sesame street", "Barcelona", -5, 200, "admin"); // :NotThisUser
+			assertTrue(error.toString(), error == RegistrationError.INVALID_CAPACITY);
+		}
 		
-		
+		//
 		// Get properties
-		List<Property> results = server.getPropertiesByCity("Barcelona");
-		assertNotNull(results);
-		assertTrue(results.size() >= 1);
+		//
+		{
+			List<Property> results = server.getPropertiesByCity("Barcelona");
+			assertNotNull(results);
+			assertTrue(results.size() >= 1);
+		}
+		{
+			List<Property> results = server.getPropertiesByHost("admin"); // :NotThisUser
+			assertNotNull(results);
+			assertTrue(results.size() >= 1);
+		}
 		
+		//
 		// Delete the created properties
+		//
 		server.deleteProperty("Sesame street");
 		
 		
