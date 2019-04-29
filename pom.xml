@@ -87,6 +87,10 @@
 					</execution>
 				</executions>
 				<configuration>
+					<excludes>
+						<exclude>**/*Client.*</exclude> <!-- all GUI stuff and other things -->
+						<exclude>**/*PanelBuilder.*</exclude> <!-- all GUI stuff and other things -->
+					</excludes>
 					<rules>
 						<rule>
 							<element>BUNDLE</element>
