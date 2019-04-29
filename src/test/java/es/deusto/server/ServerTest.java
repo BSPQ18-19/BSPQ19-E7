@@ -4,17 +4,29 @@ import static org.junit.Assert.*;
 import java.rmi.RemoteException;
 import java.util.List;
 
+import org.databene.contiperf.PerfTest;
+import org.databene.contiperf.Required;
+import org.databene.contiperf.junit.ContiPerfRule;
+import org.junit.Rule;
 import org.junit.Test;
 
 import es.deusto.server.IServer.RegistrationError;
 import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.User;
+import junit.framework.JUnit4TestAdapter;
 
 public class ServerTest {
 
+	@Rule
+	public ContiPerfRule rule = new ContiPerfRule();
 	
+	public static junit.framework.Test suite() {
+		 return new JUnit4TestAdapter(ServerTest.class);
+	}
 	
 	@Test
+    @PerfTest(invocations = 10, threads = 5)
+    @Required(max = 8000, average = 7000)
 	public void createUser() throws RemoteException {
 		Server server = new Server();
 		
