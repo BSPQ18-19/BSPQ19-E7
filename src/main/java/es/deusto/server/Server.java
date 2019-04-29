@@ -613,6 +613,11 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 		return RegistrationError.NONE;
 	}
+	
+	public int add(int a, int b) throws RemoteException {
+		int resultado = a + b;
+		return resultado;
+	}
 
 	public static void main(String[] args) {
 		{

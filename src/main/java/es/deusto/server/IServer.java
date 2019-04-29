@@ -45,4 +45,6 @@ public interface IServer extends Remote {
 	
 	void changeUserPassword(String username, String password) throws RemoteException;
 	void changeUserTelephone(String username, String telephone) throws RemoteException;
+	
+	public int add(int a, int b) throws RemoteException;
 }
