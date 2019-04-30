@@ -437,6 +437,46 @@ public class PanelBuilder {
 		return result;
 	}
 	
+	public static JPanel createGuestReservationList(Client client, String name) {
+		JPanel result = new JPanel();
+		result.setLayout(new BorderLayout());
+
+		JList<Reservation> searchResults = new JList<Reservation>();
+		client.searchReservationsByGuest(name, searchResults);
+
+		JPanel top = new JPanel();
+		JLabel txt = new JLabel(name + ", these are your Reservations");
+		top.add(txt);
+
+		JPanel bottom = new JPanel();
+
+		JButton deleteButton = new JButton(client.text.getString("Delete"));
+		deleteButton.addActionListener((e) -> {
+			client.deleteReservation(searchResults.getSelectedValue());
+		});
+
+		JButton editButton = new JButton(client.text.getString("Edit"));
+		editButton.addActionListener((e) -> {
+			client.switchReservationEdit(searchResults.getSelectedValue());
+		});
+	
+		JButton backButton = new JButton(client.text.getString("Back"));
+		backButton.addActionListener((e) -> {
+			client.createMainWindowGuest(name);
+		});
+
+		bottom.add(deleteButton);
+		bottom.add(editButton);
+
+		bottom.add(backButton);
+
+		result.add(top, BorderLayout.NORTH);
+		result.add(searchResults, BorderLayout.CENTER);
+		result.add(bottom, BorderLayout.SOUTH);
+
+		return result;
+	}
+	
 	public static JPanel createGuestPropertiesManagement(Client client, String name) {
 		// @Copied and adapted from createPropertySearch
 		JPanel result = new JPanel();
@@ -619,7 +659,7 @@ public class PanelBuilder {
 		tfGuest.setEnabled(false);
 		result.add(tfGuest);
 
-		JLabel lblDate = new JLabel(client.text.getString("Date")+":");
+		JLabel lblDate = new JLabel(client.text.getString("Start_date")+":");
 		lblDate.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblDate.setBounds(20, 181, 82, 15);
 		result.add(lblDate);
@@ -630,7 +670,7 @@ public class PanelBuilder {
 		tfDate.setText(selectedReserv != null ? selectedReserv.getDate() : "");
 		result.add(tfDate);
 
-		JLabel lblDuration = new JLabel(client.text.getString("Duration")+":");
+		JLabel lblDuration = new JLabel(client.text.getString("Duration_days")+":");
 		lblDuration.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblDuration.setBounds(212, 127, 62, 15);
 		result.add(lblDuration);
@@ -642,13 +682,13 @@ public class PanelBuilder {
 		result.add(tfDuration);
 
 		JButton btnBack = new JButton(client.text.getString("Back"));
-		//btnBack.addActionListener( (e) -> {client.switchLog(pReg);} );
+		btnBack.addActionListener( (e) -> {client.createMainWindowGuest(selectedReserv.getClient().getUsername());;} );
 		btnBack.setBounds(212, 210, 89, 23);
 		result.add(btnBack);
 
 		JButton btnUpdate = new JButton(client.text.getString("Update"));
 		btnUpdate.addActionListener((e) -> {
-			//client.updateReservation(tfProperty.getText(), tfGuest.getText(), tfDate.getText(), Integer.parseInt(tfDuration.getText()));
+			client.updateReservation(selectedReserv.getProperty(), selectedReserv.getClient(), tfDate.getText(), Integer.parseInt(tfDuration.getText()));
 		});
 		btnUpdate.setBounds(311, 210, 89, 23);
 		result.add(btnUpdate);	
@@ -810,11 +850,15 @@ public class PanelBuilder {
 		properties.addActionListener((e) -> {client.switchHostPropertiesManagement(name);});
 		
 		JButton account_data = new JButton(client.text.getString("Account_data"));
-		properties.addActionListener((e) -> {client.switchHostAccountManagement();});
+		account_data.addActionListener((e) -> {client.switchHostAccountManagement();});
+		
+		JButton logOut = new JButton(client.text.getString("Log_Out"));
+		logOut.addActionListener((e) -> {client.switchLogin();});
 
 		main_panel.add(label);
 		main_panel.add(properties);
 		main_panel.add(account_data);
+		main_panel.add(logOut);
 
 		return main_panel;
 	}
@@ -825,17 +869,26 @@ public class PanelBuilder {
 		
 		JLabel label = new JLabel(client.text.getString("Welcome_guest") + " " + name);
 
-		JButton properties = new JButton(client.text.getString("Properties"));
-		properties.addActionListener((e) -> {client.switchGuestPropertiesManagement(name);});
+		JButton book = new JButton(client.text.getString("Book"));
+		book.addActionListener((e) -> {client.switchGuestPropertiesManagement(name);});
 		
 		JButton account_data = new JButton(client.text.getString("Account_data"));
-		properties.addActionListener((e) -> {client.switchHostAccountManagement();});
+		account_data.addActionListener((e) -> {client.switchHostAccountManagement();});
+		
+		JButton reservations = new JButton(client.text.getString("Reservations"));
+		reservations.addActionListener((e) -> {client.switchGuestReservationsList(name);});
+		
+		JButton logOut = new JButton(client.text.getString("Log_Out"));
+		logOut.addActionListener((e) -> {client.switchLogin();});
 
 		main_panel.add(label);
-		main_panel.add(properties);
+		main_panel.add(book);
 		main_panel.add(account_data);
+		main_panel.add(reservations);
+		main_panel.add(logOut);
 
 		return main_panel;
 	}
 	
 }
+

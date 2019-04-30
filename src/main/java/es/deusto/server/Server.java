@@ -193,6 +193,30 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return result;
 
 	}
+	
+	public List<Reservation> getReservationsByGuest(String name) throws RemoteException{
+		// @Copied and adapted from getPropertiesByCity
+		List<Reservation> result = null;
+
+		// @Robustness: I don't know if pm.currentTransaction can fail
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			Query<Reservation> query = pm.newQuery(Reservation.class);
+			query.setFilter("guest.username == '" + name + "'");
+			result = query.executeList();
+			tx.commit();
+		} catch (JDOObjectNotFoundException e) {
+			System.out.println("Reservation not found: " + name);
+			log.error("Reservation not found: " + name);
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+		return result;
+
+	}
 
 	public List<User> getUser(String username) {
 		// @Security: We should pass some kind of token to verify that the user requesting data from a user is an administrator
@@ -525,7 +549,12 @@ public class Server extends UnicastRemoteObject implements IServer {
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
-			reservation = pm.getObjectById(Reservation.class, property);
+
+			Query<Reservation> query = pm.newQuery(Reservation.class);
+			query.setFilter("guest.username == '" + guest.getUsername() + "' && property.address == '" + property.getAddress() + "'");
+			reservation = query.executeUnique();
+
+			
 			tx.commit();	
 		} catch (JDOObjectNotFoundException e) {
 			log.info("Reservation not found!");
@@ -541,8 +570,8 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 			if (reservation != null) {
 				log.info("Updating existing reservation");
-				reservation.setProperty(property);
 				reservation.setClient(guest);
+				reservation.setProperty(property);
 				reservation.setDate(date);
 				reservation.setDuration(duration);
 			} else {

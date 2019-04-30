@@ -261,6 +261,32 @@ public class Client {
 		
 	}
 	
+	public void searchReservationsByGuest(String name, JList<Reservation> resultList) {
+		// @Copied and adapted from searchPropertiesByCity
+		List<Reservation> reservations = null;
+		try {
+			reservations = server.getReservationsByGuest(name);
+		} catch (RemoteException e) {
+			log.error("Error retrieving reservations by user");
+			e.printStackTrace();
+		}
+		
+		// @Todo: What does the server return when it does not find any?
+		if (reservations == null || reservations.isEmpty()) {
+			// @Temp: In the future we will want it to show some kind of message to the user
+			return;
+		}
+		
+		DefaultListModel<Reservation> model = new DefaultListModel<Reservation>();
+		
+		for (Reservation r : reservations) {
+			model.addElement(r);
+		}
+		
+		resultList.setModel(model);
+		
+	}
+	
 	public void searchUsers(String username, JList<User> resultList) {
 		List<User> users = null;
 		try {
@@ -424,6 +450,13 @@ public class Client {
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createGuestBookProperty(this, name, property));
 		window.setTitle("[RoomRental] Book Property");
+		window.paintComponents(window.getGraphics());
+	}
+	
+	public void switchGuestReservationsList(String name) {
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createGuestReservationList(this, name));
+		window.setTitle("[RoomRental] Guest Main Window");
 		window.paintComponents(window.getGraphics());
 	}
 	
