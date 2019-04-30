@@ -191,7 +191,7 @@ public class Client {
 	
 	public void changeTelephone(String username, String telephone) {
 		try {
-			if (server.changeUserPassword(username, telephone)) {
+			if (server.changeUserTelephone(username, telephone)) {
 				JOptionPane.showMessageDialog(window, "Telephone Changed");
 			} else {
 				JOptionPane.showMessageDialog(window, "Telephone must be different");

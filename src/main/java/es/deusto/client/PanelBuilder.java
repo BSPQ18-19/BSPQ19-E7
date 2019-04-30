@@ -858,10 +858,10 @@ public class PanelBuilder {
 		btnUpdate.addActionListener((e) -> {
 			// TODO: Update User
 			if (tfPass.getPassword().toString()!=null) {
-				client.changePassword(name, tfPass.getPassword().toString());
+				client.changePassword(name, new String(tfPass.getPassword()));
 			}
 			if (tfPhone.getText()!=null) {
-				client.changePassword(name, tfPass.getPassword().toString());
+				client.changeTelephone(name, tfPhone.getText());
 			}
 		});
 		btnUpdate.setBounds(311, 210, 89, 23);
