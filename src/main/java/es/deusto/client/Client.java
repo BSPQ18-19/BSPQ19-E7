@@ -467,24 +467,24 @@ public class Client {
 		window.paintComponents(window.getGraphics());
 	}
 	
-	public void switchPropertiesSearch() {
+	public void switchPropertiesSearch(String id) {
 		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createPropertySearch(this));
+		window.getContentPane().add(PanelBuilder.createPropertySearch(this,id));
 		window.setTitle("[RoomRental] Search Properties");
 		window.paintComponents(window.getGraphics());
 	}
 	
-	public void switchAdminReservationsSearch() {
+	public void switchAdminReservationsSearch(String id) {
 		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createAdminReservationsSearch(this));
+		window.getContentPane().add(PanelBuilder.createAdminReservationsSearch(this,id));
 		window.setTitle("[RoomRental] Search Reservations");
 		window.paintComponents(window.getGraphics());
 	}
 	
-	public void switchAdminAccountManagment() {
+	public void switchAdminAccountManagment(String id) {
 		// Only Admins should be able to call this
 		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createAdminAccountManagement(this));
+		window.getContentPane().add(PanelBuilder.createAdminAccountManagement(this, id));
 		window.setTitle("[RoomRental] Account Management");
 		window.paintComponents(window.getGraphics());
 	}
@@ -520,6 +520,12 @@ public class Client {
 	public void createMainWindowGuest(String name) {
 		window.getContentPane().removeAll();
 		window.getContentPane().add(PanelBuilder.createMainWindowGuest(this, name));
+		window.setTitle("[RoomRental] Guest Main Window");
+		window.paintComponents(window.getGraphics());
+	}
+	public void createMainWindowAdmin(String name) {
+		window.getContentPane().removeAll();
+		window.getContentPane().add(PanelBuilder.createMainWindowAdmin(this, name));
 		window.setTitle("[RoomRental] Guest Main Window");
 		window.paintComponents(window.getGraphics());
 	}

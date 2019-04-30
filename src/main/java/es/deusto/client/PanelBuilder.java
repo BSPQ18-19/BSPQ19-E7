@@ -157,7 +157,7 @@ public class PanelBuilder {
 		return pReg;
 	}
 	
-	public static JPanel createPropertySearch(Client client) {
+	public static JPanel createPropertySearch(Client client, String id) {
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
 		
@@ -191,8 +191,14 @@ public class PanelBuilder {
 			client.switchPropertyEdit(searchResults.getSelectedValue());
 		});
 		
+		JButton backButton = new JButton(client.text.getString("Back"));
+		backButton.addActionListener((e) -> {
+			client.createMainWindowAdmin(id);
+		});
+		
 		bottom.add(deleteButton);
 		bottom.add(editButton);
+		bottom.add(backButton);
 		
 		result.add(top, BorderLayout.NORTH);
 		result.add(searchResults, BorderLayout.CENTER);
@@ -201,7 +207,7 @@ public class PanelBuilder {
 		return result;
 	}
 	
-	public static JPanel createAdminAccountManagement(Client client) {
+	public static JPanel createAdminAccountManagement(Client client, String id) {
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
 		
@@ -240,11 +246,18 @@ public class PanelBuilder {
 		newButton.addActionListener((e) -> {
 			client.switchAdminAccountNew();
 		});
+		JButton backButton = new JButton(client.text.getString("Back"));
+		backButton.addActionListener((e) -> {
+			client.createMainWindowAdmin(id);
+		});
+
+
+		
 		
 		bottom.add(deleteButton);
 		bottom.add(editButton);
 		bottom.add(newButton);
-		
+		bottom.add(backButton);
 		
 		result.add(top, BorderLayout.NORTH);
 		result.add(searchResults, BorderLayout.CENTER);
@@ -767,7 +780,7 @@ public class PanelBuilder {
 		return result;
 	}
 	
-	public static JPanel createAdminReservationsSearch(Client client) {
+	public static JPanel createAdminReservationsSearch(Client client,String id) {
 		//// @Copied and adapted createPropertySearch
 		
 		JPanel result = new JPanel();
@@ -800,12 +813,17 @@ public class PanelBuilder {
 		
 		JButton editButton = new JButton(client.text.getString("Edit"));
 		editButton.addActionListener((e) -> {
-			//TODO
 			//client.switchPropertyEdit(searchResults.getSelectedValue());
+		});
+		
+		JButton backButton = new JButton(client.text.getString("Back"));
+		backButton.addActionListener((e) -> {
+			client.createMainWindowAdmin(id);
 		});
 		
 		bottom.add(deleteButton);
 		bottom.add(editButton);
+		bottom.add(backButton);
 		
 		result.add(top, BorderLayout.NORTH);
 		result.add(searchResults, BorderLayout.CENTER);
@@ -824,13 +842,13 @@ public class PanelBuilder {
 		JLabel label = new JLabel(client.text.getString("Welcome_administrator")+" " + id);
 		
 		JButton properties = new JButton(client.text.getString("Properties"));
-		properties.addActionListener((e) -> {client.switchPropertiesSearch();});
+		properties.addActionListener((e) -> {client.switchPropertiesSearch(id);});
 		
 		JButton accounts = new JButton(client.text.getString("Accounts"));
-		accounts.addActionListener((e) -> {client.switchAdminAccountManagment();});
+		accounts.addActionListener((e) -> {client.switchAdminAccountManagment(id);});
 		
 		JButton reservation = new JButton(client.text.getString("Reservations"));
-		reservation.addActionListener((e) -> {client.switchAdminReservationsSearch();});
+		reservation.addActionListener((e) -> {client.switchAdminReservationsSearch(id);});
 		
 		main_panel.add(label);
 		main_panel.add(properties);

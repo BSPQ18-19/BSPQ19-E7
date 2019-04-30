@@ -574,13 +574,10 @@ public class Server extends UnicastRemoteObject implements IServer {
 				reservation.setProperty(property);
 				reservation.setDate(date);
 				reservation.setDuration(duration);
-			} else {
-				log.info("Creating new property");
-				reservation = new Reservation(property, guest, date, duration);
+				//It doesnt make this persistent :(
+				pm.makePersistent(reservation);
+				log.info("Reservation successfully saved");
 			}
-
-			pm.makePersistent(reservation);
-			log.info("Reservation successfully saved");
 
 			tx.commit();
 
