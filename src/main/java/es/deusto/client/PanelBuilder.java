@@ -857,8 +857,12 @@ public class PanelBuilder {
 		JButton btnUpdate = new JButton(client.text.getString("Update"));
 		btnUpdate.addActionListener((e) -> {
 			// TODO: Update User
-			client.changePassword(name, tfPass.getText());
-			client.changeTelephone(name, tfPhone.getText());
+			if (tfPass.getPassword().toString()!=null) {
+				client.changePassword(name, tfPass.getPassword().toString());
+			}
+			if (tfPhone.getText()!=null) {
+				client.changePassword(name, tfPass.getPassword().toString());
+			}
 		});
 		btnUpdate.setBounds(311, 210, 89, 23);
 		result.add(btnUpdate);	

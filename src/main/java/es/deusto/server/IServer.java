@@ -48,6 +48,6 @@ public interface IServer extends Remote {
 	List<Reservation> getReservationsByCity(String city) throws RemoteException;
 	List<Reservation> getReservationsByGuest(String name) throws RemoteException;
 	
-	void changeUserPassword(String username, String password) throws RemoteException;
-	void changeUserTelephone(String username, String telephone) throws RemoteException;	
+	Boolean changeUserPassword(String username, String password) throws RemoteException;
+	Boolean changeUserTelephone(String username, String telephone) throws RemoteException;	
 }
