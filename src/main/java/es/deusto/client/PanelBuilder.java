@@ -55,12 +55,12 @@ public class PanelBuilder {
 		
 		JButton btnLogin = new JButton(client.text.getString("Login"));
 		btnLogin.addActionListener((e) -> {client.login(tfUser.getText(), new String(tfPass.getPassword()));});
-		btnLogin.setBounds(193, 166, 89, 23);
+		btnLogin.setBounds(193, 178, 89, 23);
 		pLogin.add(btnLogin);
 		
 		JButton btnReg = new JButton(client.text.getString("Register"));
 		btnReg.addActionListener( (e) -> {client.switchRegister();} );
-		btnReg.setBounds(320, 166, 89, 23);
+		btnReg.setBounds(320, 178, 89, 23);
 		pLogin.add(btnReg);
 		return pLogin;
 	}
@@ -286,6 +286,10 @@ public class PanelBuilder {
 		lblName1.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblName1.setBounds(20, 127, 62, 15);
 		result.add(lblName1);
+		
+		JLabel lblImg = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
+		lblImg.setBounds(10, 11, 414, 93);
+		result.add(lblImg);
 		
 		JLabel lblUserName1 = new JLabel(client.text.getString("Username")+":");
 		lblUserName1.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -588,6 +592,10 @@ public class PanelBuilder {
 		lblAddress.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblAddress.setBounds(20, 127, 62, 15);
 		result.add(lblAddress);
+		
+		JLabel imgBanner1 = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
+		imgBanner1.setBounds(10, 11, 414, 93);
+		result.add(imgBanner1);
 
 		JTextField tfAddress = new JTextField(selectedProp != null ? selectedProp.getAddress() : "");
 		tfAddress.setColumns(10);
@@ -629,8 +637,7 @@ public class PanelBuilder {
 		result.add(tfCost);
 
 		JButton btnBack = new JButton(client.text.getString("Back"));
-		// TODO
-		//btnBack.addActionListener( (e) -> {client.switchLog(pReg);} );
+		btnBack.addActionListener( (e) -> {client.switchHostPropertiesManagement(selectedProp.getHost().getUsername());} );
 		btnBack.setBounds(212, 210, 89, 23);
 		result.add(btnBack);
 
@@ -660,6 +667,10 @@ public class PanelBuilder {
 		tfProperty.setEnabled(false);
 		result.add(tfProperty);
 
+		JLabel imgBanner1 = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
+		imgBanner1.setBounds(10, 11, 414, 93);
+		result.add(imgBanner1);
+		
 		JLabel lblGuest = new JLabel(client.text.getString("Name")+":");
 		lblGuest.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblGuest.setBounds(20, 153, 72, 15);
@@ -813,7 +824,7 @@ public class PanelBuilder {
 		
 		JButton editButton = new JButton(client.text.getString("Edit"));
 		editButton.addActionListener((e) -> {
-			//client.switchPropertyEdit(searchResults.getSelectedValue());
+			client.switchReservationEdit(searchResults.getSelectedValue());
 		});
 		
 		JButton backButton = new JButton(client.text.getString("Back"));
@@ -837,7 +848,8 @@ public class PanelBuilder {
 	public static JPanel createMainWindowAdmin(Client client, String id) {
 		JPanel main_panel = new JPanel();
 		
-		// @Todo: Put this pretty
+		JLabel lblImg = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
+		main_panel.add(lblImg);
 		
 		JLabel label = new JLabel(client.text.getString("Welcome_administrator")+" " + id);
 		
@@ -850,10 +862,14 @@ public class PanelBuilder {
 		JButton reservation = new JButton(client.text.getString("Reservations"));
 		reservation.addActionListener((e) -> {client.switchAdminReservationsSearch(id);});
 		
+		JButton logOut = new JButton(client.text.getString("Log_Out"));
+		logOut.addActionListener((e) -> {client.switchLogin();});
+		
 		main_panel.add(label);
 		main_panel.add(properties);
 		main_panel.add(accounts);
 		main_panel.add(reservation);
+		main_panel.add(logOut);
 		
 		return main_panel;
 	}
@@ -861,6 +877,9 @@ public class PanelBuilder {
 	public static JPanel createMainWindowHost(Client client, String name /*, Other data for*/) {
 		// @Copied and adapted from createMainWindowAdmin
 		JPanel main_panel = new JPanel();
+		
+		JLabel lblImg = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
+		main_panel.add(lblImg);
 		
 		JLabel label = new JLabel(client.text.getString("Welcome_host") + " " + name);
 
@@ -884,6 +903,9 @@ public class PanelBuilder {
 	public static JPanel createMainWindowGuest(Client client, String name /*, Other data for*/) {
 		// @Copied and adapted from createMainWindowAdmin
 		JPanel main_panel = new JPanel();
+		
+		JLabel lblImg = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
+		main_panel.add(lblImg);
 		
 		JLabel label = new JLabel(client.text.getString("Welcome_guest") + " " + name);
 

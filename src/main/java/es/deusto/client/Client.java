@@ -89,7 +89,7 @@ public class Client {
 		
 		JFrame result = new JFrame("[RoomRental] Login");
 
-		result.setSize(450, 248);
+		result.setSize(450, 265);
 		result.setResizable(false);
 		
 		JPanel login_panel = PanelBuilder.createLogin(client);
@@ -222,6 +222,7 @@ public class Client {
 		// @Todo: What does the server return when it does not find any?
 		if (properties == null || properties.isEmpty()) {
 			// @Temp: In the future we will want it to show some kind of message to the user
+			
 			return;
 		}
 		
@@ -415,7 +416,8 @@ public class Client {
 		window.getContentPane().removeAll();
 		window.add(PanelBuilder.createLogin(this));
 		window.setTitle("[RoomRental] Login");
-		window.setSize(450, 248);
+		window.setSize(450, 265);
+		window.revalidate();
 	}
 	
 	public void switchHostPropertyNew(String name) {
