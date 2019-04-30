@@ -26,9 +26,7 @@ public class ServerTest {
 	}
 	
 	@Test
-    @PerfTest(invocations = 10, threads = 5)
-    @Required(max = 8000, average = 7000)
-	public void createUser() throws RemoteException {
+    public void createUser() throws RemoteException {
 		Server server = new Server();
 		
 		{
@@ -55,19 +53,7 @@ public class ServerTest {
 		
 	}
 	
-	@Test
-	public void deleteUser() throws RemoteException {
-		Server server = new Server();
-		
-		// Admin user is created by default, let's delete it
-		
-		server.deleteUser("admin");
-		
-		List<User> results = server.getUser("admin");
-		assertNotNull(results);
-		assertTrue(results.size() == 0);
-		
-	}
+
 	
 	@Test
 	public void updateUser() throws RemoteException {
@@ -100,11 +86,25 @@ public class ServerTest {
 		user.setName(user.getName());
 		user.setVerified(user.isVerified());
 		
+		
+		server.deleteUser("admin");
 	}
 	
 	@Test
-//	@PerfTest(invocations = 10, threads = 5)
-//	@Required(max = 10000, average = 10000)
+	public void deleteUser() throws RemoteException {
+		Server server = new Server();
+		
+		// Admin user is created by default, let's delete it
+		
+		server.deleteUser("admin");
+		
+		List<User> results = server.getUser("admin");
+		assertNotNull(results);
+		assertTrue(results.size() == 0);
+		
+	}
+	
+	@Test
 	public void testProperties() throws RemoteException {
 		Server server = new Server();
 		
@@ -156,8 +156,8 @@ public class ServerTest {
 	}
 	
 	@Test
-	@PerfTest(duration = 2100)
-	@Required(max = 3500, average = 3500)
+	//@PerfTest(duration = 2100)
+	//@Required(max = 3500, average = 3500)
 	public void testLogin() throws RemoteException {
 		Server server = new Server();
 		
@@ -187,6 +187,9 @@ public class ServerTest {
 		
 		assertNotNull(reservations);
 		assertTrue(reservations.size() >= 1);
+		
+		server.deleteReservation("some date", "admin", "Sesame street");
+		server.deleteProperty("Sesame street");
 		
 		// @Todo: Assert that the reservation is correct
 		

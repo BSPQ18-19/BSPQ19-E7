@@ -77,7 +77,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	}
 
 	@Override
-	public RegistrationError registerUser(String name, String username, String email, String telephone, String password, boolean isHost) {
+	public synchronized RegistrationError registerUser(String name, String username, String email, String telephone, String password, boolean isHost) {
 
 		// @Todo: In the future this method will only be used to register hosts and guests
 		// @Security Administrators will only be able to be created by other administrators. And should be
@@ -392,7 +392,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 //		}
 	}
 	
-	public void deleteUser(String username) throws RemoteException {
+	public synchronized void deleteUser(String username) throws RemoteException {
 		// @Security: How can we guarantee that this is called by a user onto its own account,
 		// or by an administrator?
 
@@ -418,7 +418,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 
-	public void deleteProperty(String address) throws RemoteException {
+	public synchronized void deleteProperty(String address) throws RemoteException {
 		Transaction tx = null;
 		try {
 			tx = pm.currentTransaction();
@@ -455,7 +455,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 
-	public void bookProperty(String name, Property property, String date, String duration) throws RemoteException {
+	public synchronized void bookProperty(String name, Property property, String date, String duration) throws RemoteException {
 		
 		// @Todo: Why is duration a string?
 		
@@ -480,7 +480,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	}
 
-	public void updateProperty (String address, String city, int capacity, String ocupancy, double cost) throws RemoteException {
+	public synchronized void updateProperty (String address, String city, int capacity, String ocupancy, double cost) throws RemoteException {
 		Transaction tx = null;
 		Property property = null;
 		User host = null;
@@ -527,9 +527,9 @@ public class Server extends UnicastRemoteObject implements IServer {
 			}
 		}
 	}
+	
 	@Override
-	public void updateReservation(Property property, User guest, String date, int duration) throws RemoteException {
-		// TODO Auto-generated method stub
+	public synchronized void updateReservation(Property property, User guest, String date, int duration) throws RemoteException {
 		Transaction tx = null;
 		Reservation reservation = null;
 		try {
@@ -598,7 +598,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return result;
 	}
 
-	public RegistrationError registerProperty(String address, String city, int capacity, double cost, String hostname) throws RemoteException {
+	public synchronized RegistrationError registerProperty(String address, String city, int capacity, double cost, String hostname) throws RemoteException {
 		// @Robustness @Security: Do something more appropriate than passing the host/owner name as a parameter,
 		// Maybe pass a User object?
 		
@@ -641,11 +641,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return RegistrationError.NONE;
 	}
 	
-	public int add(int a, int b) throws RemoteException {
-		int resultado = a + b;
-		return resultado;
-	}
-
 	public static void main(String[] args) {
 		{
 			// @Investigate how to correctly configure the logger
