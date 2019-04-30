@@ -347,49 +347,55 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	}
 
-	public void changeUserPassword(String username, String password) throws RemoteException {
+	public Boolean changeUserPassword(String username, String password) throws RemoteException {
 		//TODO
-//		Transaction tx = null;
-//		User user = null;
-//		try{
-//		tx = pm.currentTransaction();
-//		tx.begin();
-//		user = pm.getObjectById(User.class, username);
+		Transaction tx = null;
+		User user = null;
+		Boolean chnged = false;
+		try{
+		tx = pm.currentTransaction();
+		tx.begin();
+		user = pm.getObjectById(User.class, username);
 
-//		if(password.equals(user.getPassword()) {
-//			//TODO: Notify user that password must be different than old one. Should there be other password conditions?
-//			System.out.println("New password must be different than the old one.");
-//		} else {
-//			user.setPassword(password);
-//		}
-//		tx.commit;
-//		} catch (JDOObjectNotFoundException e) {
-//		}finally{
-//		if (tx.isActive()) {
-//		tx.rollback();
-//		}
-//		}
+		if(password.equals(user.getPassword())) {
+
+		} else {
+			user.setPassword(password);
+			chnged=true;
+		}
+		tx.commit();
+		} catch (JDOObjectNotFoundException e) {
+		}finally{
+		if (tx.isActive()) {
+		tx.rollback();
+		}
+		}
+		return chnged;
 	}
 	
-	public void changeUserTelephone(String username, String telephone) {
+	public Boolean changeUserTelephone(String username, String telephone) {
 		//TODO
-//		Transaction tx = null;
-//		User user = null;
-//		try{
-//		tx = pm.currentTransaction();
-//		tx.begin();
-//		user = pm.getObjectById(User.class, username);
-//		
-//		//TODO: Test and notify user of invalid phone number.
-//		if (true) user.setTelephone(telephone);
-//		else System.out.println("Invalid phone number.");
-//		tx.commit;
-//		} catch (JDOObjectNotFoundException e) {
-//		}finally{
-//		if (tx.isActive()) {
-//		tx.rollback();
-//		}
-//		}
+		Transaction tx = null;
+		User user = null;
+		Boolean chnged = false;
+		try{
+		tx = pm.currentTransaction();
+		tx.begin();
+		user = pm.getObjectById(User.class, username);
+		String PhoneConst = "^[0-9]{9}$";
+		if (telephone.matches(PhoneConst)) {
+			 user.setTelephone(telephone);
+			 chnged=true;
+		}
+		else {System.out.println("Invalid phone number.");}
+		tx.commit();
+		} catch (JDOObjectNotFoundException e) {
+		}finally{
+		if (tx.isActive()) {
+		tx.rollback();
+		}
+		}
+		return chnged;
 	}
 	
 	public synchronized void deleteUser(String username) throws RemoteException {

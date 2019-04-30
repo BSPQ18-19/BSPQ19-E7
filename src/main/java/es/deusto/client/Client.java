@@ -178,7 +178,11 @@ public class Client {
 	
 	public void changePassword(String username, String password) {
 		try {
-			server.changeUserPassword(username, password);
+			if (server.changeUserPassword(username, password)) {
+				JOptionPane.showMessageDialog(window, "Password Changed");
+			} else {
+				JOptionPane.showMessageDialog(window, "Password must be different");
+			}
 		} catch (RemoteException e) {
 			log.error("Error updating password: " + password);
 			e.printStackTrace();
@@ -187,7 +191,11 @@ public class Client {
 	
 	public void changeTelephone(String username, String telephone) {
 		try {
-			server.changeUserTelephone(username, telephone);
+			if (server.changeUserPassword(username, telephone)) {
+				JOptionPane.showMessageDialog(window, "Telephone Changed");
+			} else {
+				JOptionPane.showMessageDialog(window, "Telephone must be different");
+			}
 		} catch (RemoteException e) {
 			log.error("Error updating telephone: " + telephone);
 			e.printStackTrace();
