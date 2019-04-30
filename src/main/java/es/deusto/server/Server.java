@@ -100,7 +100,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 		try
 		{	
 			tx.begin();
-			System.out.println("Checking whether the user already exits or not: '" + username+"'");
 			log.info("Checking whether the user already exits or not: '" + username+"'");
 			User user = null;
 			try {
@@ -108,7 +107,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 			} catch (javax.jdo.JDOObjectNotFoundException jonfe) {
 				System.out.println("Exception launched: " + jonfe.getMessage());
 			}
-			System.out.println("User: " + user);
 			log.info("User: " + user);
 
 			if (user != null) {
@@ -120,14 +118,12 @@ public class Server extends UnicastRemoteObject implements IServer {
 				user.setPassword(password);
 				System.out.println("Password set user: " + user);*/
 			} else {
-				System.out.println("Creating user: " + username);
 				log.info("Creating user: " + username);
 
 				// @Note: Hosts are not verified by default. Verification must be done by an administrator manually.
 				user = new User(username, password, isHost ? User.UserKind.HOST : User.UserKind.GUEST, telephone, email, name, false);
 				pm.makePersistent(user);					 
 
-				System.out.println("User created: " + user);
 				log.info("User created: " + user);
 			}
 			tx.commit();
@@ -160,7 +156,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 			tx.commit();
 		} catch (JDOObjectNotFoundException e) {
-			System.out.println("Property not found: " + city);
 			log.error("Property not found: " + city);
 		} finally {
 			if (tx.isActive()) {
@@ -183,7 +178,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 			result = query.executeList();
 			tx.commit();
 		} catch (JDOObjectNotFoundException e) {
-			System.out.println("Reservation not found: " + city);
 			log.error("Reservation not found: " + city);
 		} finally {
 			if (tx.isActive()) {
@@ -207,7 +201,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 			result = query.executeList();
 			tx.commit();
 		} catch (JDOObjectNotFoundException e) {
-			System.out.println("Reservation not found: " + name);
 			log.error("Reservation not found: " + name);
 		} finally {
 			if (tx.isActive()) {
@@ -235,7 +228,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 			tx.commit();
 
 		} catch (JDOObjectNotFoundException e) {
-			System.out.println("User not found: " + username);
 			log.error("User not found: " + username);
 		} finally {
 			// @Robustness: I don't know if pm.currentTransaction can fail, but if it does
@@ -257,7 +249,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 		// @Refactor: Can we use 'getUser()' above, inside this method?
 
-		System.out.println("Login " + username);
 		log.info("Login " + username);
 		User user = null;
 		Transaction tx = null;
@@ -270,7 +261,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 			tx.commit();
 
 		} catch (JDOObjectNotFoundException e) {
-			System.out.println("User not found: " + username);
 			log.error("User not found: " + username);
 		} finally {
 			// @Robustness: I don't know if pm.currentTransaction can fail, but if it does
@@ -307,7 +297,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 			tx.commit();
 
 		} catch (JDOObjectNotFoundException e) {
-			System.out.println("User not found: " + username);
 			log.info("User not found: " + username);
 		} finally {
 			// @Robustness: I don't know if pm.currentTransaction can fail, but if it does
@@ -325,7 +314,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 			if (user != null) {
 				// Update the user
 				log.info("Updating existing user");
-				System.out.println("Updating existing user");
 				user.setPassword(password);
 				user.setKind(kind);
 				user.setTelephone(telephone);
@@ -336,7 +324,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 			else {
 				// Create a new user
 				log.info("Creating new user");
-				System.out.println("Creating new user");
 				user = new User(username, password, kind, telephone, email, name, verified);
 			}
 
@@ -420,7 +407,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 			tx.commit();
 
 		} catch (JDOObjectNotFoundException e) {
-			System.out.println("User not found: " + username);
 			log.info("User not found: " + username);
 		} finally {
 			// @Robustness: I don't know if pm.currentTransaction can fail, but if it does

@@ -134,7 +134,6 @@ public class Client {
 				window.paintComponents(window.getGraphics());
 			}
 		} catch (RemoteException e) {
-			System.out.println("There was an error when login the user " + username);
 			e.printStackTrace();
 			log.error("There was an error when login the user " + username);
 		}
@@ -144,7 +143,6 @@ public class Client {
 	public void register(String name, String username, String email, String telephone, String password, boolean isHost) {
 		
 		try {
-			System.out.println("Registering user: " + username);
 			log.info("Registering user: " + username);
 			RegistrationError error = server.registerUser(name, username, email, telephone, password, isHost);
 			
