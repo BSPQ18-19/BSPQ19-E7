@@ -7,6 +7,8 @@ import java.util.List;
 import org.databene.contiperf.PerfTest;
 import org.databene.contiperf.Required;
 import org.databene.contiperf.junit.ContiPerfRule;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -25,10 +27,16 @@ public class ServerTest {
 		 return new JUnit4TestAdapter(ServerTest.class);
 	}
 	
+	public static Server server;
+	
+	@BeforeClass
+	public static void initServer() throws RemoteException {
+		server = new Server();
+	}
+	
+	
 	@Test
     public void createUser() throws RemoteException {
-		Server server = new Server();
-		
 		{
 			RegistrationError error = server.registerUser("Test", "Test", "test@gmail.com", "901234567", "test", false);
 			assertTrue(error.toString(), error == RegistrationError.NONE);
@@ -57,17 +65,19 @@ public class ServerTest {
 	
 	@Test
 	public void updateUser() throws RemoteException {
-		Server server = new Server();
 		// Admin user is created by default, let's modify it
 		
-		server.updateUser("admin", "newPassword", User.UserKind.GUEST, "this method does not care about correct data!", "this is not checked!", "This is my new name", true);
 		
-		List<User> results = server.getUser("admin");
+		server.registerUser("Test", "test1", "test-email@gmail.com", "1234", "pass", true);
+		
+		server.updateUser("Test", "newPassword", User.UserKind.GUEST, "this method does not care about correct data!", "this is not checked!", "This is my new name", true);
+		
+		List<User> results = server.getUser("Test");
 		
 		assertTrue(results.size() == 1);
 		
 		User user = results.get(0);
-		assertTrue(user.getUsername().equals("admin"));
+		assertTrue(user.getUsername().equals("Test"));
 		assertTrue(user.getKind() == User.UserKind.GUEST);
 		assertTrue(user.getName().equals("This is my new name"));
 		assertTrue(user.getPassword().equals("newPassword"));
@@ -87,18 +97,18 @@ public class ServerTest {
 		user.setVerified(user.isVerified());
 		
 		
-		server.deleteUser("admin");
+		server.deleteUser("Test");
 	}
 	
 	@Test
 	public void deleteUser() throws RemoteException {
-		Server server = new Server();
-		
 		// Admin user is created by default, let's delete it
 		
-		server.deleteUser("admin");
+		server.registerUser("Test", "test1", "test-email@gmail.com", "1234", "pass", true);
+		server.deleteUser("Test");
 		
-		List<User> results = server.getUser("admin");
+		
+		List<User> results = server.getUser("Test");
 		assertNotNull(results);
 		assertTrue(results.size() == 0);
 		
@@ -106,8 +116,6 @@ public class ServerTest {
 	
 	@Test
 	public void testProperties() throws RemoteException {
-		Server server = new Server();
-		
 		//
 		// Create properties	
 		//
@@ -150,17 +158,12 @@ public class ServerTest {
 		// Delete the created properties
 		//
 		server.deleteProperty("Sesame street");
-		
-		
-		
 	}
 	
 	@Test
 	//@PerfTest(duration = 2100)
 	//@Required(max = 3500, average = 3500)
-	public void testLogin() throws RemoteException {
-		Server server = new Server();
-		
+	public void testLogin() throws RemoteException {	
 		User user = server.login("admin", "admin");
 		
 		assertNotNull(user);
@@ -170,8 +173,6 @@ public class ServerTest {
 	
 	@Test
 	public void testReservation() throws RemoteException {
-		Server server = new Server();
-		
 		{
 			RegistrationError error = server.registerProperty("Sesame street", "Barcelona", 5, 200, "admin"); // :NotThisUser
 			assertTrue(error.toString(), error == RegistrationError.NONE);
@@ -193,5 +194,10 @@ public class ServerTest {
 		
 		// @Todo: Assert that the reservation is correct
 		
+	}
+	
+	@AfterClass
+	public static void cleanDB() throws RemoteException {
+		// TODO
 	}
 }
