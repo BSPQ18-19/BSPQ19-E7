@@ -3,6 +3,7 @@ package es.deusto.client;
 import java.awt.BorderLayout;
 import java.awt.Font;
 
+import javax.jdo.annotations.PrimaryKey;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -781,13 +782,87 @@ public class PanelBuilder {
 		return result;
 	}
 	
-	public static JPanel createHostAccountManagement(Client client) {
-		/*TODO
-		 * change password
-		 * change telephone number
-		 */
-
+	public static JPanel createHostAccountManagement(Client client, String name) {
 		JPanel result = new JPanel();
+		result.setBounds(0, 0, 434, 209);
+		result.setLayout(null);
+		
+		JLabel lblusername = new JLabel(client.text.getString("Username")+":");
+		lblusername.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblusername.setBounds(20, 127, 62, 15);
+		result.add(lblusername);
+
+		JTextField tfusername = new JTextField();
+		tfusername.setColumns(10);
+		tfusername.setBounds(89, 125, 118, 20);
+		tfusername.setText(name);
+		tfusername.setEnabled(false);
+		result.add(tfusername);
+
+		JLabel imgBanner1 = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
+		imgBanner1.setBounds(10, 11, 414, 93);
+		result.add(imgBanner1);
+		
+		JLabel lblGuest = new JLabel(client.text.getString("Name")+":");
+		lblGuest.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblGuest.setBounds(20, 153, 72, 15);
+		result.add(lblGuest);
+
+		JTextField tfGuest = new JTextField();
+		tfGuest.setColumns(10);
+		tfGuest.setBounds(89, 153, 118, 20);
+		/*TODO: Get user name*/
+		tfGuest.setEnabled(false);
+		result.add(tfGuest);
+
+		JLabel lblPhone = new JLabel(client.text.getString("Telephone")+":");
+		lblPhone.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblPhone.setBounds(20, 181, 82, 15);
+		result.add(lblPhone);
+
+		JTextField tfPhone = new JTextField();
+		tfPhone.setColumns(10);
+		tfPhone.setBounds(89, 179, 118, 20);
+		/*TODO: Get user phone*/
+		tfPhone.setText("");
+		result.add(tfPhone);
+
+		JLabel lblEmail = new JLabel(client.text.getString("Email")+":");
+		lblEmail.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblEmail.setBounds(212, 127, 62, 15);
+		result.add(lblEmail);
+
+		JTextField tfEmail = new JTextField();
+		tfEmail.setColumns(10);
+		tfEmail.setBounds(292, 125, 118, 20);
+		/*TODO: Get user email*/
+		tfEmail.setText("");
+		result.add(tfEmail);
+		
+		JLabel lblPass = new JLabel(client.text.getString("Password")+":");
+		lblPass.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblPass.setBounds(212, 153, 62, 15);
+		result.add(lblPass);
+
+		JPasswordField tfPass = new JPasswordField();
+		tfPass.setColumns(10);
+		tfPass.setBounds(292, 153, 118, 20);
+		/*TODO: Get user password*/
+		tfPass.setText("");
+		result.add(tfPass);
+
+		JButton btnBack = new JButton(client.text.getString("Back"));
+		btnBack.addActionListener( (e) -> {client.createMainWindowHost(name);;} );
+		btnBack.setBounds(212, 210, 89, 23);
+		result.add(btnBack);
+
+		JButton btnUpdate = new JButton(client.text.getString("Update"));
+		btnUpdate.addActionListener((e) -> {
+			// TODO: Update User
+			//client.updateReservation(selectedReserv.getProperty(), selectedReserv.getClient(), tfDate.getText(), Integer.parseInt(tfDuration.getText()));
+		});
+		btnUpdate.setBounds(311, 210, 89, 23);
+		result.add(btnUpdate);	
 		return result;
 	}
 	
@@ -887,7 +962,7 @@ public class PanelBuilder {
 		properties.addActionListener((e) -> {client.switchHostPropertiesManagement(name);});
 		
 		JButton account_data = new JButton(client.text.getString("Account_data"));
-		account_data.addActionListener((e) -> {client.switchHostAccountManagement();});
+		account_data.addActionListener((e) -> {client.switchHostAccountManagement(name);});
 		
 		JButton logOut = new JButton(client.text.getString("Log_Out"));
 		logOut.addActionListener((e) -> {client.switchLogin();});
@@ -913,7 +988,7 @@ public class PanelBuilder {
 		book.addActionListener((e) -> {client.switchGuestPropertiesManagement(name);});
 		
 		JButton account_data = new JButton(client.text.getString("Account_data"));
-		account_data.addActionListener((e) -> {client.switchHostAccountManagement();});
+		account_data.addActionListener((e) -> {client.switchHostAccountManagement(name);});
 		
 		JButton reservations = new JButton(client.text.getString("Reservations"));
 		reservations.addActionListener((e) -> {client.switchGuestReservationsList(name);});
