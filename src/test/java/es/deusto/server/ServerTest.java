@@ -161,8 +161,8 @@ public class ServerTest {
 	}
 	
 	@Test
-	//@PerfTest(duration = 2100)
-	//@Required(max = 3500, average = 3500)
+	@PerfTest(duration = 2100)
+	@Required(max = 3500, average = 3500)
 	public void testLogin() throws RemoteException {	
 		User user = server.login("admin", "admin");
 		
