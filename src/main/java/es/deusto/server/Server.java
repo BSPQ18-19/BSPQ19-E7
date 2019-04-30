@@ -141,7 +141,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	}
 
 	@Override
-	public List<Property> getPropertiesByCity(String city) {
+	public synchronized List<Property> getPropertiesByCity(String city) {
 		List<Property> result = null;
 
 		// @Robustness: I don't know if pm.currentTransaction can fail
@@ -165,7 +165,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return result;
 	}
 	
-	public List<Reservation> getReservationsByCity(String city) throws RemoteException{
+	public synchronized List<Reservation> getReservationsByCity(String city) throws RemoteException{
 		// @Copied and adapted from getPropertiesByCity
 		List<Reservation> result = null;
 
@@ -188,7 +188,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	}
 	
-	public List<Reservation> getReservationsByGuest(String name) throws RemoteException{
+	public synchronized List<Reservation> getReservationsByGuest(String name) throws RemoteException{
 		// @Copied and adapted from getPropertiesByCity
 		List<Reservation> result = null;
 
@@ -211,7 +211,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	}
 
-	public List<User> getUser(String username) {
+	public synchronized List<User> getUser(String username) {
 		// @Security: We should pass some kind of token to verify that the user requesting data from a user is an administrator
 
 		List<User> result = null;
@@ -245,7 +245,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	}
 
 	@Override
-	public User login(String username, String password) throws RemoteException {
+	public synchronized User login(String username, String password) throws RemoteException {
 
 		// @Refactor: Can we use 'getUser()' above, inside this method?
 
@@ -283,7 +283,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 
-	public void updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException {
+	public synchronized void updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException {
 		Transaction tx = null;
 		User user = null;
 		try {
@@ -435,7 +435,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 	
-	public void deleteReservation(String date, String guestUsername, String propertyAddress) throws RemoteException {
+	public synchronized void deleteReservation(String date, String guestUsername, String propertyAddress) throws RemoteException {
 		Transaction tx = null;
 		Reservation reservation;
 		try {
@@ -579,7 +579,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	}
 
 	@Override
-	public List<Property> getPropertiesByHost(String hostname) throws RemoteException {
+	public synchronized List<Property> getPropertiesByHost(String hostname) throws RemoteException {
 		List<Property> result = null;
 		Transaction tx = pm.currentTransaction();
 		try {
