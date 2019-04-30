@@ -812,7 +812,6 @@ public class PanelBuilder {
 		tfGuest.setColumns(10);
 		tfGuest.setBounds(89, 153, 118, 20);
 		/*TODO: Get user name*/
-		tfGuest.setEnabled(false);
 		result.add(tfGuest);
 
 		JLabel lblPhone = new JLabel(client.text.getString("Telephone")+":");
@@ -835,7 +834,7 @@ public class PanelBuilder {
 		JTextField tfEmail = new JTextField();
 		tfEmail.setColumns(10);
 		tfEmail.setBounds(292, 125, 118, 20);
-		/*TODO: Get user email*/
+		/*TODO: Get user phone*/
 		tfEmail.setText("");
 		result.add(tfEmail);
 		
@@ -847,8 +846,7 @@ public class PanelBuilder {
 		JPasswordField tfPass = new JPasswordField();
 		tfPass.setColumns(10);
 		tfPass.setBounds(292, 153, 118, 20);
-		/*TODO: Get user password*/
-		tfPass.setText("");
+		/*TODO: Get user pass*/
 		result.add(tfPass);
 
 		JButton btnBack = new JButton(client.text.getString("Back"));
@@ -859,7 +857,8 @@ public class PanelBuilder {
 		JButton btnUpdate = new JButton(client.text.getString("Update"));
 		btnUpdate.addActionListener((e) -> {
 			// TODO: Update User
-			//client.updateReservation(selectedReserv.getProperty(), selectedReserv.getClient(), tfDate.getText(), Integer.parseInt(tfDuration.getText()));
+			client.changePassword(name, tfPass.getText());
+			client.changeTelephone(name, tfPhone.getText());
 		});
 		btnUpdate.setBounds(311, 210, 89, 23);
 		result.add(btnUpdate);	
