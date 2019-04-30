@@ -460,9 +460,9 @@ public class Client {
 		window.paintComponents(window.getGraphics());
 	}
 	
-	public void switchHostAccountManagement() {
+	public void switchHostAccountManagement(String name) {
 		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createHostAccountManagement(this));
+		window.getContentPane().add(PanelBuilder.createHostAccountManagement(this,name));
 		window.setTitle("[RoomRental] Account Management");
 		window.paintComponents(window.getGraphics());
 	}
