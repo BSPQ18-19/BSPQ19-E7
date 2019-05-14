@@ -4,6 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
+import es.deusto.server.jdo.Occupancy;
 import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.Reservation;
 import es.deusto.server.jdo.User;
@@ -35,10 +36,13 @@ public interface IServer extends Remote {
 	void updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException;
 	void deleteUser(String username) throws RemoteException;
 	void deleteProperty(String address) throws RemoteException;
-	void deleteReservation(String date, String guestUsername, String propertyAddress) throws RemoteException;
-	void bookProperty(String name, Property property, String date, String duration) throws RemoteException;
-	void updateProperty (String address, String city, int capacity, String ocupancy, double cost) throws RemoteException;
-	void updateReservation(Property property, User guest, String date, int duration) throws RemoteException;
+	void deleteReservation(String propertyAddress, String guestUsername, String startDate, String endDate) throws RemoteException;
+	Boolean checkOccupancy(Property property, String startDate, String endDate) throws RemoteException;
+	List<Occupancy> getOccupancyByProperty(Property property) throws RemoteException;
+
+	void bookProperty(String name, Property property, String startDate, String endDate) throws RemoteException;
+	void updateProperty (String address, String city, int capacity, double cost) throws RemoteException;
+	void updateReservation(Property property, User guest, String oldStartDate, String startDate, String endDate) throws RemoteException;
 	
 	// @Todo: Separate this error codes from the user registration error codes (Make another enum)
 	RegistrationError registerProperty(String address, String city, int capacity, double cost, String hostname) throws RemoteException;

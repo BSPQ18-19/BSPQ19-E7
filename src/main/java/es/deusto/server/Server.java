@@ -3,9 +3,11 @@ package es.deusto.server;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
-
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
@@ -13,10 +15,9 @@ import javax.jdo.JDOException;
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Transaction;
-
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-
+import es.deusto.server.jdo.Occupancy;
 import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.Reservation;
 import es.deusto.server.jdo.User;
@@ -61,7 +62,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 			}
 		}
 
-		
+
 		// @Todo: Delete this code. This is a super @HACK so that tests can run!
 		if (log == null) {
 			log = Logger.getLogger(Server.class);
@@ -164,7 +165,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 		return result;
 	}
-	
+
 	public synchronized List<Reservation> getReservationsByCity(String city) throws RemoteException{
 		// @Copied and adapted from getPropertiesByCity
 		List<Reservation> result = null;
@@ -187,7 +188,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return result;
 
 	}
-	
+
 	public synchronized List<Reservation> getReservationsByGuest(String name) throws RemoteException{
 		// @Copied and adapted from getPropertiesByCity
 		List<Reservation> result = null;
@@ -353,51 +354,51 @@ public class Server extends UnicastRemoteObject implements IServer {
 		User user = null;
 		Boolean chnged = false;
 		try{
-		tx = pm.currentTransaction();
-		tx.begin();
-		user = pm.getObjectById(User.class, username);
+			tx = pm.currentTransaction();
+			tx.begin();
+			user = pm.getObjectById(User.class, username);
 
-		if(password.equals(user.getPassword())) {
+			if(password.equals(user.getPassword())) {
 
-		} else {
-			user.setPassword(password);
-			chnged=true;
-		}
-		tx.commit();
+			} else {
+				user.setPassword(password);
+				chnged=true;
+			}
+			tx.commit();
 		} catch (JDOObjectNotFoundException e) {
 		}finally{
-		if (tx.isActive()) {
-		tx.rollback();
-		}
+			if (tx.isActive()) {
+				tx.rollback();
+			}
 		}
 		return chnged;
 	}
-	
+
 	public Boolean changeUserTelephone(String username, String telephone) {
 		//TODO
 		Transaction tx = null;
 		User user = null;
 		Boolean chnged = false;
 		try{
-		tx = pm.currentTransaction();
-		tx.begin();
-		user = pm.getObjectById(User.class, username);
-		String PhoneConst = "^[0-9]{9}$";
-		if (telephone.matches(PhoneConst)) {
-			 user.setTelephone(telephone);
-			 chnged=true;
-		}
-		else {System.out.println("Invalid phone number.");}
-		tx.commit();
+			tx = pm.currentTransaction();
+			tx.begin();
+			user = pm.getObjectById(User.class, username);
+			String PhoneConst = "^[0-9]{9}$";
+			if (telephone.matches(PhoneConst)) {
+				user.setTelephone(telephone);
+				chnged=true;
+			}
+			else {System.out.println("Invalid phone number.");}
+			tx.commit();
 		} catch (JDOObjectNotFoundException e) {
 		}finally{
-		if (tx.isActive()) {
-		tx.rollback();
-		}
+			if (tx.isActive()) {
+				tx.rollback();
+			}
 		}
 		return chnged;
 	}
-	
+
 	public synchronized void deleteUser(String username) throws RemoteException {
 		// @Security: How can we guarantee that this is called by a user onto its own account,
 		// or by an administrator?
@@ -440,20 +441,29 @@ public class Server extends UnicastRemoteObject implements IServer {
 			}
 		}
 	}
-	
-	public synchronized void deleteReservation(String date, String guestUsername, String propertyAddress) throws RemoteException {
+
+	public synchronized void deleteReservation(String propertyAddress, String guestUsername, String startDate, String endDate) throws RemoteException {
 		Transaction tx = null;
 		Reservation reservation;
+		Occupancy occupancy;
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
-			Query<Reservation> query = pm.newQuery(Reservation.class);
-			query.setFilter("date == '" + date + "' && guest.username == '" + guestUsername + "' && property.address == '" + propertyAddress + "'");
-			reservation = query.executeUnique();
+			
+			Query<Reservation> queryR = pm.newQuery(Reservation.class);
+			queryR.setFilter("startDate == '" + startDate + "' && guest.username == '" + guestUsername + "' && property.address == '" + propertyAddress + "'");
+			reservation = queryR.executeUnique();
 			pm.deletePersistent(reservation);
+			
+			Query<Occupancy> queryO = pm.newQuery(Occupancy.class);
+			queryO.setFilter("startDate == '" + startDate + "' && property.address == '" + propertyAddress + "'");
+			occupancy = queryO.executeUnique();
+			pm.deletePersistent(occupancy);
+			
 			tx.commit();
 		} catch (Exception e) {
 			log.info("Reservation not found ");
+			log.error(e.getStackTrace());
 		} finally {
 			if (tx.isActive()) {
 				tx.rollback();
@@ -461,21 +471,75 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 
-	public synchronized void bookProperty(String name, Property property, String date, String duration) throws RemoteException {
-		
-		// @Todo: Why is duration a string?
-		
-		// @Todo: We could use java.util.Date for the date
-		
-		
+	public synchronized List<Occupancy> getOccupancyByProperty(Property property) throws RemoteException {
+		List<Occupancy> result = null;
+		Transaction tx = null;
+		try {
+			tx = pm.currentTransaction();
+			tx.begin();
+
+			Query<Occupancy> query = pm.newQuery(Occupancy.class);
+			query.setFilter("property.address == '"+ property.getAddress() + "'");
+			result = query.executeList();
+
+			tx.commit();
+
+		} catch (JDOObjectNotFoundException e) {
+			log.error("Occupancy not found ");
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+		return result;
+	}
+
+	//if overlaps -> return true
+	public synchronized Boolean checkOccupancy(Property property, String startDate, String endDate) throws RemoteException {
+		Date checkStartDate = null;
+		Date checkEndDate = null;
+		try {
+			checkStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
+			checkEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}  
+
+		boolean result = false;
+		List<Occupancy> list = getOccupancyByProperty(property);
+		for(Occupancy o : list) {
+			Date sDate = null;
+			Date eDate = null;
+			try {
+				sDate = new SimpleDateFormat("dd/MM/yyyy").parse(o.getStartDate());
+				eDate = new SimpleDateFormat("dd/MM/yyyy").parse(o.getEndDate());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			if(checkEndDate.before(sDate) || checkStartDate.after(eDate)) {	//they do not overlap
+				result = false;
+			} else {	//they overlap
+				result = true;
+			}
+		}
+
+		return result;
+	}
+
+	public synchronized void bookProperty(String name, Property property, String startDate, String endDate) throws RemoteException {
+
 		Transaction tx = null;
 		Reservation reservation = null;
+
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
 			log.info("Creating reservation... ");
-			reservation = new Reservation(pm.getObjectById(Property.class, property.getAddress()), pm.getObjectById(User.class, name), date, Integer.parseInt(duration));
+			reservation = new Reservation(pm.getObjectById(Property.class, property.getAddress()), pm.getObjectById(User.class, name), startDate, endDate);
+			Occupancy occupancy = new Occupancy(pm.getObjectById(Property.class, property.getAddress()), startDate, endDate);
 			pm.makePersistent(reservation);
+			pm.makePersistent(occupancy);
 			log.info("Reservation created: " + reservation);
 			tx.commit();
 		} finally {
@@ -486,7 +550,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	}
 
-	public synchronized void updateProperty (String address, String city, int capacity, String ocupancy, double cost) throws RemoteException {
+	public synchronized void updateProperty (String address, String city, int capacity, double cost) throws RemoteException {
 		Transaction tx = null;
 		Property property = null;
 		User host = null;
@@ -512,11 +576,10 @@ public class Server extends UnicastRemoteObject implements IServer {
 				log.info("Updating existing property");
 				property.setCity(city);
 				property.setCapacity(capacity);
-				property.setOcupancy(ocupancy);
 				property.setCost(cost);
 			} else {
 				log.info("Creating new property");
-				property = new Property(address, city, capacity, ocupancy, cost, host);
+				property = new Property(address, city, capacity, cost, host);
 			}
 
 			pm.makePersistent(property);
@@ -533,19 +596,23 @@ public class Server extends UnicastRemoteObject implements IServer {
 			}
 		}
 	}
-	
+
 	@Override
-	public synchronized void updateReservation(Property property, User guest, String date, int duration) throws RemoteException {
+	public synchronized void updateReservation(Property property, User guest, String oldStartDate, String startDate, String endDate) throws RemoteException {
 		Transaction tx = null;
 		Reservation reservation = null;
+		Occupancy occupancy = null;
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
-
-			Query<Reservation> query = pm.newQuery(Reservation.class);
-			query.setFilter("guest.username == '" + guest.getUsername() + "' && property.address == '" + property.getAddress() + "'");
-			reservation = query.executeUnique();
-
+			
+			Query<Reservation> queryR = pm.newQuery(Reservation.class);
+			queryR.setFilter("startDate == '" + oldStartDate + "' && guest.username == '" + guest.getUsername() + "' && property.address == '" + property.getAddress() + "'");
+			reservation = queryR.executeUnique();
+			
+			Query<Occupancy> queryO = pm.newQuery(Occupancy.class);
+			queryO.setFilter("startDate == '" + oldStartDate + "' && property.address == '" + property.getAddress() + "'");
+			occupancy = queryO.executeUnique();
 			
 			tx.commit();	
 		} catch (JDOObjectNotFoundException e) {
@@ -557,20 +624,35 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 
 		try {
+			System.out.println("reservation : " + reservation.toString());
+			System.out.println("occupancy: " + occupancy.toString());
 			tx = pm.currentTransaction();
 			tx.begin();
 
 			if (reservation != null) {
 				log.info("Updating existing reservation");
-				reservation.setClient(guest);
-				reservation.setProperty(property);
-				reservation.setDate(date);
-				reservation.setDuration(duration);
-				//It doesnt make this persistent :(
-				pm.makePersistent(reservation);
-				log.info("Reservation successfully saved");
-			}
+				User objGuest = pm.getObjectById(User.class, guest.getUsername());
+				Property objProp = pm.getObjectById(Property.class, property.getAddress());
+				reservation.setGuest(objGuest);
+				reservation.setProperty(objProp);
+				reservation.setStartDate(startDate);
+				reservation.setEndDate(endDate);
+			} 
 
+			pm.makePersistent(reservation);
+			log.info("Reservation successfully saved");
+			
+			if (occupancy != null) {
+				log.info("Updating existing occupancy for this property");
+				Property objProp = pm.getObjectById(Property.class, property.getAddress());
+				occupancy.setProperty(objProp);
+				occupancy.setStartDate(startDate);
+				occupancy.setEndDate(endDate);
+			}
+			
+			pm.makePersistent(occupancy);
+			log.info("Occupancy successfully saved");
+			
 			tx.commit();
 
 		} catch (JDOException e) {
@@ -581,7 +663,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 				tx.rollback();
 			}
 		}
-		
 	}
 
 	@Override
@@ -607,7 +688,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	public synchronized RegistrationError registerProperty(String address, String city, int capacity, double cost, String hostname) throws RemoteException {
 		// @Robustness @Security: Do something more appropriate than passing the host/owner name as a parameter,
 		// Maybe pass a User object?
-		
+
 		Transaction tx = pm.currentTransaction();
 
 		if(!Pattern.matches(city_regex, city)) {
@@ -633,8 +714,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 			if(property == null) {
 				log.info("Creating property: " + address);
-				//TODO Occupancy variable empty. Change it so that it indicates the dates when the property is occupied
-				property = new Property(address, city, capacity, "", cost, pm.getObjectById(User.class, hostname));
+				property = new Property(address, city, capacity, cost, pm.getObjectById(User.class, hostname));
 				pm.makePersistent(property);
 				log.info("Property created: " + property);
 			}
@@ -646,7 +726,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 		return RegistrationError.NONE;
 	}
-	
+
 	public static void main(String[] args) {
 		{
 			// @Investigate how to correctly configure the logger
@@ -695,5 +775,5 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 
-	
+
 }

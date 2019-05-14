@@ -1,7 +1,6 @@
 package es.deusto.server.jdo;
 
 import java.io.Serializable;
-
 import javax.jdo.annotations.ForeignKey;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
@@ -13,17 +12,15 @@ public class Property implements Serializable {
 	String address = null;
 	String city = null;
 	int capacity = 0;
-	String ocupancy = null; //?
 	double cost = 0.0;
 	@ForeignKey
 	User host;
 	
-	public Property(String address, String city, int capacity, String ocupancy, double cost, User host) {
+	public Property(String address, String city, int capacity, double cost, User host) {
 		super();
 		this.address = address;
 		this.city = city;
 		this.capacity = capacity;
-		this.ocupancy = ocupancy;
 		this.cost = cost;
 		this.host = host;
 	}
@@ -52,14 +49,6 @@ public class Property implements Serializable {
 		this.capacity = capacity;
 	}
 
-	public String getOcupancy() {
-		return ocupancy;
-	}
-
-	public void setOcupancy(String ocupancy) {
-		this.ocupancy = ocupancy;
-	}
-
 	public double getCost() {
 		return cost;
 	}
@@ -78,7 +67,8 @@ public class Property implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Property [address=" + address + ", city=" + city + ", capacity=" + capacity + ", ocupancy=" + ocupancy
-				+ ", cost=" + cost + ", host=" + host + "]";
-	}	
+		return "Property [address=" + address + ", city=" + city + ", capacity=" + capacity + ", cost=" + cost
+				+ ", host=" + host + "]";
+	}
+
 }

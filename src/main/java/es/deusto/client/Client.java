@@ -319,9 +319,9 @@ public class Client {
 		
 	}
 	
-	public void updateProperty(String address, String city, int capacity, String ocupancy, double cost) {
+	public void updateProperty(String address, String city, int capacity, double cost) {
 		try {
-			server.updateProperty(address, city, capacity, ocupancy, cost);
+			server.updateProperty(address, city, capacity, cost);
 		} catch (RemoteException e) {
 			log.error("Error updating property: " + address);
 			e.printStackTrace();
@@ -337,9 +337,9 @@ public class Client {
 		}
 	}
 	
-	public void updateReservation(Property property, User guest, String date, int duration) {
+	public void updateReservation(Property property, User guest, String oldStartDate, String startDate, String endDate) {
 		try {
-			server.updateReservation(property, guest, date, duration);
+			server.updateReservation(property, guest, oldStartDate, startDate, endDate);
 		} catch (RemoteException e) {
 			log.error("Error updating Reservation");
 			e.printStackTrace();
@@ -348,16 +348,22 @@ public class Client {
 	
 	public void deleteReservation(Reservation reservation) {
 		try {
-			server.deleteReservation(reservation.getDate(), reservation.getClient().getUsername(), reservation.getProperty().getAddress());
+			server.deleteReservation(reservation.getProperty().getAddress(), reservation.getGuest().getUsername(), reservation.getStartDate(), reservation.getEndDate());
 		} catch (RemoteException e) {
 			log.error("Error deleting reservation ");
 			e.printStackTrace();
 		}
 	}
 	
-	public void bookProperty(String name, Property property, String date, String duration) {
+	public void bookProperty(String name, Property property, String startDate, String endDate) {
 		try {
-			server.bookProperty(name, property, date, duration);
+			//if overlaps (== true)
+			if (server.checkOccupancy(property, startDate, endDate) == true) {
+				JOptionPane.showMessageDialog(window, "The property is full for these dates", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} else {
+				server.bookProperty(name, property, startDate, endDate);				
+			}
+
 		} catch (RemoteException e) {
 			log.error("Error booking property ");
 			e.printStackTrace();

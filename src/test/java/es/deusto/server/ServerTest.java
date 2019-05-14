@@ -3,7 +3,6 @@ package es.deusto.server;
 import static org.junit.Assert.*;
 import java.rmi.RemoteException;
 import java.util.List;
-
 import org.databene.contiperf.PerfTest;
 import org.databene.contiperf.Required;
 import org.databene.contiperf.junit.ContiPerfRule;
@@ -11,7 +10,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-
 import es.deusto.server.IServer.RegistrationError;
 import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.Reservation;
@@ -182,14 +180,14 @@ public class ServerTest {
 		
 		Property property = server.getPropertiesByCity("Barcelona").get(0);
 		
-		server.bookProperty("admin", property, "some date", "1");
+		server.bookProperty("admin", property, "some date", "some date");
 		
 		List<Reservation> reservations = server.getReservationsByCity("Barcelona");
 		
 		assertNotNull(reservations);
 		assertTrue(reservations.size() >= 1);
 		
-		server.deleteReservation("some date", "admin", "Sesame street");
+		server.deleteReservation("Sesame street", "admin", "some date", "some date");
 		server.deleteProperty("Sesame street");
 		
 		// @Todo: Assert that the reservation is correct
