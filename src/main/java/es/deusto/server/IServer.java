@@ -24,13 +24,16 @@ public interface IServer extends Remote {
 		INVALID_TELEPHONE,
 		// @Temporary: This should be handled by the client application not the server?
 		PASSWORD_MISMATCH,
-
-		// These only apply to properties
+	}
+	RegistrationError registerUser(String name, String username, String email, String telephone, String password, boolean isHost) throws RemoteException;
+	
+	enum PropertyRegistrationError {
+		NONE,
 		INVALID_COST,
 		INVALID_CAPACITY,
 		INVALID_CITY,
 	}
-	RegistrationError registerUser(String name, String username, String email, String telephone, String password, boolean isHost) throws RemoteException;
+	PropertyRegistrationError registerProperty(String address, String city, int capacity, double cost, String hostname) throws RemoteException;
 	
 	List<User> getUser(String username) throws RemoteException;
 	void updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException;
@@ -44,8 +47,6 @@ public interface IServer extends Remote {
 	void updateProperty (String address, String city, int capacity, double cost) throws RemoteException;
 	void updateReservation(Property property, User guest, String oldStartDate, String startDate, String endDate) throws RemoteException;
 	
-	// @Todo: Separate this error codes from the user registration error codes (Make another enum)
-	RegistrationError registerProperty(String address, String city, int capacity, double cost, String hostname) throws RemoteException;
 	
 	List<Property> getPropertiesByCity(String city) throws RemoteException;
 	List<Property> getPropertiesByHost(String hostname) throws RemoteException;

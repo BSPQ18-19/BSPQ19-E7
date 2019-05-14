@@ -685,20 +685,20 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return result;
 	}
 
-	public synchronized RegistrationError registerProperty(String address, String city, int capacity, double cost, String hostname) throws RemoteException {
+	public synchronized PropertyRegistrationError registerProperty(String address, String city, int capacity, double cost, String hostname) throws RemoteException {
 		// @Robustness @Security: Do something more appropriate than passing the host/owner name as a parameter,
 		// Maybe pass a User object?
 
 		Transaction tx = pm.currentTransaction();
 
 		if(!Pattern.matches(city_regex, city)) {
-			return RegistrationError.INVALID_CITY;
+			return PropertyRegistrationError.INVALID_CITY;
 		}
 		if(cost <= 0) {
-			return RegistrationError.INVALID_COST;
+			return PropertyRegistrationError.INVALID_COST;
 		}
 		if(capacity <= 0) {
-			return RegistrationError.INVALID_CAPACITY;
+			return PropertyRegistrationError.INVALID_CAPACITY;
 		}
 
 		try {
@@ -724,7 +724,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 				tx.rollback();
 			}
 		}
-		return RegistrationError.NONE;
+		return PropertyRegistrationError.NONE;
 	}
 
 	public static void main(String[] args) {

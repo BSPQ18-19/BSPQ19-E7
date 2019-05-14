@@ -17,6 +17,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import es.deusto.server.IServer;
+import es.deusto.server.IServer.PropertyRegistrationError;
 import es.deusto.server.IServer.RegistrationError;
 import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.Reservation;
@@ -389,7 +390,7 @@ public class Client {
 	public void publishProperty(String address, String city, int capacity, double cost, String name) {
 		try {
 			log.info("Registering property: " + address);
-			RegistrationError error = server.registerProperty(address, city, capacity, cost, name);
+			PropertyRegistrationError error = server.registerProperty(address, city, capacity, cost, name);
 
 			log.debug("Registration result " + error);
 			switch (error) {
