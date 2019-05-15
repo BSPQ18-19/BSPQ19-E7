@@ -35,12 +35,18 @@ public interface IServer extends Remote {
 	}
 	PropertyRegistrationError registerProperty(String address, String city, int capacity, double cost, String hostname) throws RemoteException;
 	
+	enum OccupancyError {
+		NONE,
+		INVALID_DATE,
+		INVALID_OVERLAP,
+	}
+	OccupancyError checkOccupancy(Property property, String startDate, String endDate) throws RemoteException;
+
 	List<User> getUser(String username) throws RemoteException;
 	void updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException;
 	void deleteUser(String username) throws RemoteException;
 	void deleteProperty(String address) throws RemoteException;
 	void deleteReservation(String propertyAddress, String guestUsername, String startDate, String endDate) throws RemoteException;
-	Boolean checkOccupancy(Property property, String startDate, String endDate) throws RemoteException;
 	List<Occupancy> getOccupancyByProperty(Property property) throws RemoteException;
 
 	void bookProperty(String name, Property property, String startDate, String endDate) throws RemoteException;

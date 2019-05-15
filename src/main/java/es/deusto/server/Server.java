@@ -449,17 +449,17 @@ public class Server extends UnicastRemoteObject implements IServer {
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
-			
+
 			Query<Reservation> queryR = pm.newQuery(Reservation.class);
 			queryR.setFilter("startDate == '" + startDate + "' && guest.username == '" + guestUsername + "' && property.address == '" + propertyAddress + "'");
 			reservation = queryR.executeUnique();
 			pm.deletePersistent(reservation);
-			
+
 			Query<Occupancy> queryO = pm.newQuery(Occupancy.class);
 			queryO.setFilter("startDate == '" + startDate + "' && property.address == '" + propertyAddress + "'");
 			occupancy = queryO.executeUnique();
 			pm.deletePersistent(occupancy);
-			
+
 			tx.commit();
 		} catch (Exception e) {
 			log.info("Reservation not found ");
@@ -493,19 +493,20 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 		return result;
 	}
-	
-	//if overlaps -> return true
-	public synchronized Boolean checkOccupancy(Property property, String startDate, String endDate) throws RemoteException {
+
+	public synchronized OccupancyError checkOccupancy(Property property, String startDate, String endDate) throws RemoteException {
 		Date checkStartDate = null;
 		Date checkEndDate = null;
 		try {
 			checkStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
 			checkEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
+			if(checkStartDate.after(checkEndDate)) {
+				return OccupancyError.INVALID_DATE;
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}  
 
-		boolean result = false;
 		List<Occupancy> list = getOccupancyByProperty(property);
 		for(Occupancy o : list) {
 			Date sDate = null;
@@ -517,14 +518,14 @@ public class Server extends UnicastRemoteObject implements IServer {
 				e.printStackTrace();
 			}
 
-			if(checkEndDate.before(sDate) || checkStartDate.after(eDate)) {	//they do not overlap
-				result = false;
-			} else {	//they overlap
-				result = true;
+			if(checkEndDate.before(sDate) || checkStartDate.after(eDate)) {	
+				//they do not overlap
+			} else {
+				//they overlap
+				return OccupancyError.INVALID_OVERLAP;
 			}
 		}
-
-		return result;
+		return OccupancyError.NONE;
 	}
 
 	public synchronized void bookProperty(String name, Property property, String startDate, String endDate) throws RemoteException {
@@ -605,15 +606,15 @@ public class Server extends UnicastRemoteObject implements IServer {
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
-			
+
 			Query<Reservation> queryR = pm.newQuery(Reservation.class);
 			queryR.setFilter("startDate == '" + oldStartDate + "' && guest.username == '" + guest.getUsername() + "' && property.address == '" + property.getAddress() + "'");
 			reservation = queryR.executeUnique();
-			
+
 			Query<Occupancy> queryO = pm.newQuery(Occupancy.class);
 			queryO.setFilter("startDate == '" + oldStartDate + "' && property.address == '" + property.getAddress() + "'");
 			occupancy = queryO.executeUnique();
-			
+
 			tx.commit();	
 		} catch (JDOObjectNotFoundException e) {
 			log.info("Reservation not found!");
@@ -641,7 +642,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 			pm.makePersistent(reservation);
 			log.info("Reservation successfully saved");
-			
+
 			if (occupancy != null) {
 				log.info("Updating existing occupancy for this property");
 				Property objProp = pm.getObjectById(Property.class, property.getAddress());
@@ -649,10 +650,10 @@ public class Server extends UnicastRemoteObject implements IServer {
 				occupancy.setStartDate(startDate);
 				occupancy.setEndDate(endDate);
 			}
-			
+
 			pm.makePersistent(occupancy);
 			log.info("Occupancy successfully saved");
-			
+
 			tx.commit();
 
 		} catch (JDOException e) {

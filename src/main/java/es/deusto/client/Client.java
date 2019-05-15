@@ -17,6 +17,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import es.deusto.server.IServer;
+import es.deusto.server.IServer.OccupancyError;
 import es.deusto.server.IServer.PropertyRegistrationError;
 import es.deusto.server.IServer.RegistrationError;
 import es.deusto.server.jdo.Property;
@@ -340,7 +341,28 @@ public class Client {
 	
 	public void updateReservation(Property property, User guest, String oldStartDate, String startDate, String endDate) {
 		try {
-			server.updateReservation(property, guest, oldStartDate, startDate, endDate);
+			log.info("Checking occupancy...");
+			OccupancyError error = server.checkOccupancy(property, startDate, endDate);
+
+			log.debug("Checking result " + error);
+			switch (error) {
+			case INVALID_DATE: {
+				JOptionPane.showMessageDialog(window, "Invalid dates. Start date must be earlier than end date.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+
+			case INVALID_OVERLAP: {
+				JOptionPane.showMessageDialog(window, "Invalid dates. The property is not available on these dates.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+			
+			case NONE: {
+				server.updateReservation(property, guest, oldStartDate, startDate, endDate);
+				JOptionPane.showMessageDialog(window, "The property has been correctly updated.", "Information", JOptionPane.INFORMATION_MESSAGE, null);
+			} break;
+
+			default: {
+				// Do nothing.
+			}
+			}
 		} catch (RemoteException e) {
 			log.error("Error updating Reservation");
 			e.printStackTrace();
@@ -358,13 +380,28 @@ public class Client {
 	
 	public void bookProperty(String name, Property property, String startDate, String endDate) {
 		try {
-			//if overlaps (== true)
-			if (server.checkOccupancy(property, startDate, endDate) == true) {
-				JOptionPane.showMessageDialog(window, "The property is full for these dates", "Alert", JOptionPane.WARNING_MESSAGE, null);
-			} else {
-				server.bookProperty(name, property, startDate, endDate);				
-			}
+			log.info("Checking occupancy...");
+			OccupancyError error = server.checkOccupancy(property, startDate, endDate);
 
+			log.debug("Checking result " + error);
+			switch (error) {
+			case INVALID_DATE: {
+				JOptionPane.showMessageDialog(window, "Invalid dates. Start date must be earlier than end date.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+
+			case INVALID_OVERLAP: {
+				JOptionPane.showMessageDialog(window, "Invalid dates. The property is not available on these dates.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+			
+			case NONE: {
+				server.bookProperty(name, property, startDate, endDate);			
+				JOptionPane.showMessageDialog(window, "The property has been correctly booked.", "Information", JOptionPane.INFORMATION_MESSAGE, null);
+			} break;
+
+			default: {
+				// Do nothing.
+			}
+			}
 		} catch (RemoteException e) {
 			log.error("Error booking property ");
 			e.printStackTrace();
