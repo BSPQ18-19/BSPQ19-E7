@@ -10,6 +10,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+
+import es.deusto.server.IServer.PropertyRegistrationError;
 import es.deusto.server.IServer.RegistrationError;
 import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.Reservation;
@@ -120,22 +122,22 @@ public class ServerTest {
 		
 		// @Todo: Create a user for this test!  :NotThisUser
 		{
-			RegistrationError error = server.registerProperty("Sesame street", "Barcelona", 5, 200, "admin"); // :NotThisUser
-			assertTrue(error.toString(), error == RegistrationError.NONE);
+			PropertyRegistrationError error = server.registerProperty("Sesame street", "Barcelona", 5, 200, "admin"); // :NotThisUser
+			assertTrue(error.toString(), error == PropertyRegistrationError.NONE);
 		}
 		{
-			RegistrationError error = server.registerProperty("Sesame street", "51st area", 5, 200, "admin"); // :NotThisUser
-			assertTrue(error.toString(), error == RegistrationError.INVALID_CITY);
+			PropertyRegistrationError error = server.registerProperty("Sesame street", "51st area", 5, 200, "admin"); // :NotThisUser
+			assertTrue(error.toString(), error == PropertyRegistrationError.INVALID_CITY);
 		}
 		{
 			// Cost must be positive
-			RegistrationError error = server.registerProperty("Sesame street", "Barcelona", 5, -200, "admin"); // :NotThisUser
-			assertTrue(error.toString(), error == RegistrationError.INVALID_COST);
+			PropertyRegistrationError error = server.registerProperty("Sesame street", "Barcelona", 5, -200, "admin"); // :NotThisUser
+			assertTrue(error.toString(), error == PropertyRegistrationError.INVALID_COST);
 		}
 		{
 			// Capacity must be positive
-			RegistrationError error = server.registerProperty("Sesame street", "Barcelona", -5, 200, "admin"); // :NotThisUser
-			assertTrue(error.toString(), error == RegistrationError.INVALID_CAPACITY);
+			PropertyRegistrationError error = server.registerProperty("Sesame street", "Barcelona", -5, 200, "admin"); // :NotThisUser
+			assertTrue(error.toString(), error == PropertyRegistrationError.INVALID_CAPACITY);
 		}
 		
 		//
@@ -172,8 +174,8 @@ public class ServerTest {
 	@Test
 	public void testReservation() throws RemoteException {
 		{
-			RegistrationError error = server.registerProperty("Sesame street", "Barcelona", 5, 200, "admin"); // :NotThisUser
-			assertTrue(error.toString(), error == RegistrationError.NONE);
+			PropertyRegistrationError error = server.registerProperty("Sesame street", "Barcelona", 5, 200, "admin"); // :NotThisUser
+			assertTrue(error.toString(), error == PropertyRegistrationError.NONE);
 		}
 		
 		// @Todo: Properly make all the checks

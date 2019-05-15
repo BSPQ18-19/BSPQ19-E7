@@ -23,6 +23,11 @@
 	<!-- search for the latest version of dependencies in http://mvnrepository.com -->
 	<dependencies>
 		<dependency>
+			<groupId>com.toedter</groupId>
+			<artifactId>jcalendar</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
 			<groupId>org.datanucleus</groupId>
 			<artifactId>datanucleus-core</artifactId>
 			<version>[5.1.6, 5.9)</version>
@@ -45,7 +50,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.15</version>
+			<version>8.0.16</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

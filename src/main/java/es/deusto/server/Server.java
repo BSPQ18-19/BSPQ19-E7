@@ -493,7 +493,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 		return result;
 	}
-
+	
 	//if overlaps -> return true
 	public synchronized Boolean checkOccupancy(Property property, String startDate, String endDate) throws RemoteException {
 		Date checkStartDate = null;

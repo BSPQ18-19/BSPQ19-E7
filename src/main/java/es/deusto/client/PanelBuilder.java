@@ -2,6 +2,9 @@ package es.deusto.client;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,6 +15,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import com.toedter.calendar.JDateChooser;
 
 import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.Reservation;
@@ -249,9 +254,6 @@ public class PanelBuilder {
 		backButton.addActionListener((e) -> {
 			client.createMainWindowAdmin(id);
 		});
-
-
-
 
 		bottom.add(deleteButton);
 		bottom.add(editButton);
@@ -549,19 +551,19 @@ public class PanelBuilder {
 		JLabel lblStartDate = new JLabel(client.text.getString("Start_date")+":");
 		lblStartDate.setFont(new Font("Arial", Font.PLAIN, 12));
 
-		JTextField tfStartDate = new JTextField();
-		tfStartDate.setColumns(10);
+		JDateChooser dateChooserStart = new JDateChooser();
+		dateChooserStart.setDateFormatString("dd/MM/yyyy");
 
 		JLabel lblEndDate = new JLabel(client.text.getString("End_date")+":");
 		lblEndDate.setFont(new Font("Arial", Font.PLAIN, 12));
 
-		JTextField tfEndDate = new JTextField();
-		tfEndDate.setColumns(10);
+		JDateChooser dateChooserEnd = new JDateChooser();
+		dateChooserEnd.setDateFormatString("dd/MM/yyyy");
 
 		center.add(lblStartDate);
-		center.add(tfStartDate);
+		center.add(dateChooserStart);
 		center.add(lblEndDate);
-		center.add(tfEndDate);
+		center.add(dateChooserEnd);
 
 		JPanel south = new JPanel();
 
@@ -572,7 +574,10 @@ public class PanelBuilder {
 
 		JButton btnConfirm = new JButton(client.text.getString("Confirm"));
 		btnConfirm.addActionListener((e) -> {
-			client.bookProperty(name, property, tfStartDate.getText(), tfEndDate.getText());
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			String startDate = df.format(dateChooserStart.getDate());
+			String endDate = df.format(dateChooserEnd.getDate());
+			client.bookProperty(name, property, startDate, endDate);
 		});
 		south.add(btnConfirm);
 
@@ -686,23 +691,21 @@ public class PanelBuilder {
 		lblStartDate.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblStartDate.setBounds(20, 181, 82, 15);
 		result.add(lblStartDate);
-
-		JTextField tfStartDate = new JTextField();
-		tfStartDate.setColumns(10);
-		tfStartDate.setBounds(89, 179, 118, 20);
-		//tfStartDate.setText(selectedReserv != null ? selectedReserv.getStartDate() : "");
-		result.add(tfStartDate);
 		
+		JDateChooser dateChooserStart = new JDateChooser();
+		dateChooserStart.setBounds(89, 179, 118, 20);
+		result.add(dateChooserStart);
+		dateChooserStart.setDateFormatString("dd/MM/yyyy");
+
 		JLabel lblEndDate = new JLabel(client.text.getString("End_date")+":");
 		lblEndDate.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblEndDate.setBounds(212, 127, 62, 15);
 		result.add(lblEndDate);
-
-		JTextField tfEndDate = new JTextField();
-		tfEndDate.setColumns(10);
-		tfEndDate.setBounds(292, 125, 118, 20);
-		//tfStartDate.setText(selectedReserv != null ? selectedReserv.getEndDate() : "");
-		result.add(tfEndDate);
+		
+		JDateChooser dateChooserEnd = new JDateChooser();
+		dateChooserEnd.setBounds(292, 125, 118, 20);
+		result.add(dateChooserEnd);
+		dateChooserEnd.setDateFormatString("dd/MM/yyyy");
 
 		JButton btnBack = new JButton(client.text.getString("Back"));
 		btnBack.addActionListener( (e) -> {client.createMainWindowGuest(selectedReserv.getGuest().getUsername());;} );
@@ -711,7 +714,10 @@ public class PanelBuilder {
 
 		JButton btnUpdate = new JButton(client.text.getString("Update"));
 		btnUpdate.addActionListener((e) -> {
-			client.updateReservation(selectedReserv.getProperty(), selectedReserv.getGuest(), selectedReserv.getStartDate(), tfStartDate.getText(), tfEndDate.getText());
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			String startDate = df.format(dateChooserStart.getDate());
+			String endDate = df.format(dateChooserEnd.getDate());
+			client.updateReservation(selectedReserv.getProperty(), selectedReserv.getGuest(), selectedReserv.getStartDate(), startDate, endDate);
 		});
 		btnUpdate.setBounds(311, 210, 89, 23);
 		result.add(btnUpdate);	
