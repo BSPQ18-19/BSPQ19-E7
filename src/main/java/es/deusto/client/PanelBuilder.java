@@ -615,6 +615,7 @@ public class PanelBuilder {
 		JTextField tfCity = new JTextField();
 		tfCity.setColumns(10);
 		tfCity.setBounds(89, 153, 118, 20);
+		tfCity.setEnabled(false);
 		tfCity.setText(selectedProp != null ? selectedProp.getCity() : "");
 		result.add(tfCity);
 

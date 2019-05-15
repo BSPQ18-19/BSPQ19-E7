@@ -79,7 +79,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	@Override
 	public synchronized RegistrationError registerUser(String name, String username, String email, String telephone, String password, boolean isHost) {
-
+		System.out.println(telephone);
 		// @Todo: In the future this method will only be used to register hosts and guests
 		// @Security Administrators will only be able to be created by other administrators. And should be
 		// created using another method that checks that the user requesting the information is
@@ -91,6 +91,9 @@ public class Server extends UnicastRemoteObject implements IServer {
 		Transaction tx = pm.currentTransaction();
 
 		// Check all the input are correct
+		if(name.isEmpty() == true || username.isEmpty() == true || email.isEmpty() == true || telephone.isEmpty() == true || password.isEmpty() == true) {
+			return RegistrationError.INVALID_EMPTY_FIELD;
+		}
 		if (!Pattern.matches(email_regex, email)) {
 			return RegistrationError.INVALID_EMAIL;
 		}
@@ -98,8 +101,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 			return RegistrationError.INVALID_TELEPHONE;
 		}
 
-		try
-		{	
+		try {	
 			tx.begin();
 			log.info("Checking whether the user already exits or not: '" + username+"'");
 			User user = null;
@@ -128,14 +130,10 @@ public class Server extends UnicastRemoteObject implements IServer {
 				log.info("User created: " + user);
 			}
 			tx.commit();
-		}
-		finally
-		{
-			if (tx.isActive())
-			{
+		} finally {
+			if (tx.isActive()) {
 				tx.rollback();
 			}
-
 		}
 
 		return RegistrationError.NONE;
@@ -551,52 +549,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	}
 
-	public synchronized void updateProperty (String address, String city, int capacity, double cost) throws RemoteException {
-		Transaction tx = null;
-		Property property = null;
-		User host = null;
-		try {
-			tx = pm.currentTransaction();
-			tx.begin();
-			property = pm.getObjectById(Property.class, address);
-			host = property.getHost();
-			tx.commit();	
-		} catch (JDOObjectNotFoundException e) {
-			log.info("Property not found: " + address);
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-		}
-
-		try {
-			tx = pm.currentTransaction();
-			tx.begin();
-
-			if (property != null) {
-				log.info("Updating existing property");
-				property.setCity(city);
-				property.setCapacity(capacity);
-				property.setCost(cost);
-			} else {
-				log.info("Creating new property");
-				property = new Property(address, city, capacity, cost, host);
-			}
-
-			pm.makePersistent(property);
-			log.info("Property successfully saved");
-
-			tx.commit();
-
-		} catch (JDOException e) {
-			log.error("Property: " + property);
-			log.error(e.getStackTrace());
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-		}
-	}
 
 	@Override
 	public synchronized void updateReservation(Property property, User guest, String oldStartDate, String startDate, String endDate) throws RemoteException {
@@ -727,6 +679,65 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 		return PropertyRegistrationError.NONE;
 	}
+	
+	
+	public synchronized PropertyRegistrationError updateProperty (String address, String city, int capacity, double cost) throws RemoteException {
+		
+		if(cost <= 0) {
+			return PropertyRegistrationError.INVALID_COST;
+		}
+		if(capacity <= 0) {
+			return PropertyRegistrationError.INVALID_CAPACITY;
+		}
+		
+		Transaction tx = null;
+		Property property = null;
+		User host = null;
+		
+		try {
+			tx = pm.currentTransaction();
+			tx.begin();
+			property = pm.getObjectById(Property.class, address);
+			host = property.getHost();
+			tx.commit();	
+		} catch (JDOObjectNotFoundException e) {
+			log.info("Property not found: " + address);
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+
+		try {
+			tx = pm.currentTransaction();
+			tx.begin();
+
+			if (property != null) {
+				log.info("Updating existing property");
+				property.setCity(city);
+				property.setCapacity(capacity);
+				property.setCost(cost);
+			} else {
+				log.info("Creating new property");
+				property = new Property(address, city, capacity, cost, host);
+			}
+
+			pm.makePersistent(property);
+			log.info("Property successfully saved");
+
+			tx.commit();
+
+		} catch (JDOException e) {
+			log.error("Property: " + property);
+			log.error(e.getStackTrace());
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+		return PropertyRegistrationError.NONE;
+	}
+
 
 	public static void main(String[] args) {
 		{

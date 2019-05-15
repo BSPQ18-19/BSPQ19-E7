@@ -15,13 +15,14 @@ public interface IServer extends Remote {
 	 *  This is the API we can use from the client side
 	 */
 
-	
 	User login(String username, String password) throws RemoteException;
+
 	enum RegistrationError {
 		NONE,
 		INVALID_NAME,
 		INVALID_EMAIL,
 		INVALID_TELEPHONE,
+		INVALID_EMPTY_FIELD,
 		// @Temporary: This should be handled by the client application not the server?
 		PASSWORD_MISMATCH,
 	}
@@ -34,7 +35,8 @@ public interface IServer extends Remote {
 		INVALID_CITY,
 	}
 	PropertyRegistrationError registerProperty(String address, String city, int capacity, double cost, String hostname) throws RemoteException;
-	
+	PropertyRegistrationError updateProperty (String address, String city, int capacity, double cost) throws RemoteException;
+
 	enum OccupancyError {
 		NONE,
 		INVALID_DATE,
@@ -50,7 +52,6 @@ public interface IServer extends Remote {
 	List<Occupancy> getOccupancyByProperty(Property property) throws RemoteException;
 
 	void bookProperty(String name, Property property, String startDate, String endDate) throws RemoteException;
-	void updateProperty (String address, String city, int capacity, double cost) throws RemoteException;
 	void updateReservation(Property property, User guest, String oldStartDate, String startDate, String endDate) throws RemoteException;
 	
 	

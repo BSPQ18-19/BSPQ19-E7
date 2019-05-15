@@ -5,17 +5,14 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-
 import es.deusto.server.IServer;
 import es.deusto.server.IServer.OccupancyError;
 import es.deusto.server.IServer.PropertyRegistrationError;
@@ -79,7 +76,6 @@ public class Client {
 			log.info("Server connection ready");
 			
 		} catch (Exception e) {
-			System.err.println("RMI Example exception: " + e.getMessage());
 			e.printStackTrace();
 			log.error("RMI Example exception: " + e.getMessage());
 		}
@@ -96,10 +92,7 @@ public class Client {
 		
 		JPanel login_panel = PanelBuilder.createLogin(client);
 
-		
 		result.add(login_panel);
-		
-		
 		
 		return result;
 	}
@@ -150,12 +143,23 @@ public class Client {
 			
 			log.debug("Registration result " + error);
 			switch (error) {
+			case INVALID_EMPTY_FIELD: {
+				JOptionPane.showMessageDialog(window, "You can not leave empty fields.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
 			case INVALID_EMAIL: {
 				JOptionPane.showMessageDialog(window, "Invalid e-mail. E-mail address is already in use or is incorrectly typed.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			} break;
 			
 			case INVALID_NAME: {
 				JOptionPane.showMessageDialog(window, "Invalid username. Someone already picked that one.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+			
+			case INVALID_TELEPHONE: {
+				JOptionPane.showMessageDialog(window, "Invalid telephone. It is incorrectly typed.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+			
+			case NONE: {
+				JOptionPane.showMessageDialog(window, "Registration succesfull", "Information", JOptionPane.INFORMATION_MESSAGE, null);
 			} break;
 			
 			default: {
@@ -321,15 +325,6 @@ public class Client {
 		
 	}
 	
-	public void updateProperty(String address, String city, int capacity, double cost) {
-		try {
-			server.updateProperty(address, city, capacity, cost);
-		} catch (RemoteException e) {
-			log.error("Error updating property: " + address);
-			e.printStackTrace();
-		}
-	}
-	
 	public void deleteProperty(Property property) {
 		try {
 			server.deleteProperty(property.getAddress());
@@ -356,7 +351,7 @@ public class Client {
 			
 			case NONE: {
 				server.updateReservation(property, guest, oldStartDate, startDate, endDate);
-				JOptionPane.showMessageDialog(window, "The property has been correctly updated.", "Information", JOptionPane.INFORMATION_MESSAGE, null);
+				JOptionPane.showMessageDialog(window, "The reservation has been correctly updated.", "Information", JOptionPane.INFORMATION_MESSAGE, null);
 			} break;
 
 			default: {
@@ -449,6 +444,36 @@ public class Client {
 			}
 		} catch (RemoteException e) {
 			log.error("Error registering property");
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateProperty(String address, String city, int capacity, double cost) {
+		try {
+			log.info("Updating property: " + address);
+			PropertyRegistrationError error = server.updateProperty(address, city, capacity, cost);
+			
+			log.debug("Update result " + error);
+			switch (error) {
+			case INVALID_COST: {
+				JOptionPane.showMessageDialog(window, "Invalid cost. The value must be positive.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+
+			case INVALID_CAPACITY: {
+				JOptionPane.showMessageDialog(window, "Invalid capacity. The value must be positive.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+			
+			case NONE: {
+				JOptionPane.showMessageDialog(window, "The property has been correctly updated.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+
+			default: {
+				// Do nothing.
+			}
+			}
+			
+		} catch (RemoteException e) {
+			log.error("Error updating property: " + address);
 			e.printStackTrace();
 		}
 	}
