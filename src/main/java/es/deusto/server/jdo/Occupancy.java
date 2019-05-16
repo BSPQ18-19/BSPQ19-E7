@@ -6,7 +6,7 @@ import javax.jdo.annotations.PersistenceCapable;
 
 @SuppressWarnings("serial")
 @PersistenceCapable
-public class Occupancy implements Serializable{
+public class Occupancy implements Serializable {
 	@ForeignKey
 	Property property;
 	String startDate;
