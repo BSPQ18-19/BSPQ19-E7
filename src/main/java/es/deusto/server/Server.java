@@ -36,12 +36,18 @@ public class Server extends UnicastRemoteObject implements IServer {
 	// Copied from: https://stackoverflow.com/questions/11757013/regular-expressions-for-city-name
 	private String city_regex = "^[a-zA-Z]+(?:[\\s-][a-zA-Z]+)*$";
 
+	/**
+	 * Creates a new server instance.
+	 * If there is no account admin/admin in the DB it creates one
+	 * @throws RemoteException
+	 */
 	protected Server() throws RemoteException {
 		super();
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		this.pm = pmf.getPersistenceManager();
 
 
+		// @Todo: Remove this account creation for the final version
 		// Check that there is the admin/admin user. If not create it.
 		{
 			Transaction tx = null;
@@ -70,13 +76,19 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 
-	protected void finalize () throws Throwable {
-		//		if (tx.isActive()) {
-		//            tx.rollback();
-		//        }
-		pm.close();
-	}
 
+	/**
+	 * Registers a new user in the DB.
+	 * Creates a new user in the DB and checks if all the passed data is valid
+	 * 
+	 * @param name name of the account
+	 * @param username Username that uniquely identifies the account
+	 * @param email email associated with the user
+	 * @param telephone number of the user
+	 * @param password password of the account
+	 * @param isHost Whether the account to create is a Host account or a guest account
+	 * 
+	 */
 	@Override
 	public synchronized RegistrationError registerUser(String name, String username, String email, String telephone, String password, boolean isHost) {
 		System.out.println(telephone);
@@ -139,6 +151,12 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return RegistrationError.NONE;
 	}
 
+	/**
+	 * Gets the list of properties on a city.
+	 * 
+	 * @param city Name of the city in which to search
+	 * @return List of cities with the results of the query. If there was any error on the query the result is null. If there were no matches found the list is empty
+	 */
 	@Override
 	public synchronized List<Property> getPropertiesByCity(String city) {
 		List<Property> result = null;
@@ -164,6 +182,12 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return result;
 	}
 
+	/**
+	 * Gets the list of reservations of properties of a city
+	 * 
+	 * @param city name of the city to search
+	 * @return List of reservations with the results of the query. If there was any error on the query the result is null. If there were no matches found the list is empty.
+	 */
 	public synchronized List<Reservation> getReservationsByCity(String city) throws RemoteException{
 		// @Copied and adapted from getPropertiesByCity
 		List<Reservation> result = null;
@@ -187,6 +211,12 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	}
 
+	/**
+	 * Gets the list of reservations made by a guest account
+	 * 
+	 * @param name Username of the Guest account to search
+	 * @return List of reservations with the results of the query. If there was any error on the query the result is null. If there were no matches found the list is empty.
+	 */
 	public synchronized List<Reservation> getReservationsByGuest(String name) throws RemoteException{
 		// @Copied and adapted from getPropertiesByCity
 		List<Reservation> result = null;
@@ -210,6 +240,12 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	}
 
+	/**
+	 * Gets the list of user that share the same prefix
+	 * 
+	 * @param username String to search
+	 * @return List of users matching the query. If there was an error in the query the return is null. If there were no matches the list is empty
+	 */
 	public synchronized List<User> getUser(String username) {
 		// @Security: We should pass some kind of token to verify that the user requesting data from a user is an administrator
 
@@ -243,6 +279,16 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	}
 
+	/**
+	 * Checks whether the username and the password introduced match
+	 * 
+	 * @Todo: Describve what happens if the it fails.
+	 * 
+	 * @param username Username identifying the account to log into.
+	 * @param password Secret password for the account
+	 * 
+	 * @return User object representing the account
+	 */
 	@Override
 	public synchronized User login(String username, String password) throws RemoteException {
 
@@ -282,6 +328,21 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 
+
+	/**
+	 * Updates the data of an account without checking if values are valid
+	 * 
+	 * @Todo: This should only be called by administrators
+	 * 
+	 * @param username Username of the account to update
+	 * @param password new password of the account
+	 * @param kind new type of the account @see User.UserKind
+	 * @param telephone New telephone number associated to the account
+	 * @param email new email for the account
+	 * @param nam New name of the account
+	 * @param isVerified Whether the account is a verified account
+	 * 
+	 */
 	public synchronized void updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException {
 		Transaction tx = null;
 		User user = null;
@@ -346,6 +407,16 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	}
 
+	/**
+	 * Changes the password of a user account
+	 * 
+	 * @Todo: We should make sure that the one requesting the change is the user itself.
+	 * 
+	 * @param username ID of the account to change the password
+	 * @param password New password to replace.
+	 * 
+	 * @return Boolean whether the change of password was made successfully
+	 */
 	public Boolean changeUserPassword(String username, String password) throws RemoteException {
 		//TODO
 		Transaction tx = null;
@@ -372,6 +443,16 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return chnged;
 	}
 
+	/**
+	 * Changes the telephone of a user account
+	 * 
+	 * @Todo: We should make sure that the one requesting the change is the user itself.
+	 * 
+	 * @param username ID of the account to change the password
+	 * @param telephone New password to replace.
+	 * 
+	 * @return Boolean whether the change of telephone was made successfully
+	 */
 	public Boolean changeUserTelephone(String username, String telephone) {
 		//TODO
 		Transaction tx = null;
@@ -397,6 +478,12 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return chnged;
 	}
 
+	/**
+	 * Deletes  a user from the DB.
+	 * @Todo: This should only be called by administrators
+	 * 
+	 * @param username Username of the user to delete
+	 */
 	public synchronized void deleteUser(String username) throws RemoteException {
 		// @Security: How can we guarantee that this is called by a user onto its own account,
 		// or by an administrator?
@@ -423,6 +510,12 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 
+	/**
+	 * Deletes a property
+	 * @Todo: This should only be called by those with privileges over the property (host & administrators)
+	 * 
+	 * @param address Address that identifies the property to delete
+	 */
 	public synchronized void deleteProperty(String address) throws RemoteException {
 		Transaction tx = null;
 		try {
@@ -440,6 +533,14 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 
+	/**
+	 * Deletes a reservation
+	 * 
+	 * @param propertyAddress Address of the property to make the reservation
+	 * @param guestUsername Username of the guest requesting the reservation
+	 * @param startDate Starting date of the reservation
+	 * @param endDate Ending date of the reservation
+	 */
 	public synchronized void deleteReservation(String propertyAddress, String guestUsername, String startDate, String endDate) throws RemoteException {
 		Transaction tx = null;
 		Reservation reservation;
@@ -469,6 +570,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 
+	
 	public synchronized List<Occupancy> getOccupancyByProperty(Property property) throws RemoteException {
 		List<Occupancy> result = null;
 		Transaction tx = null;
@@ -526,6 +628,15 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return OccupancyError.NONE;
 	}
 
+	/**
+	 * Makes a reservation on a property
+	 * 
+	 * @param name Username of the guest making the reservation
+	 * @param property Property to reserve
+	 * @param startDate Starting date of the reservation
+	 * @param endDate Ending date of the reservation
+	 * 
+	 */
 	public synchronized void bookProperty(String name, Property property, String startDate, String endDate) throws RemoteException {
 
 		Transaction tx = null;
@@ -550,6 +661,15 @@ public class Server extends UnicastRemoteObject implements IServer {
 	}
 
 
+	/**
+	 * Updates the data of a reservation
+	 * 
+	 * @param property Property that is reserved
+	 * @param guest User object of the guest that made the reservation
+	 * @param oldStartDate Origina starting date
+	 * @param startDate New starting date
+	 * @param endDate New ending date
+	 */
 	@Override
 	public synchronized void updateReservation(Property property, User guest, String oldStartDate, String startDate, String endDate) throws RemoteException {
 		Transaction tx = null;
@@ -618,6 +738,12 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 
+	/**
+	 * Gets a list of properties belonging to a host
+	 * 
+	 * @param hostname Username of the host to search
+	 * @return List of properties managed by the host. If there was an error in the query the result is null. If there are no matching properties the list is empty.
+	 */
 	@Override
 	public synchronized List<Property> getPropertiesByHost(String hostname) throws RemoteException {
 		List<Property> result = null;
@@ -638,6 +764,15 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return result;
 	}
 
+	/**
+	 * Creates a new property in the DB
+	 * 
+	 * @param address Address where the property is.
+	 * @param city City in which the property is.
+	 * @param capacity number of people that could sleep in the property
+	 * @param cost Price of the property per night
+	 * @param hostname Username of the host owner of the property
+	 */
 	public synchronized PropertyRegistrationError registerProperty(String address, String city, int capacity, double cost, String hostname) throws RemoteException {
 		// @Robustness @Security: Do something more appropriate than passing the host/owner name as a parameter,
 		// Maybe pass a User object?
@@ -680,7 +815,14 @@ public class Server extends UnicastRemoteObject implements IServer {
 		return PropertyRegistrationError.NONE;
 	}
 	
-	
+	/**
+	 * Updates the information of a property
+	 * 
+	 * @param Address of the property to update
+	 * @param city This should remain the same !!! @Todo
+	 * @param capacity New capacity of the place
+	 * @param cost New price of the property per night
+	 */
 	public synchronized PropertyRegistrationError updateProperty (String address, String city, int capacity, double cost) throws RemoteException {
 		
 		if(cost <= 0) {
