@@ -41,6 +41,10 @@ public class Client {
 	
 	private IServer server;
 	private JFrame window;
+	
+	public JFrame getWindow() {
+		return window;
+	}
 
 	// i18n
 	public ResourceBundle text;
@@ -134,7 +138,7 @@ public class Client {
 		}
 		
 	}
-	
+
 	public void register(String name, String username, String email, String telephone, String password, boolean isHost) {
 		
 		try {
@@ -143,9 +147,11 @@ public class Client {
 			
 			log.debug("Registration result " + error);
 			switch (error) {
+			
 			case INVALID_EMPTY_FIELD: {
 				JOptionPane.showMessageDialog(window, "You can not leave empty fields.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			} break;
+			
 			case INVALID_EMAIL: {
 				JOptionPane.showMessageDialog(window, "Invalid e-mail. E-mail address is already in use or is incorrectly typed.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			} break;
@@ -175,7 +181,34 @@ public class Client {
 	
 	public void adminUpdateAccount(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) {
 		try {
-			server.updateUser(username, password, kind, telephone, email, name, verified);
+			
+			log.info("Updating user: " + username);
+			RegistrationError error = server.updateUser(username, password, kind, telephone, email, name, verified);
+			
+			log.debug("Updating result " + error);
+			switch (error) {
+			
+			case INVALID_EMPTY_FIELD: {
+				JOptionPane.showMessageDialog(window, "You can not leave empty fields.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+			
+			case INVALID_EMAIL: {
+				JOptionPane.showMessageDialog(window, "Invalid e-mail. E-mail address is already in use or is incorrectly typed.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+			
+			case INVALID_TELEPHONE: {
+				JOptionPane.showMessageDialog(window, "Invalid telephone. It is incorrectly typed.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			} break;
+			
+			case NONE: {
+				JOptionPane.showMessageDialog(window, "Update succesfull", "Information", JOptionPane.INFORMATION_MESSAGE, null);
+			} break;
+			
+			default: {
+				// Do nothing.
+			}
+			}
+			
 		} catch (RemoteException e) {
 			log.error("Error updating user: " + username);
 			e.printStackTrace();

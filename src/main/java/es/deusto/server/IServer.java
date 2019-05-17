@@ -130,7 +130,7 @@ public interface IServer extends Remote {
 	 */
 	List<User> getUser(String username) throws RemoteException;
 	/**
-	 * Updates a user data without checking that the input data is valid.
+	 * Updates a user data checking that the input data is valid.
 	 * @Todo: It can only be used by administrators.
 	 * 
 	 * @param username Username identifying the account to update
@@ -142,7 +142,7 @@ public interface IServer extends Remote {
 	 * @param verified Whether the user account is a verified account or not
 	 * @throws RemoteException
 	 */
-	void updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException;
+	RegistrationError updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException;
 	/**
 	 * Deletes a user account from the DB.
 	 * @Todo: This can only be called by administrators

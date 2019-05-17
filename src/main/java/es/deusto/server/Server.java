@@ -271,10 +271,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 			if (tx.isActive()) {
 				tx.rollback();
 			}
-
-
 		}
-
 		return result;
 
 	}
@@ -282,7 +279,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	/**
 	 * Checks whether the username and the password introduced match
 	 * 
-	 * @Todo: Describve what happens if the it fails.
+	 * @Todo: Describe what happens if the it fails.
 	 * 
 	 * @param username Username identifying the account to log into.
 	 * @param password Secret password for the account
@@ -314,23 +311,19 @@ public class Server extends UnicastRemoteObject implements IServer {
 			if (tx.isActive()) {
 				tx.rollback();
 			}
-
-
 		}
-
 
 		// Check passwords match
 		if (password.equals(user.getPassword())) {
 			return user;
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
 
 
 	/**
-	 * Updates the data of an account without checking if values are valid
+	 * Updates the data of an account checking if values are valid
 	 * 
 	 * @Todo: This should only be called by administrators
 	 * 
@@ -339,11 +332,22 @@ public class Server extends UnicastRemoteObject implements IServer {
 	 * @param kind new type of the account @see User.UserKind
 	 * @param telephone New telephone number associated to the account
 	 * @param email new email for the account
-	 * @param nam New name of the account
+	 * @param name New name of the account
 	 * @param isVerified Whether the account is a verified account
 	 * 
 	 */
-	public synchronized void updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException {
+	public synchronized RegistrationError updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException {
+		// Check all the input are correct
+		if(name.isEmpty() == true || username.isEmpty() == true || email.isEmpty() == true || telephone.isEmpty() == true || password.isEmpty() == true) {
+			return RegistrationError.INVALID_EMPTY_FIELD;
+		}
+		if (!Pattern.matches(email_regex, email)) {
+			return RegistrationError.INVALID_EMAIL;
+		}
+		if (!Pattern.matches(telephone_regex, telephone)) {
+			return RegistrationError.INVALID_TELEPHONE;
+		}
+		
 		Transaction tx = null;
 		User user = null;
 		try {
@@ -352,7 +356,6 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 			// Get the original user 
 			user = pm.getObjectById(User.class, username);
-
 
 			tx.commit();
 
@@ -404,6 +407,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 				tx.rollback();
 			}
 		}
+		return RegistrationError.NONE;
 
 	}
 

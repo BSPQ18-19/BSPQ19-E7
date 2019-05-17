@@ -12,6 +12,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -142,19 +143,28 @@ public class PanelBuilder {
 		lblRepeat.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblRepeat.setBounds(212, 181, 82, 15);
 		pReg.add(lblRepeat);
+		
+		JPasswordField tfRepeat = new JPasswordField();
+		tfRepeat.setColumns(10);
+		tfRepeat.setBounds(292, 179, 118, 20);
+		pReg.add(tfRepeat);
 
 		JCheckBox hostCheckBox = new JCheckBox(client.text.getString("Host"));
 		hostCheckBox.setFont(new Font("Arial", Font.PLAIN, 12));
 		hostCheckBox.setBounds(112, 210, 82, 15);
 		pReg.add(hostCheckBox);
 
-		JPasswordField tfRepeat = new JPasswordField();
-		tfRepeat.setColumns(10);
-		tfRepeat.setBounds(292, 179, 118, 20);
-		pReg.add(tfRepeat);
 
 		JButton btnReg1 = new JButton(client.text.getString("Register"));
-		btnReg1.addActionListener((e) -> {client.register(tfName1.getText(), tfUserName1.getText(), tfEmail.getText(), tfPhone.getText(), new String(tfPassword1.getPassword()), hostCheckBox.isSelected());});
+		btnReg1.addActionListener((e) -> {
+			String password = new String(tfPassword1.getPassword());
+			String password2 = new String(tfRepeat.getPassword());
+			if (password.equals(password2)) {
+				client.register(tfName1.getText(), tfUserName1.getText(), tfEmail.getText(), tfPhone.getText(), new String(tfPassword1.getPassword()), hostCheckBox.isSelected());
+			} else {
+				JOptionPane.showMessageDialog(client.getWindow(), "Passwords do not match", "Alert", JOptionPane.WARNING_MESSAGE);
+			}
+		});
 		btnReg1.setBounds(311, 210, 89, 23);
 		pReg.add(btnReg1);
 
@@ -331,7 +341,6 @@ public class PanelBuilder {
 		tfPhone.setText(selectedUser != null ? selectedUser.getTelephone() : "");
 		result.add(tfPhone);
 
-
 		JLabel lblUserkind = new JLabel(client.text.getString("Kind"));
 		lblUserkind.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblUserkind.setBounds(20, 25, 118, 20);
@@ -391,16 +400,14 @@ public class PanelBuilder {
 							(User.UserKind) userkindCombo.getSelectedItem(),
 							tfPhone.getText(), tfEmail.getText(), tfUserName1.getText(),
 							verifiedCheckBox.isSelected()); // @Todo: Read from the check box
-				}
-				else {
+				} else {
 					client.adminUpdateAccount(tfUserName1.getText(), password,
 							(User.UserKind) userkindCombo.getSelectedItem(),
 							tfPhone.getText(), tfEmail.getText(), tfUserName1.getText(),
 							verifiedCheckBox.isSelected()); // @Todo: Read from the check box
 				}
-			}
-			else {
-				// @Todo: Show some kind of error
+			} else {
+				JOptionPane.showMessageDialog(client.getWindow(), "Passwords do not match", "Alert", JOptionPane.WARNING_MESSAGE);
 			}
 		});
 		btnUpdate.setBounds(311, 210, 89, 23);
