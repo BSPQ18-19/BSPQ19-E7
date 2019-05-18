@@ -25,6 +25,12 @@ import es.deusto.server.jdo.User;
 
 public class PanelBuilder {
 
+	/**
+	 * Creates the login panel
+	 * 
+	 * @param client Object representing the state of the client application
+	 * @return The login JPanel
+	 */
 	public static JPanel createLogin(Client client) {
 
 		// @Todo @Performance Avoid creating the font each time
@@ -70,6 +76,12 @@ public class PanelBuilder {
 		return pLogin;
 	}
 
+	/**
+	 * Creates the registering panel.
+	 * 
+	 * @param client Client object of the client application session
+	 * @return JPanel of the registration
+	 */
 	public static JPanel createRegisterWindow(Client client) {
 
 		// @Todo @Performance Avoid creating the font each time
@@ -171,6 +183,13 @@ public class PanelBuilder {
 		return pReg;
 	}
 
+	/**
+	 * Creates the property search panel.
+	 * 
+	 * @param client Session of the client application
+	 * @param id 
+	 * @return JPanel of the property search
+	 */
 	public static JPanel createPropertySearch(Client client, String id) {
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
@@ -221,6 +240,13 @@ public class PanelBuilder {
 		return result;
 	}
 
+	/**
+	 * Creates the JPanel of administrators account management
+	 * 
+	 * @param client Session of the client application
+	 * @param id
+	 * @return JPanel of the administrators account management
+	 */
 	public static JPanel createAdminAccountManagement(Client client, String id) {
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
@@ -278,6 +304,14 @@ public class PanelBuilder {
 		return result;
 	}
 
+	/**
+	 * Creates the panel of account administration used by administrators.
+	 * 
+	 * @param client Session of the client application
+	 * @param selectedUser User account to edit
+	 * @param isNewUser Whether we are creating a new user or editing an existing one.
+	 * @return Panel with all the fields to modify/create user accounts
+	 */
 	public static JPanel createAdminAccountEdit(Client client, User selectedUser, boolean isNewUser) {
 
 		// @Todo: Instead of having 'isNewUser' could we just check if 'selectedUser' is not null?
@@ -417,6 +451,12 @@ public class PanelBuilder {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param client
+	 * @param name
+	 * @return
+	 */
 	public static JPanel createHostPropertiesManagement(Client client, String name) {
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
@@ -462,6 +502,12 @@ public class PanelBuilder {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param client
+	 * @param name
+	 * @return
+	 */
 	public static JPanel createGuestReservationList(Client client, String name) {
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
@@ -502,6 +548,12 @@ public class PanelBuilder {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param client
+	 * @param name
+	 * @return
+	 */
 	public static JPanel createGuestPropertiesManagement(Client client, String name) {
 		// @Copied and adapted from createPropertySearch
 		JPanel result = new JPanel();
@@ -594,6 +646,14 @@ public class PanelBuilder {
 		return result;
 	}
 
+	/**
+	 * Creates a panel to edit/create a property.
+	 * 
+	 * @param client Session of the client application
+	 * @param selectedProp Property to edit
+	 * @param isNewProperty Whether to edit an existing property or create a new one
+	 * @return JPanel with all the elements to edit/create properties
+	 */
 	public static JPanel createPropertyEdit(Client client, Property selectedProp, boolean isNewProperty) {
 		JPanel result = new JPanel();
 		result.setBounds(0, 0, 434, 209);
@@ -663,6 +723,14 @@ public class PanelBuilder {
 		return result;
 	}
 
+	/**
+	 * Creates a JPanel to edit reservations.
+	 * 
+	 * @param client Session of the client application
+	 * @param selectedReserv Reservation to edit
+	 * @param isReserv
+	 * @return
+	 */
 	public static JPanel createReservationEdit(Client client, Reservation selectedReserv, boolean isReserv) {
 		JPanel result = new JPanel();
 		result.setBounds(0, 0, 434, 209);
@@ -935,6 +1003,13 @@ public class PanelBuilder {
 
 	}
 
+	/**
+	 * Creates the main panel of administrators
+	 * 
+	 * @param client Session of the client application
+	 * @param id Name of the administrator to appear in the panel 
+	 * @return JPanel of the main panel of administrators
+	 */
 	public static JPanel createMainWindowAdmin(Client client, String id) {
 		JPanel main_panel = new JPanel();
 
@@ -964,6 +1039,13 @@ public class PanelBuilder {
 		return main_panel;
 	}
 
+	/**
+	 * Creates the main panel of hosts.
+	 * 
+	 * @param client Session of the client application
+	 * @param name Name of the host to appear in the panel
+	 * @return JPanel of the main panel for hosts
+	 */
 	public static JPanel createMainWindowHost(Client client, String name /*, Other data for*/) {
 		// @Copied and adapted from createMainWindowAdmin
 		JPanel main_panel = new JPanel();
@@ -990,6 +1072,13 @@ public class PanelBuilder {
 		return main_panel;
 	}
 
+	/**
+	 * Creates the main window of guests
+	 * 
+	 * @param client Session of the client application
+	 * @param name Name of the guest to appear in the panel
+	 * @return JPanel of the main panel of guests
+	 */
 	public static JPanel createMainWindowGuest(Client client, String name /*, Other data for*/) {
 		// @Copied and adapted from createMainWindowAdmin
 		JPanel main_panel = new JPanel();
