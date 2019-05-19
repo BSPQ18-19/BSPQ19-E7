@@ -75,9 +75,9 @@ public class PanelBuilder {
 		btnReg.setBounds(320, 178, 89, 23);
 		pLogin.add(btnReg);
 		
-		JLabel labelBL = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p5.png")));
-		labelBL.setBounds(0, 115, 434, 93);
-		pLogin.add(labelBL);
+		//JLabel labelBL = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p5.png")));
+		//labelBL.setBounds(0, 115, 434, 93);
+		//pLogin.add(labelBL);
 		
 		return pLogin;
 	}
@@ -186,9 +186,9 @@ public class PanelBuilder {
 		btnReg1.setBounds(311, 210, 89, 23);
 		pReg.add(btnReg1);
 
-		JLabel imglabel = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p3.png")));
-		imglabel.setBounds(0, 115, 434, 132);
-		pReg.add(imglabel);
+		//JLabel imglabel = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p3.png")));
+		//imglabel.setBounds(0, 115, 434, 132);
+		//pReg.add(imglabel);
 		
 		return pReg;
 	}
@@ -461,9 +461,9 @@ public class PanelBuilder {
 		btnUpdate.setBounds(311, 210, 89, 23);
 		result.add(btnUpdate);
 
-		JLabel labelimg2 = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p1.png")));
-		labelimg2.setBounds(0, 103, 450, 147);
-		result.add(labelimg2);
+		//JLabel labelimg2 = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p1.png")));
+		//labelimg2.setBounds(0, 103, 450, 147);
+		//result.add(labelimg2);
 		
 		return result;
 	}
@@ -757,9 +757,9 @@ public class PanelBuilder {
 		btnUpdate.setBounds(311, 210, 89, 23);
 		result.add(btnUpdate);	
 
-		JLabel labelBe = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p6.png")));
-		labelBe.setBounds(0, 104, 434, 146);
-		result.add(labelBe);
+		//JLabel labelBe = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p6.png")));
+		//labelBe.setBounds(0, 104, 434, 146);
+		//result.add(labelBe);
 		
 		return result;
 	}
@@ -847,9 +847,9 @@ public class PanelBuilder {
 		btnUpdate.setBounds(311, 210, 89, 23);
 		result.add(btnUpdate);	
 		
-		JLabel labelBRE = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p7.png")));
-		labelBRE.setBounds(0, 0, 414, 93);
-		result.add(labelBRE);
+		//JLabel labelBRE = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p7.png")));
+		//labelBRE.setBounds(0, 0, 414, 93);
+		//result.add(labelBRE);
 		
 		return result;
 	}
@@ -920,9 +920,9 @@ public class PanelBuilder {
 		btnPublish.setBounds(311, 210, 89, 23);
 		result.add(btnPublish);	
 
-		JLabel imglabel = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p2.png")));
-		imglabel.setBounds(0, 0, 434, 250);
-		result.add(imglabel);
+		//JLabel imglabel = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p2.png")));
+		//imglabel.setBounds(0, 0, 434, 250);
+		//result.add(imglabel);
 		
 		return result;
 	}
@@ -1025,9 +1025,9 @@ public class PanelBuilder {
 		btnUpdate.setBounds(311, 210, 89, 23);
 		result.add(btnUpdate);	
 		
-		JLabel labelB = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p4.png")));
-		labelB.setBounds(0, 106, 434, 136);
-		result.add(labelB);
+		//JLabel labelB = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p4.png")));
+		//labelB.setBounds(0, 106, 434, 136);
+		//result.add(labelB);
 		
 		return result;
 	}
