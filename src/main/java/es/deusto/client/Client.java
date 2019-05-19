@@ -528,9 +528,9 @@ public class Client {
 		window.revalidate();
 	}
 	
-	public void switchHostPropertyNew(String name) {
+	public void switchHostPropertyNew(String name, UserKind kind) {
 		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createHostPropertyNew(this, name));
+		window.getContentPane().add(PanelBuilder.createHostPropertyNew(this, name, kind));
 		window.setTitle("[RoomRental] Create Property");
 		window.paintComponents(window.getGraphics());
 	}
@@ -556,9 +556,9 @@ public class Client {
 		window.paintComponents(window.getGraphics());
 	}
 	
-	public void switchGuestBookProperty(String name, Property property) {
+	public void switchGuestBookProperty(String name, Property property, UserKind kind) {
 		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createGuestBookProperty(this, name, property));
+		window.getContentPane().add(PanelBuilder.createGuestBookProperty(this, name, property, kind));
 		window.setTitle("[RoomRental] Book Property");
 		window.paintComponents(window.getGraphics());
 	}
@@ -570,9 +570,9 @@ public class Client {
 		window.paintComponents(window.getGraphics());
 	}
 	
-	public void switchHostAccountManagement(String name, UserKind kind) {
+	public void switchAccountManagement(String name, UserKind kind) {
 		window.getContentPane().removeAll();
-		window.getContentPane().add(PanelBuilder.createHostAccountManagement(this, name, kind));
+		window.getContentPane().add(PanelBuilder.createAccountManagement(this, name, kind));
 		window.setTitle("[RoomRental] Account Management");
 		window.paintComponents(window.getGraphics());
 	}
