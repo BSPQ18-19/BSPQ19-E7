@@ -22,6 +22,7 @@ import com.toedter.calendar.JDateChooser;
 import es.deusto.server.jdo.Property;
 import es.deusto.server.jdo.Reservation;
 import es.deusto.server.jdo.User;
+import es.deusto.server.jdo.User.UserKind;
 
 public class PanelBuilder {
 
@@ -190,7 +191,7 @@ public class PanelBuilder {
 	 * @param id 
 	 * @return JPanel of the property search
 	 */
-	public static JPanel createPropertySearch(Client client, String id) {
+	public static JPanel createPropertySearch(Client client, String id, UserKind kind) {
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
 
@@ -221,12 +222,12 @@ public class PanelBuilder {
 
 		JButton editButton = new JButton(client.text.getString("Edit"));
 		editButton.addActionListener((e) -> {
-			client.switchPropertyEdit(searchResults.getSelectedValue());
+			client.switchPropertyEdit(searchResults.getSelectedValue(), kind, id);
 		});
 
 		JButton backButton = new JButton(client.text.getString("Back"));
 		backButton.addActionListener((e) -> {
-			client.createMainWindowAdmin(id);
+			client.createMainWindowAdmin(id, kind);
 		});
 
 		bottom.add(deleteButton);
@@ -247,7 +248,7 @@ public class PanelBuilder {
 	 * @param id
 	 * @return JPanel of the administrators account management
 	 */
-	public static JPanel createAdminAccountManagement(Client client, String id) {
+	public static JPanel createAdminAccountManagement(Client client, String id, UserKind kind) {
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
 
@@ -278,17 +279,16 @@ public class PanelBuilder {
 
 		JButton editButton = new JButton(client.text.getString("Edit"));
 		editButton.addActionListener((e) -> {
-			client.switchAdminAccountEdit(searchResults.getSelectedValue());
+			client.switchAdminAccountEdit(searchResults.getSelectedValue(), id, kind);
 		});
-
 
 		JButton newButton = new JButton(client.text.getString("New"));
 		newButton.addActionListener((e) -> {
-			client.switchAdminAccountNew();
+			client.switchAdminAccountNew(id, kind);
 		});
 		JButton backButton = new JButton(client.text.getString("Back"));
 		backButton.addActionListener((e) -> {
-			client.createMainWindowAdmin(id);
+			client.createMainWindowAdmin(id, kind);
 		});
 
 		bottom.add(deleteButton);
@@ -312,7 +312,7 @@ public class PanelBuilder {
 	 * @param isNewUser Whether we are creating a new user or editing an existing one.
 	 * @return Panel with all the fields to modify/create user accounts
 	 */
-	public static JPanel createAdminAccountEdit(Client client, User selectedUser, boolean isNewUser) {
+	public static JPanel createAdminAccountEdit(Client client, User selectedUser, boolean isNewUser, String id, UserKind kind) {
 
 		// @Todo: Instead of having 'isNewUser' could we just check if 'selectedUser' is not null?
 
@@ -419,8 +419,9 @@ public class PanelBuilder {
 
 
 		JButton btnBack1 = new JButton(client.text.getString("Back"));
-		// @Todo
-		//btnBack1.addActionListener( (e) -> {client.switchLog(pReg);} );
+		btnBack1.addActionListener( (e) -> {
+			client.switchAdminAccountManagment(id, kind);
+		});
 		btnBack1.setBounds(212, 210, 89, 23);
 		result.add(btnBack1);
 
@@ -457,7 +458,7 @@ public class PanelBuilder {
 	 * @param name
 	 * @return
 	 */
-	public static JPanel createHostPropertiesManagement(Client client, String name) {
+	public static JPanel createHostPropertiesManagement(Client client, String name, UserKind kind) {
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
 
@@ -477,7 +478,7 @@ public class PanelBuilder {
 
 		JButton editButton = new JButton(client.text.getString("Edit"));
 		editButton.addActionListener((e) -> {
-			client.switchPropertyEdit(searchResults.getSelectedValue());
+			client.switchPropertyEdit(searchResults.getSelectedValue(), kind, name);
 		});
 
 		JButton newButton = new JButton(client.text.getString("New"));
@@ -487,7 +488,7 @@ public class PanelBuilder {
 
 		JButton backButton = new JButton(client.text.getString("Back"));
 		backButton.addActionListener((e) -> {
-			client.createMainWindowHost(name);
+			client.createMainWindowHost(name, kind);
 		});
 
 		bottom.add(deleteButton);
@@ -508,7 +509,7 @@ public class PanelBuilder {
 	 * @param name
 	 * @return
 	 */
-	public static JPanel createGuestReservationList(Client client, String name) {
+	public static JPanel createGuestReservationList(Client client, String name, UserKind kind) {
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
 
@@ -528,12 +529,12 @@ public class PanelBuilder {
 
 		JButton editButton = new JButton(client.text.getString("Edit"));
 		editButton.addActionListener((e) -> {
-			client.switchReservationEdit(searchResults.getSelectedValue());
+			client.switchReservationEdit(searchResults.getSelectedValue(), kind, name);
 		});
 
 		JButton backButton = new JButton(client.text.getString("Back"));
 		backButton.addActionListener((e) -> {
-			client.createMainWindowGuest(name);
+			client.createMainWindowGuest(name, kind);
 		});
 
 		bottom.add(deleteButton);
@@ -554,7 +555,7 @@ public class PanelBuilder {
 	 * @param name
 	 * @return
 	 */
-	public static JPanel createGuestPropertiesManagement(Client client, String name) {
+	public static JPanel createGuestPropertiesManagement(Client client, String name, UserKind kind) {
 		// @Copied and adapted from createPropertySearch
 		JPanel result = new JPanel();
 		result.setLayout(new BorderLayout());
@@ -586,7 +587,7 @@ public class PanelBuilder {
 
 		JButton backButton = new JButton(client.text.getString("Back"));
 		backButton.addActionListener((e) -> {
-			client.createMainWindowGuest(name);
+			client.createMainWindowGuest(name, kind);
 		});
 
 		bottom.add(bookButton);
@@ -654,7 +655,7 @@ public class PanelBuilder {
 	 * @param isNewProperty Whether to edit an existing property or create a new one
 	 * @return JPanel with all the elements to edit/create properties
 	 */
-	public static JPanel createPropertyEdit(Client client, Property selectedProp, boolean isNewProperty) {
+	public static JPanel createPropertyEdit(Client client, Property selectedProp, boolean isNewProperty, UserKind kind, String id) {
 		JPanel result = new JPanel();
 		result.setBounds(0, 0, 434, 209);
 		result.setLayout(null);
@@ -709,7 +710,13 @@ public class PanelBuilder {
 		result.add(tfCost);
 
 		JButton btnBack = new JButton(client.text.getString("Back"));
-		btnBack.addActionListener( (e) -> {client.switchHostPropertiesManagement(selectedProp.getHost().getUsername());} );
+		btnBack.addActionListener( (e) -> {
+			if(kind.equals(UserKind.ADMINISTRATOR)) {
+				client.switchPropertiesSearch(id, kind);
+			} else if (kind.equals(UserKind.HOST)) {
+				client.switchHostPropertiesManagement(selectedProp.getHost().getUsername(), kind);
+			}
+		});
 		btnBack.setBounds(212, 210, 89, 23);
 		result.add(btnBack);
 
@@ -731,7 +738,7 @@ public class PanelBuilder {
 	 * @param isReserv
 	 * @return
 	 */
-	public static JPanel createReservationEdit(Client client, Reservation selectedReserv, boolean isReserv) {
+	public static JPanel createReservationEdit(Client client, Reservation selectedReserv, boolean isReserv, UserKind kind, String id) {
 		JPanel result = new JPanel();
 		result.setBounds(0, 0, 434, 209);
 		result.setLayout(null);
@@ -784,7 +791,13 @@ public class PanelBuilder {
 		dateChooserEnd.setDateFormatString("dd/MM/yyyy");
 
 		JButton btnBack = new JButton(client.text.getString("Back"));
-		btnBack.addActionListener( (e) -> {client.createMainWindowGuest(selectedReserv.getGuest().getUsername());;} );
+		btnBack.addActionListener( (e) -> {
+			if(kind.equals(UserKind.ADMINISTRATOR)) {
+				client.switchAdminReservationsSearch(id, kind);
+			} else if (kind.equals(UserKind.GUEST)) {
+				client.switchGuestReservationsList(id, kind);
+			}
+		});
 		btnBack.setBounds(212, 210, 89, 23);
 		result.add(btnBack);
 
@@ -862,7 +875,7 @@ public class PanelBuilder {
 		return result;
 	}
 
-	public static JPanel createHostAccountManagement(Client client, String name) {
+	public static JPanel createHostAccountManagement(Client client, String name, UserKind kind) {
 		JPanel result = new JPanel();
 		result.setBounds(0, 0, 434, 209);
 		result.setLayout(null);
@@ -930,7 +943,9 @@ public class PanelBuilder {
 		result.add(tfPass);
 
 		JButton btnBack = new JButton(client.text.getString("Back"));
-		btnBack.addActionListener( (e) -> {client.createMainWindowHost(name);;} );
+		btnBack.addActionListener( (e) -> {
+			client.createMainWindowHost(name, kind);;
+		});
 		btnBack.setBounds(212, 210, 89, 23);
 		result.add(btnBack);
 
@@ -949,7 +964,7 @@ public class PanelBuilder {
 		return result;
 	}
 
-	public static JPanel createAdminReservationsSearch(Client client,String id) {
+	public static JPanel createAdminReservationsSearch(Client client, String id, UserKind kind) {
 		//// @Copied and adapted createPropertySearch
 
 		JPanel result = new JPanel();
@@ -982,12 +997,12 @@ public class PanelBuilder {
 
 		JButton editButton = new JButton(client.text.getString("Edit"));
 		editButton.addActionListener((e) -> {
-			client.switchReservationEdit(searchResults.getSelectedValue());
+			client.switchReservationEdit(searchResults.getSelectedValue(), kind, id);
 		});
 
 		JButton backButton = new JButton(client.text.getString("Back"));
 		backButton.addActionListener((e) -> {
-			client.createMainWindowAdmin(id);
+			client.createMainWindowAdmin(id, kind);
 		});
 
 		bottom.add(deleteButton);
@@ -1010,7 +1025,7 @@ public class PanelBuilder {
 	 * @param id Name of the administrator to appear in the panel 
 	 * @return JPanel of the main panel of administrators
 	 */
-	public static JPanel createMainWindowAdmin(Client client, String id) {
+	public static JPanel createMainWindowAdmin(Client client, String id, UserKind kind) {
 		JPanel main_panel = new JPanel();
 
 		JLabel lblImg = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
@@ -1019,13 +1034,13 @@ public class PanelBuilder {
 		JLabel label = new JLabel(client.text.getString("Welcome_administrator")+" " + id);
 
 		JButton properties = new JButton(client.text.getString("Properties"));
-		properties.addActionListener((e) -> {client.switchPropertiesSearch(id);});
+		properties.addActionListener((e) -> {client.switchPropertiesSearch(id, kind);});
 
 		JButton accounts = new JButton(client.text.getString("Accounts"));
-		accounts.addActionListener((e) -> {client.switchAdminAccountManagment(id);});
+		accounts.addActionListener((e) -> {client.switchAdminAccountManagment(id, kind);});
 
 		JButton reservation = new JButton(client.text.getString("Reservations"));
-		reservation.addActionListener((e) -> {client.switchAdminReservationsSearch(id);});
+		reservation.addActionListener((e) -> {client.switchAdminReservationsSearch(id, kind);});
 
 		JButton logOut = new JButton(client.text.getString("Log_Out"));
 		logOut.addActionListener((e) -> {client.switchLogin();});
@@ -1046,7 +1061,7 @@ public class PanelBuilder {
 	 * @param name Name of the host to appear in the panel
 	 * @return JPanel of the main panel for hosts
 	 */
-	public static JPanel createMainWindowHost(Client client, String name /*, Other data for*/) {
+	public static JPanel createMainWindowHost(Client client, String name, UserKind kind) {
 		// @Copied and adapted from createMainWindowAdmin
 		JPanel main_panel = new JPanel();
 
@@ -1056,10 +1071,10 @@ public class PanelBuilder {
 		JLabel label = new JLabel(client.text.getString("Welcome_host") + " " + name);
 
 		JButton properties = new JButton(client.text.getString("Properties"));
-		properties.addActionListener((e) -> {client.switchHostPropertiesManagement(name);});
+		properties.addActionListener((e) -> {client.switchHostPropertiesManagement(name, kind);});
 
 		JButton account_data = new JButton(client.text.getString("Account_data"));
-		account_data.addActionListener((e) -> {client.switchHostAccountManagement(name);});
+		account_data.addActionListener((e) -> {client.switchHostAccountManagement(name, kind);});
 
 		JButton logOut = new JButton(client.text.getString("Log_Out"));
 		logOut.addActionListener((e) -> {client.switchLogin();});
@@ -1079,7 +1094,7 @@ public class PanelBuilder {
 	 * @param name Name of the guest to appear in the panel
 	 * @return JPanel of the main panel of guests
 	 */
-	public static JPanel createMainWindowGuest(Client client, String name /*, Other data for*/) {
+	public static JPanel createMainWindowGuest(Client client, String name, UserKind kind) {
 		// @Copied and adapted from createMainWindowAdmin
 		JPanel main_panel = new JPanel();
 
@@ -1089,13 +1104,13 @@ public class PanelBuilder {
 		JLabel label = new JLabel(client.text.getString("Welcome_guest") + " " + name);
 
 		JButton book = new JButton(client.text.getString("Book"));
-		book.addActionListener((e) -> {client.switchGuestPropertiesManagement(name);});
+		book.addActionListener((e) -> {client.switchGuestPropertiesManagement(name, kind);});
 
 		JButton account_data = new JButton(client.text.getString("Account_data"));
-		account_data.addActionListener((e) -> {client.switchHostAccountManagement(name);});
+		account_data.addActionListener((e) -> {client.switchHostAccountManagement(name, kind);});
 
 		JButton reservations = new JButton(client.text.getString("Reservations"));
-		reservations.addActionListener((e) -> {client.switchGuestReservationsList(name);});
+		reservations.addActionListener((e) -> {client.switchGuestReservationsList(name, kind);});
 
 		JButton logOut = new JButton(client.text.getString("Log_Out"));
 		logOut.addActionListener((e) -> {client.switchLogin();});
