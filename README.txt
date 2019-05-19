@@ -11,3 +11,6 @@ Launch server:
 
 Launch client:
   mvn exec:java -Pclient
+  
+Doxygen Report:
+  mvn doxygen:report
