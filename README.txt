@@ -14,3 +14,6 @@ Launch client:
   
 Doxygen Report:
   mvn doxygen:report
+  
+Github Page (Doxygen Doc):
+  https://bspq18-19.github.io/BSPQ19-E7/
