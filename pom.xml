@@ -157,7 +157,7 @@
 				</executions>
 			</plugin>
 			<plugin>
-      			<groupId>com.soebes.maven.plugins.dmg</groupId>
+      			<groupId>com.soebes.maven.plugins</groupId>
 				<artifactId>doxygen-maven-plugin</artifactId>
 				<version>1.1.0</version>
 				<configuration>
