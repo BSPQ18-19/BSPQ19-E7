@@ -1,0 +1,14 @@
+<map id="es.deusto.server.Server.updateReservation" name="es.deusto.server.Server.updateReservation">
+<area shape="rect" id="node1" title=" " alt="" coords="5,332,205,373"/>
+<area shape="rect" id="node2" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#a75ede2cc9a7d87b365cf49aaa8525dba" title=" " alt="" coords="257,5,481,47"/>
+<area shape="rect" id="node3" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_occupancy.html#a1d4f42d41cd4924434ca276fde5ff8f3" title=" " alt="" coords="257,71,480,112"/>
+<area shape="rect" id="node4" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#a40c65b004382179a33a463bcbb950dd3" title=" " alt="" coords="273,136,464,177"/>
+<area shape="rect" id="node5" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_property.html#a4a9554abeb32ae08e921626a37957743" title=" " alt="" coords="262,201,475,243"/>
+<area shape="rect" id="node6" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#aa2245c4a5d5b85020700adacd12d0b64" title=" " alt="" coords="253,267,484,308"/>
+<area shape="rect" id="node7" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#a672e663b55d8b74a2d959774de428133" title=" " alt="" coords="253,332,484,373"/>
+<area shape="rect" id="node8" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#ad565cd7dd29fcb64c4c58ba73f467a0c" title=" " alt="" coords="253,397,484,439"/>
+<area shape="rect" id="node9" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#ac42d746a6a42e5eb6a71467d4568163b" title=" " alt="" coords="253,463,484,504"/>
+<area shape="rect" id="node10" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_occupancy.html#abeff2f07be32fd153dbff2bc1ff7fcca" title=" " alt="" coords="253,528,484,569"/>
+<area shape="rect" id="node11" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_occupancy.html#a99ddd025f62116387b98e1a8b4a5ea93" title=" " alt="" coords="253,593,484,635"/>
+<area shape="rect" id="node12" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_occupancy.html#af0ed362abac5ddb4f0478cb5bec463c6" title=" " alt="" coords="253,659,484,700"/>
+</map>

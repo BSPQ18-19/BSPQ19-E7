@@ -1,0 +1,10 @@
+<map id="es.deusto.client.Client.deleteReservation" name="es.deusto.client.Client.deleteReservation">
+<area shape="rect" id="node1" title=" " alt="" coords="5,201,196,243"/>
+<area shape="rect" id="node2" href="$interfacees_1_1deusto_1_1server_1_1_i_server.html#aa2fa87abed70500d4debb14aefe2580d" title=" " alt="" coords="260,5,459,47"/>
+<area shape="rect" id="node3" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#ad6ba1913be0e45a818ca41e036019def" title=" " alt="" coords="244,71,475,112"/>
+<area shape="rect" id="node4" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_property.html#a4a9554abeb32ae08e921626a37957743" title=" " alt="" coords="253,136,466,177"/>
+<area shape="rect" id="node5" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#af9f20413df2d9da577f3411ac7496f86" title=" " alt="" coords="244,201,475,243"/>
+<area shape="rect" id="node6" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#a40c65b004382179a33a463bcbb950dd3" title=" " alt="" coords="264,267,455,308"/>
+<area shape="rect" id="node7" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#ac14e287d27d6de58711ae33704fbb256" title=" " alt="" coords="244,332,475,373"/>
+<area shape="rect" id="node8" href="$classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#a88ce1e14be519e38eafc9b7c2a7f48d3" title=" " alt="" coords="244,397,475,439"/>
+</map>
