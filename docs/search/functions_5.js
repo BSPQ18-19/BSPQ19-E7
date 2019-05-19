@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['getaddress',['getAddress',['../classes_1_1deusto_1_1server_1_1jdo_1_1_property.html#a4a9554abeb32ae08e921626a37957743',1,'es::deusto::server::jdo::Property']]],
+  ['getcapacity',['getCapacity',['../classes_1_1deusto_1_1server_1_1jdo_1_1_property.html#a274d5fb1241620edfea62925f5563b6b',1,'es::deusto::server::jdo::Property']]],
+  ['getcity',['getCity',['../classes_1_1deusto_1_1server_1_1jdo_1_1_property.html#a3603b6fd2ef63589fa9e27a96f51fa3c',1,'es::deusto::server::jdo::Property']]],
+  ['getcost',['getCost',['../classes_1_1deusto_1_1server_1_1jdo_1_1_property.html#abfcf28d941edd99019b1c192bd97ffce',1,'es::deusto::server::jdo::Property']]],
+  ['getemail',['getEmail',['../classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#aa1ba6d9e3d0572b90dac6ff627ee3f95',1,'es::deusto::server::jdo::User']]],
+  ['getenddate',['getEndDate',['../classes_1_1deusto_1_1server_1_1jdo_1_1_occupancy.html#a39c046e717288d0ce214da7ce7addc43',1,'es.deusto.server.jdo.Occupancy.getEndDate()'],['../classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#a88ce1e14be519e38eafc9b7c2a7f48d3',1,'es.deusto.server.jdo.Reservation.getEndDate()']]],
+  ['getguest',['getGuest',['../classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#af9f20413df2d9da577f3411ac7496f86',1,'es::deusto::server::jdo::Reservation']]],
+  ['gethost',['getHost',['../classes_1_1deusto_1_1server_1_1jdo_1_1_property.html#af3138509590c35677327a5f4f698f020',1,'es::deusto::server::jdo::Property']]],
+  ['getkind',['getKind',['../classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#a2b769384f6af11b3364933e0843944ed',1,'es::deusto::server::jdo::User']]],
+  ['getname',['getName',['../classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#ae241c2d5fbef940165041c82dc00edad',1,'es::deusto::server::jdo::User']]],
+  ['getoccupancybyproperty',['getOccupancyByProperty',['../interfacees_1_1deusto_1_1server_1_1_i_server.html#a6816311fa57179c81767f8e7ed63afc8',1,'es.deusto.server.IServer.getOccupancyByProperty()'],['../classes_1_1deusto_1_1server_1_1_server.html#acd7048e632207e7d600b18a0c1190080',1,'es.deusto.server.Server.getOccupancyByProperty()']]],
+  ['getpassword',['getPassword',['../classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#a1900ee126da22ed0f043e0077e8be049',1,'es::deusto::server::jdo::User']]],
+  ['getpropertiesbycity',['getPropertiesByCity',['../interfacees_1_1deusto_1_1server_1_1_i_server.html#a0790432014b61ed1a65b70c8065f3112',1,'es.deusto.server.IServer.getPropertiesByCity()'],['../classes_1_1deusto_1_1server_1_1_server.html#a5dd12d4b103a35fc867c38d586abeb2f',1,'es.deusto.server.Server.getPropertiesByCity()']]],
+  ['getpropertiesbyhost',['getPropertiesByHost',['../interfacees_1_1deusto_1_1server_1_1_i_server.html#a7030a745989ac1ba7ce2493e6bb69992',1,'es.deusto.server.IServer.getPropertiesByHost()'],['../classes_1_1deusto_1_1server_1_1_server.html#ab31d9f790601c1492c2e37613b22cc56',1,'es.deusto.server.Server.getPropertiesByHost()']]],
+  ['getproperty',['getProperty',['../classes_1_1deusto_1_1server_1_1jdo_1_1_occupancy.html#a89c22474dc0b9b473a37183239756390',1,'es.deusto.server.jdo.Occupancy.getProperty()'],['../classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#ad6ba1913be0e45a818ca41e036019def',1,'es.deusto.server.jdo.Reservation.getProperty()']]],
+  ['getreservationsbycity',['getReservationsByCity',['../interfacees_1_1deusto_1_1server_1_1_i_server.html#a280b8bd856e215ec5a68743c93e19453',1,'es.deusto.server.IServer.getReservationsByCity()'],['../classes_1_1deusto_1_1server_1_1_server.html#a63b74661dc2cc9b6ae52fec8a4e4dd0a',1,'es.deusto.server.Server.getReservationsByCity()']]],
+  ['getreservationsbyguest',['getReservationsByGuest',['../interfacees_1_1deusto_1_1server_1_1_i_server.html#a21f866c368fc268a18c33408f693d665',1,'es.deusto.server.IServer.getReservationsByGuest()'],['../classes_1_1deusto_1_1server_1_1_server.html#a51f94c9ab503605868d6594f7b9b793d',1,'es.deusto.server.Server.getReservationsByGuest()']]],
+  ['getstartdate',['getStartDate',['../classes_1_1deusto_1_1server_1_1jdo_1_1_occupancy.html#ad304ffcb5dad2dde958783ec752d07d1',1,'es.deusto.server.jdo.Occupancy.getStartDate()'],['../classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#ac14e287d27d6de58711ae33704fbb256',1,'es.deusto.server.jdo.Reservation.getStartDate()']]],
+  ['gettelephone',['getTelephone',['../classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#acf5d0eb01334166b89ecb9e0baebd534',1,'es::deusto::server::jdo::User']]],
+  ['getuser',['getUser',['../interfacees_1_1deusto_1_1server_1_1_i_server.html#a10f923e205a2423c8246d7ea59de6dac',1,'es.deusto.server.IServer.getUser()'],['../classes_1_1deusto_1_1server_1_1_server.html#a2da05ace02ec6b60bddde55d3d8aa45e',1,'es.deusto.server.Server.getUser()']]],
+  ['getusername',['getUsername',['../classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#a40c65b004382179a33a463bcbb950dd3',1,'es::deusto::server::jdo::User']]],
+  ['getwindow',['getWindow',['../classes_1_1deusto_1_1client_1_1_client.html#aa8a6979cc8ca9cf6cdc84471dca759c7',1,'es::deusto::client::Client']]]
+];

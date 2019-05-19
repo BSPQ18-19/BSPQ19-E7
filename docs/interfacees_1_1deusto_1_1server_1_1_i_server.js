@@ -1,0 +1,25 @@
+var interfacees_1_1deusto_1_1server_1_1_i_server =
+[
+    [ "OccupancyError", "enumes_1_1deusto_1_1server_1_1_i_server_1_1_occupancy_error.html", "enumes_1_1deusto_1_1server_1_1_i_server_1_1_occupancy_error" ],
+    [ "PropertyRegistrationError", "enumes_1_1deusto_1_1server_1_1_i_server_1_1_property_registration_error.html", "enumes_1_1deusto_1_1server_1_1_i_server_1_1_property_registration_error" ],
+    [ "RegistrationError", "enumes_1_1deusto_1_1server_1_1_i_server_1_1_registration_error.html", "enumes_1_1deusto_1_1server_1_1_i_server_1_1_registration_error" ],
+    [ "bookProperty", "interfacees_1_1deusto_1_1server_1_1_i_server.html#a6cafae59200c047edb4ed6dae0f871ec", null ],
+    [ "changeUserPassword", "interfacees_1_1deusto_1_1server_1_1_i_server.html#a16bc081b87078110542578ffb7943fe4", null ],
+    [ "changeUserTelephone", "interfacees_1_1deusto_1_1server_1_1_i_server.html#adb55ca52a8379492ff95680e8ac55019", null ],
+    [ "checkOccupancy", "interfacees_1_1deusto_1_1server_1_1_i_server.html#ab35ccae2e60c045856735dd2fce4813f", null ],
+    [ "deleteProperty", "interfacees_1_1deusto_1_1server_1_1_i_server.html#a1ce4ff9676e7b397b721e8414f6ca7b7", null ],
+    [ "deleteReservation", "interfacees_1_1deusto_1_1server_1_1_i_server.html#aa2fa87abed70500d4debb14aefe2580d", null ],
+    [ "deleteUser", "interfacees_1_1deusto_1_1server_1_1_i_server.html#a250204efd64d1e2c79cfb3923cf6a576", null ],
+    [ "getOccupancyByProperty", "interfacees_1_1deusto_1_1server_1_1_i_server.html#a6816311fa57179c81767f8e7ed63afc8", null ],
+    [ "getPropertiesByCity", "interfacees_1_1deusto_1_1server_1_1_i_server.html#a0790432014b61ed1a65b70c8065f3112", null ],
+    [ "getPropertiesByHost", "interfacees_1_1deusto_1_1server_1_1_i_server.html#a7030a745989ac1ba7ce2493e6bb69992", null ],
+    [ "getReservationsByCity", "interfacees_1_1deusto_1_1server_1_1_i_server.html#a280b8bd856e215ec5a68743c93e19453", null ],
+    [ "getReservationsByGuest", "interfacees_1_1deusto_1_1server_1_1_i_server.html#a21f866c368fc268a18c33408f693d665", null ],
+    [ "getUser", "interfacees_1_1deusto_1_1server_1_1_i_server.html#a10f923e205a2423c8246d7ea59de6dac", null ],
+    [ "login", "interfacees_1_1deusto_1_1server_1_1_i_server.html#aa89ccd6b34a4dd2bfbd0890b6e5f415b", null ],
+    [ "registerProperty", "interfacees_1_1deusto_1_1server_1_1_i_server.html#ae39f8a1b58186166d44099a757057b38", null ],
+    [ "registerUser", "interfacees_1_1deusto_1_1server_1_1_i_server.html#a0f7b4961d46a018548d1abb59ab96790", null ],
+    [ "updateProperty", "interfacees_1_1deusto_1_1server_1_1_i_server.html#ac7b24a063ff2f4e051960cd18addd693", null ],
+    [ "updateReservation", "interfacees_1_1deusto_1_1server_1_1_i_server.html#afdd6b7239496e39042c6f8feeacd7ec2", null ],
+    [ "updateUser", "interfacees_1_1deusto_1_1server_1_1_i_server.html#ae02f31682d561699329a5e4d81780e4d", null ]
+];

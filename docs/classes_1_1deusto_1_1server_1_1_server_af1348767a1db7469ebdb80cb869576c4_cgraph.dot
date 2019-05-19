@@ -1,0 +1,20 @@
+digraph "es.deusto.server.Server.updateUser"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node60 [label="es.deusto.server.Server.updateUser",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node60 -> Node61 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node61 [label="es.deusto.server.jdo.User.set\lPassword",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#a2e052b5a7cab949f61580edf44bbd233",tooltip=" "];
+  Node60 -> Node62 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node62 [label="es.deusto.server.jdo.User.setKind",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#a51f43dafe91750e8d465812be3bc55ea",tooltip=" "];
+  Node60 -> Node63 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node63 [label="es.deusto.server.jdo.User.set\lTelephone",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#abbe2100e45562377af86700795a96b78",tooltip=" "];
+  Node60 -> Node64 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node64 [label="es.deusto.server.jdo.User.set\lEmail",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#affc32b9cc71d8e45cb695339b34a2abd",tooltip=" "];
+  Node60 -> Node65 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node65 [label="es.deusto.server.jdo.User.setName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#a1684a5a2d021ec4c3137a46a4e76d0c7",tooltip=" "];
+  Node60 -> Node66 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node66 [label="es.deusto.server.jdo.User.set\lVerified",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#ace7b8045c2ee8fc565208b37cb77e894",tooltip=" "];
+}

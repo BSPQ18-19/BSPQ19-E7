@@ -1,0 +1,22 @@
+digraph "es.deusto.client.Client.deleteReservation"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node612 [label="es.deusto.client.Client.delete\lReservation",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node612 -> Node613 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node613 [label="es.deusto.server.IServer.delete\lReservation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$interfacees_1_1deusto_1_1server_1_1_i_server.html#aa2fa87abed70500d4debb14aefe2580d",tooltip=" "];
+  Node612 -> Node614 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node614 [label="es.deusto.server.jdo.Reservation.get\lProperty",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#ad6ba1913be0e45a818ca41e036019def",tooltip=" "];
+  Node612 -> Node615 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node615 [label="es.deusto.server.jdo.Property.get\lAddress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classes_1_1deusto_1_1server_1_1jdo_1_1_property.html#a4a9554abeb32ae08e921626a37957743",tooltip=" "];
+  Node612 -> Node616 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node616 [label="es.deusto.server.jdo.Reservation.get\lGuest",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#af9f20413df2d9da577f3411ac7496f86",tooltip=" "];
+  Node612 -> Node617 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node617 [label="es.deusto.server.jdo.User.get\lUsername",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classes_1_1deusto_1_1server_1_1jdo_1_1_user.html#a40c65b004382179a33a463bcbb950dd3",tooltip=" "];
+  Node612 -> Node618 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node618 [label="es.deusto.server.jdo.Reservation.get\lStartDate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#ac14e287d27d6de58711ae33704fbb256",tooltip=" "];
+  Node612 -> Node619 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node619 [label="es.deusto.server.jdo.Reservation.get\lEndDate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classes_1_1deusto_1_1server_1_1jdo_1_1_reservation.html#a88ce1e14be519e38eafc9b7c2a7f48d3",tooltip=" "];
+}
