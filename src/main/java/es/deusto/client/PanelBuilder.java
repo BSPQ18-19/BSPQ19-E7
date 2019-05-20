@@ -228,6 +228,9 @@ public class PanelBuilder {
 		JButton deleteButton = new JButton(client.text.getString("Delete"));
 		deleteButton.addActionListener((e) -> {
 			client.deleteProperty(searchResults.getSelectedValue());
+			//client.searchPropertiesByCity(citySearch.getText(), searchResults);
+			//TODO
+			//JOptionPane.showMessageDialog(client.getWindow(), "The property has been successfully deleted.", "Information", JOptionPane.INFORMATION_MESSAGE, null);
 		});
 
 		JButton editButton = new JButton(client.text.getString("Edit"));
@@ -662,10 +665,14 @@ public class PanelBuilder {
 
 		JButton btnConfirm = new JButton(client.text.getString("Confirm"));
 		btnConfirm.addActionListener((e) -> {
-			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-			String startDate = df.format(dateChooserStart.getDate());
-			String endDate = df.format(dateChooserEnd.getDate());
-			client.bookProperty(name, property, startDate, endDate);
+			if(dateChooserStart.getDate() != null && dateChooserEnd.getDate() != null) {
+				DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+				String startDate = df.format(dateChooserStart.getDate());
+				String endDate = df.format(dateChooserEnd.getDate());
+				client.bookProperty(name, property, startDate, endDate);
+			} else {
+				JOptionPane.showMessageDialog(client.getWindow(), "You can not leave empty fields.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			}
 		});
 		south.add(btnConfirm);
 
@@ -752,7 +759,11 @@ public class PanelBuilder {
 
 		JButton btnUpdate = new JButton(client.text.getString("Update"));
 		btnUpdate.addActionListener((e) -> {
-			client.updateProperty(tfAddress.getText(), tfCity.getText(), Integer.parseInt(tfCapacity.getText()), Double.parseDouble(tfCost.getText()));
+			if(!tfCapacity.getText().isEmpty() && !tfCost.getText().isEmpty()) {
+				client.updateProperty(tfAddress.getText(), tfCity.getText(), Integer.parseInt(tfCapacity.getText()), Double.parseDouble(tfCost.getText()));
+			} else {
+				JOptionPane.showMessageDialog(client.getWindow(), "You can not leave empty fields.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			}
 		});
 		btnUpdate.setBounds(311, 210, 89, 23);
 		result.add(btnUpdate);	
@@ -839,10 +850,14 @@ public class PanelBuilder {
 
 		JButton btnUpdate = new JButton(client.text.getString("Update"));
 		btnUpdate.addActionListener((e) -> {
-			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-			String startDate = df.format(dateChooserStart.getDate());
-			String endDate = df.format(dateChooserEnd.getDate());
-			client.updateReservation(selectedReserv.getProperty(), selectedReserv.getGuest(), selectedReserv.getStartDate(), startDate, endDate);
+			if(dateChooserStart.getDate() != null && dateChooserEnd.getDate() != null) {
+				DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+				String startDate = df.format(dateChooserStart.getDate());
+				String endDate = df.format(dateChooserEnd.getDate());
+				client.updateReservation(selectedReserv.getProperty(), selectedReserv.getGuest(), selectedReserv.getStartDate(), startDate, endDate);
+			} else {
+				JOptionPane.showMessageDialog(client.getWindow(), "You can not leave empty fields.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			}
 		});
 		btnUpdate.setBounds(311, 210, 89, 23);
 		result.add(btnUpdate);	
@@ -915,7 +930,11 @@ public class PanelBuilder {
 
 		JButton btnPublish = new JButton(client.text.getString("Publish"));
 		btnPublish.addActionListener((e) -> {
-			client.publishProperty(tfAddress.getText(), tfCity.getText(), Integer.parseInt(tfCapacity.getText()), Double.parseDouble(tfCost.getText()), name);
+			if(!tfAddress.getText().isEmpty() && !tfCity.getText().isEmpty() && !tfCapacity.getText().isEmpty() && !tfCost.getText().isEmpty()) {
+				client.publishProperty(tfAddress.getText(), tfCity.getText(), Integer.parseInt(tfCapacity.getText()), Double.parseDouble(tfCost.getText()), name);
+			} else {
+				JOptionPane.showMessageDialog(client.getWindow(), "You can not leave empty fields.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+			}
 		});
 		btnPublish.setBounds(311, 210, 89, 23);
 		result.add(btnPublish);	

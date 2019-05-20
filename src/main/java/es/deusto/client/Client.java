@@ -131,6 +131,8 @@ public class Client {
 				}				
 				}
 				window.paintComponents(window.getGraphics());
+			} else {
+				JOptionPane.showMessageDialog(window, "Combination of username and password does not exist or is incorrect.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -264,10 +266,8 @@ public class Client {
 			e.printStackTrace();
 		}
 		
-		// @Todo: What does the server return when it does not find any?
 		if (properties == null || properties.isEmpty()) {
-			// @Temp: In the future we will want it to show some kind of message to the user
-			
+			JOptionPane.showMessageDialog(window, "No results found.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			return;
 		}
 		
@@ -360,6 +360,7 @@ public class Client {
 	
 	public void deleteProperty(Property property) {
 		try {
+			log.info("Deleting property: " + property);
 			server.deleteProperty(property.getAddress());
 		} catch (RemoteException e) {
 			log.error("Error deleting property: " + property);
@@ -384,7 +385,7 @@ public class Client {
 			
 			case NONE: {
 				server.updateReservation(property, guest, oldStartDate, startDate, endDate);
-				JOptionPane.showMessageDialog(window, "The reservation has been correctly updated.", "Information", JOptionPane.INFORMATION_MESSAGE, null);
+				JOptionPane.showMessageDialog(window, "The reservation has been successfully updated.", "Information", JOptionPane.INFORMATION_MESSAGE, null);
 			} break;
 
 			default: {
@@ -423,7 +424,7 @@ public class Client {
 			
 			case NONE: {
 				server.bookProperty(name, property, startDate, endDate);			
-				JOptionPane.showMessageDialog(window, "The property has been correctly booked.", "Information", JOptionPane.INFORMATION_MESSAGE, null);
+				JOptionPane.showMessageDialog(window, "The property has been successfully booked.", "Information", JOptionPane.INFORMATION_MESSAGE, null);
 			} break;
 
 			default: {
@@ -470,6 +471,10 @@ public class Client {
 			case INVALID_CITY: {
 				JOptionPane.showMessageDialog(window, "Invalid city. It is incorrectly typed.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			} break;
+			
+			case NONE: {
+				JOptionPane.showMessageDialog(window, "The property has been successfully published.", "Information", JOptionPane.INFORMATION_MESSAGE, null);
+			} break;
 
 			default: {
 				// Do nothing.
@@ -497,7 +502,7 @@ public class Client {
 			} break;
 			
 			case NONE: {
-				JOptionPane.showMessageDialog(window, "The property has been correctly updated.", "Alert", JOptionPane.WARNING_MESSAGE, null);
+				JOptionPane.showMessageDialog(window, "The property has been successfully updated.", "Information", JOptionPane.INFORMATION_MESSAGE, null);
 			} break;
 
 			default: {
