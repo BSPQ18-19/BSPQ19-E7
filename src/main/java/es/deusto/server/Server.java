@@ -347,7 +347,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		if (!Pattern.matches(telephone_regex, telephone)) {
 			return RegistrationError.INVALID_TELEPHONE;
 		}
-		
+
 		Transaction tx = null;
 		User user = null;
 		try {
@@ -489,17 +489,59 @@ public class Server extends UnicastRemoteObject implements IServer {
 	 * @param username Username of the user to delete
 	 */
 	public synchronized void deleteUser(String username) throws RemoteException {
-		// @Security: How can we guarantee that this is called by a user onto its own account,
-		// or by an administrator?
+		// @Security: How can we guarantee that this is called by a user onto its own account, or by an administrator?
 
+		User user = pm.getObjectById(User.class, username);
+		UserKind kind = user.getKind();
+		
 		Transaction tx = null;
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
+			
+			if(kind.equals(UserKind.HOST)) {
+				Query<Property> queryP = pm.newQuery(Property.class);
+				queryP.setFilter("host.username == '" + username + "'");
+				List<Property> listProperties = queryP.executeList();
+				if(!listProperties.isEmpty()) {
+					for(Property property : listProperties) {
+						Query<Reservation> queryR = pm.newQuery(Reservation.class);
+						queryR.setFilter("property.address == '" + property.getAddress() + "'");
+						List<Reservation> reservation = queryR.executeList();
+						if(!reservation.isEmpty()) { pm.deletePersistentAll(reservation); }
 
-			User user = pm.getObjectById(User.class, username);
+						Query<Occupancy> queryO = pm.newQuery(Occupancy.class);
+						queryO.setFilter("property.address == '" + property.getAddress() + "'");
+						List<Occupancy> occupancy = queryO.executeList();
+						if(!occupancy.isEmpty()) { pm.deletePersistentAll(occupancy); }
+
+						Query<Property> queryP2 = pm.newQuery(Property.class);
+						queryP2.setFilter("address == '" + property.getAddress() + "'");
+						Property p = queryP2.executeUnique();
+						pm.deletePersistent(p);
+					}
+				}
+			} else if (kind.equals(UserKind.GUEST)) {
+				Query<Reservation> queryR = pm.newQuery(Reservation.class);
+				queryR.setFilter("guest.username == '" + username + "'");
+				List<Reservation> listReservations = queryR.executeList();
+				if(!listReservations.isEmpty()) {
+					for(Reservation reserv : listReservations) {
+						Query<Occupancy> queryO = pm.newQuery(Occupancy.class);
+						queryO.setFilter("property.address == '" + reserv.getProperty().getAddress() + "'");
+						Occupancy occupancy = queryO.executeUnique();
+						pm.deletePersistent(occupancy);
+						
+						Query<Reservation> queryR2 = pm.newQuery(Reservation.class);
+						queryR2.setFilter("guest.username == '" + username + "'");
+						Reservation reservation = queryR2.executeUnique();
+						pm.deletePersistent(reservation);
+					}
+				}
+			}
+			
 			pm.deletePersistent(user);
-
+			
 			tx.commit();
 
 		} catch (JDOObjectNotFoundException e) {
@@ -528,26 +570,26 @@ public class Server extends UnicastRemoteObject implements IServer {
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
-					
+
 			Query<Reservation> queryR = pm.newQuery(Reservation.class);
 			queryR.setFilter("property.address == '" + address + "'");
 			reservation = queryR.executeList();
 			if(!reservation.isEmpty()) {
 				pm.deletePersistentAll(reservation);
 			}
-			
+
 			Query<Occupancy> queryO = pm.newQuery(Occupancy.class);
 			queryO.setFilter("property.address == '" + address + "'");
 			occupancy = queryO.executeList();
 			if(!occupancy.isEmpty()) {
 				pm.deletePersistentAll(occupancy);
 			}
-			
+
 			Query<Property> queryP = pm.newQuery(Property.class);
 			queryP.setFilter("address == '" + address + "'");
 			property = queryP.executeUnique();
 			pm.deletePersistent(property);
-			
+
 			tx.commit();
 		} catch (Exception e) {
 			log.info("Property not found: " + address);
@@ -596,7 +638,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 	}
 
-	
+
 	public synchronized List<Occupancy> getOccupancyByProperty(Property property) throws RemoteException {
 		List<Occupancy> result = null;
 		Transaction tx = null;
@@ -840,7 +882,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 		return PropertyRegistrationError.NONE;
 	}
-	
+
 	/**
 	 * Updates the information of a property
 	 * 
@@ -850,18 +892,18 @@ public class Server extends UnicastRemoteObject implements IServer {
 	 * @param cost New price of the property per night
 	 */
 	public synchronized PropertyRegistrationError updateProperty (String address, String city, int capacity, double cost) throws RemoteException {
-		
+
 		if(cost <= 0) {
 			return PropertyRegistrationError.INVALID_COST;
 		}
 		if(capacity <= 0) {
 			return PropertyRegistrationError.INVALID_CAPACITY;
 		}
-		
+
 		Transaction tx = null;
 		Property property = null;
 		User host = null;
-		
+
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();

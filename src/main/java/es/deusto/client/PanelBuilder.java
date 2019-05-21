@@ -228,9 +228,7 @@ public class PanelBuilder {
 		JButton deleteButton = new JButton(client.text.getString("Delete"));
 		deleteButton.addActionListener((e) -> {
 			client.deleteProperty(searchResults.getSelectedValue());
-			//client.searchPropertiesByCity(citySearch.getText(), searchResults);
-			//TODO
-			//JOptionPane.showMessageDialog(client.getWindow(), "The property has been successfully deleted.", "Information", JOptionPane.INFORMATION_MESSAGE, null);
+			JOptionPane.showMessageDialog(client.getWindow(), "The property has been successfully deleted.", "Information", JOptionPane.INFORMATION_MESSAGE, null);
 		});
 
 		JButton editButton = new JButton(client.text.getString("Edit"));
@@ -289,6 +287,7 @@ public class PanelBuilder {
 		JButton deleteButton = new JButton(client.text.getString("Delete"));
 		deleteButton.addActionListener((e) -> {
 			client.deleteAccount(searchResults.getSelectedValue());
+			JOptionPane.showMessageDialog(client.getWindow(), "The account has been successfully deleted.", "Information", JOptionPane.INFORMATION_MESSAGE, null);
 		});
 
 		JButton editButton = new JButton(client.text.getString("Edit"));
