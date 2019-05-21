@@ -291,9 +291,8 @@ public class Client {
 			e.printStackTrace();
 		}
 		
-		// @Todo: What does the server return when it does not find any?
 		if (reservations == null || reservations.isEmpty()) {
-			// @Temp: In the future we will want it to show some kind of message to the user
+			JOptionPane.showMessageDialog(window, "No results found.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			return;
 		}
 		
@@ -317,9 +316,8 @@ public class Client {
 			e.printStackTrace();
 		}
 		
-		// @Todo: What does the server return when it does not find any?
 		if (reservations == null || reservations.isEmpty()) {
-			// @Temp: In the future we will want it to show some kind of message to the user
+			JOptionPane.showMessageDialog(window, "No results found.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			return;
 		}
 		
@@ -342,9 +340,8 @@ public class Client {
 			e.printStackTrace();
 		}
 		
-		// @Todo: What does the server return when it does not find any?
 		if (users == null || users.isEmpty()) {
-			// @Temp: In the future we will want it to show some kind of message to the user
+			JOptionPane.showMessageDialog(window, "No results found.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			return;
 		}
 		

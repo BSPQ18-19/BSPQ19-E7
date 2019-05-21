@@ -522,14 +522,36 @@ public class Server extends UnicastRemoteObject implements IServer {
 	 */
 	public synchronized void deleteProperty(String address) throws RemoteException {
 		Transaction tx = null;
+		List<Reservation> reservation;
+		List<Occupancy> occupancy;
+		Property property;
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
-			Property property = pm.getObjectById(Property.class, address);
+					
+			Query<Reservation> queryR = pm.newQuery(Reservation.class);
+			queryR.setFilter("property.address == '" + address + "'");
+			reservation = queryR.executeList();
+			if(!reservation.isEmpty()) {
+				pm.deletePersistentAll(reservation);
+			}
+			
+			Query<Occupancy> queryO = pm.newQuery(Occupancy.class);
+			queryO.setFilter("property.address == '" + address + "'");
+			occupancy = queryO.executeList();
+			if(!occupancy.isEmpty()) {
+				pm.deletePersistentAll(occupancy);
+			}
+			
+			Query<Property> queryP = pm.newQuery(Property.class);
+			queryP.setFilter("address == '" + address + "'");
+			property = queryP.executeUnique();
 			pm.deletePersistent(property);
+			
 			tx.commit();
 		} catch (Exception e) {
 			log.info("Property not found: " + address);
+			e.getStackTrace();
 		} finally {
 			if (tx.isActive()) {
 				tx.rollback();
