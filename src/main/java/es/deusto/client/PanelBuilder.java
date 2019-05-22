@@ -342,14 +342,23 @@ public class PanelBuilder {
 		// @Copied and adapted from createRegisterWindow
 		// We could @Refactor the things both methods have in common
 
+		JLabel lblImg = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
+		lblImg.setBounds(10, 11, 414, 93);
+		result.add(lblImg);
+
 		JLabel lblName1 = new JLabel(client.text.getString("Name")+":");
 		lblName1.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblName1.setBounds(20, 127, 62, 15);
 		result.add(lblName1);
-
-		JLabel lblImg = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
-		lblImg.setBounds(10, 11, 414, 93);
-		result.add(lblImg);
+		
+		JTextField tfName1 = new JTextField();
+		tfName1.setColumns(10);
+		tfName1.setBounds(89, 125, 118, 20);
+		tfName1.setText(selectedUser != null ? selectedUser.getName() : "");
+		if(selectedUser.getKind() == UserKind.ADMINISTRATOR) {
+			tfName1.setEnabled(false);
+		}
+		result.add(tfName1);
 
 		JLabel lblUserName1 = new JLabel(client.text.getString("Username")+":");
 		lblUserName1.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -362,12 +371,6 @@ public class PanelBuilder {
 		tfUserName1.setEnabled(isNewUser);
 		result.add(tfUserName1);
 
-		JTextField tfName1 = new JTextField();
-		tfName1.setColumns(10);
-		tfName1.setBounds(89, 125, 118, 20);
-		tfName1.setText(selectedUser != null ? selectedUser.getName() : "");
-		result.add(tfName1);
-
 		JLabel lblEmail = new JLabel(client.text.getString("Email")+":");
 		lblEmail.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblEmail.setBounds(20, 181, 82, 15);
@@ -377,6 +380,9 @@ public class PanelBuilder {
 		tfEmail.setColumns(10);
 		tfEmail.setBounds(89, 179, 118, 20);
 		tfEmail.setText(selectedUser != null ? selectedUser.getEmail() : "");
+		if(selectedUser.getKind() == UserKind.ADMINISTRATOR) {
+			tfEmail.setEnabled(false);
+		}
 		result.add(tfEmail);
 
 		JLabel lblPhone = new JLabel(client.text.getString("Phone")+":");
@@ -388,6 +394,9 @@ public class PanelBuilder {
 		tfPhone.setColumns(10);
 		tfPhone.setBounds(292, 125, 118, 20);
 		tfPhone.setText(selectedUser != null ? selectedUser.getTelephone() : "");
+		if(selectedUser.getKind() == UserKind.ADMINISTRATOR) {
+			tfPhone.setEnabled(false);
+		}
 		result.add(tfPhone);
 
 		JLabel lblUserkind = new JLabel(client.text.getString("Kind"));
