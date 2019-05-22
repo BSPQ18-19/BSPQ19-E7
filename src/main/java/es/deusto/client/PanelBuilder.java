@@ -759,7 +759,7 @@ public class PanelBuilder {
 		JButton btnUpdate = new JButton(client.text.getString("Update"));
 		btnUpdate.addActionListener((e) -> {
 			if(!tfCapacity.getText().isEmpty() && !tfCost.getText().isEmpty()) {
-				client.updateProperty(tfAddress.getText(), tfCity.getText(), Integer.parseInt(tfCapacity.getText()), Double.parseDouble(tfCost.getText()));
+				client.updateProperty(tfAddress.getText(), Integer.parseInt(tfCapacity.getText()), Double.parseDouble(tfCost.getText()));
 			} else {
 				JOptionPane.showMessageDialog(client.getWindow(), "You can not leave empty fields.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			}
@@ -876,9 +876,14 @@ public class PanelBuilder {
 	 * @return
 	 */
 	public static JPanel createHostPropertyNew(Client client, String name, UserKind kind) {
+		//TODO
 		JPanel result = new JPanel();
 		result.setBounds(0, 0, 434, 209);
 		result.setLayout(null);
+		
+		JLabel imgBanner1 = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
+		imgBanner1.setBounds(10, 11, 414, 93);
+		result.add(imgBanner1);
 
 		JLabel lblAddress = new JLabel(client.text.getString("Address")+":");
 		lblAddress.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -953,25 +958,27 @@ public class PanelBuilder {
 	 * @return
 	 */
 	public static JPanel createAccountManagement(Client client, String name, UserKind kind) {
+		User user = client.getUser(name);
+		
 		JPanel result = new JPanel();
 		result.setBounds(0, 0, 434, 209);
 		result.setLayout(null);
 
-		JLabel lblusername = new JLabel(client.text.getString("Username")+":");
-		lblusername.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblusername.setBounds(20, 127, 62, 15);
-		result.add(lblusername);
-
-		JTextField tfusername = new JTextField();
-		tfusername.setColumns(10);
-		tfusername.setBounds(89, 125, 118, 20);
-		tfusername.setText(name);
-		tfusername.setEnabled(false);
-		result.add(tfusername);
-
 		JLabel imgBanner1 = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
 		imgBanner1.setBounds(10, 11, 414, 93);
 		result.add(imgBanner1);
+		
+		JLabel lblUsername = new JLabel(client.text.getString("Username")+":");
+		lblUsername.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblUsername.setBounds(20, 127, 62, 15);
+		result.add(lblUsername);
+
+		JTextField tfUsername = new JTextField();
+		tfUsername.setColumns(10);
+		tfUsername.setBounds(89, 125, 118, 20);
+		tfUsername.setText(user.getUsername());
+		tfUsername.setEnabled(false);
+		result.add(tfUsername);
 
 		JLabel lblGuest = new JLabel(client.text.getString("Name")+":");
 		lblGuest.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -981,7 +988,8 @@ public class PanelBuilder {
 		JTextField tfGuest = new JTextField();
 		tfGuest.setColumns(10);
 		tfGuest.setBounds(89, 153, 118, 20);
-		/*TODO: Get user name*/
+		tfGuest.setText(user.getName());
+		tfGuest.setEnabled(false);
 		result.add(tfGuest);
 
 		JLabel lblPhone = new JLabel(client.text.getString("Telephone")+":");
@@ -992,8 +1000,7 @@ public class PanelBuilder {
 		JTextField tfPhone = new JTextField();
 		tfPhone.setColumns(10);
 		tfPhone.setBounds(89, 179, 118, 20);
-		/*TODO: Get user phone*/
-		tfPhone.setText("");
+		tfPhone.setText(user.getTelephone());
 		result.add(tfPhone);
 
 		JLabel lblEmail = new JLabel(client.text.getString("Email")+":");
@@ -1004,8 +1011,8 @@ public class PanelBuilder {
 		JTextField tfEmail = new JTextField();
 		tfEmail.setColumns(10);
 		tfEmail.setBounds(292, 125, 118, 20);
-		/*TODO: Get user phone*/
-		tfEmail.setText("");
+		tfEmail.setText(user.getEmail());
+		tfEmail.setEnabled(false);
 		result.add(tfEmail);
 
 		JLabel lblPass = new JLabel(client.text.getString("Password")+":");
@@ -1016,7 +1023,7 @@ public class PanelBuilder {
 		JPasswordField tfPass = new JPasswordField();
 		tfPass.setColumns(10);
 		tfPass.setBounds(292, 153, 118, 20);
-		/*TODO: Get user pass*/
+		tfPass.setText(user.getPassword());
 		result.add(tfPass);
 
 		JButton btnBack = new JButton(client.text.getString("Back"));
@@ -1032,12 +1039,10 @@ public class PanelBuilder {
 
 		JButton btnUpdate = new JButton(client.text.getString("Update"));
 		btnUpdate.addActionListener((e) -> {
-			// TODO: Update User
-			if (tfPass.getPassword().toString()!=null) {
-				client.changePassword(name, new String(tfPass.getPassword()));
-			}
-			if (tfPhone.getText()!=null) {
-				client.changeTelephone(name, tfPhone.getText());
+			if(!new String(tfPass.getPassword()).isEmpty() && !tfPhone.getText().isEmpty()) {
+				client.changeAccountData(name, new String(tfPass.getPassword()), tfPhone.getText());
+			} else {
+				JOptionPane.showMessageDialog(client.getWindow(), "You can not leave empty fields.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			}
 		});
 		btnUpdate.setBounds(311, 210, 89, 23);

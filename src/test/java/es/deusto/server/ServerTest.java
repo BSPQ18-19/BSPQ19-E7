@@ -72,7 +72,7 @@ public class ServerTest {
 		
 		server.updateUser("Test", "newPassword", User.UserKind.GUEST, "this method does not care about correct data!", "this is not checked!", "This is my new name", true);
 		
-		List<User> results = server.getUser("Test");
+		List<User> results = server.getUsers("Test");
 		
 		assertTrue(results.size() == 1);
 		
@@ -108,7 +108,7 @@ public class ServerTest {
 		server.deleteUser("Test");
 		
 		
-		List<User> results = server.getUser("Test");
+		List<User> results = server.getUsers("Test");
 		assertNotNull(results);
 		assertTrue(results.size() == 0);
 		

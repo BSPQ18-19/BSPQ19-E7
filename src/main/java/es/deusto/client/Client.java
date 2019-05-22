@@ -216,29 +216,29 @@ public class Client {
 			e.printStackTrace();
 		}
 	}
-
-	public void changePassword(String username, String password) {
+	
+	public User getUser(String username) {
+		User user = null;
 		try {
-			if (server.changeUserPassword(username, password)) {
-				JOptionPane.showMessageDialog(window, "Password Changed");
-			} else {
-				JOptionPane.showMessageDialog(window, "Password must be different");
-			}
+			user = server.getUser(username);
 		} catch (RemoteException e) {
-			log.error("Error updating password: " + password);
+			log.error("Error gettin user: " + username);
 			e.printStackTrace();
 		}
+		return user;
 	}
 
-	public void changeTelephone(String username, String telephone) {
+	public void changeAccountData (String username, String password, String telephone) {
 		try {
-			if (server.changeUserTelephone(username, telephone)) {
-				JOptionPane.showMessageDialog(window, "Telephone Changed");
-			} else {
-				JOptionPane.showMessageDialog(window, "Telephone must be different");
+			boolean pass = server.changeUserPassword(username, password);
+			boolean tlf = server.changeUserTelephone(username, telephone);
+			if(tlf == true && pass == true) {
+				JOptionPane.showMessageDialog(window, "Update succesfull", "Information", JOptionPane.INFORMATION_MESSAGE, null);
+			} else if (tlf == false) {
+				JOptionPane.showMessageDialog(window, "Invalid telephone. It is incorrectly typed.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			}
 		} catch (RemoteException e) {
-			log.error("Error updating telephone: " + telephone);
+			log.error("Error updating account data: " + username);
 			e.printStackTrace();
 		}
 	}
@@ -317,7 +317,6 @@ public class Client {
 		}
 
 		if (reservations == null || reservations.isEmpty()) {
-			JOptionPane.showMessageDialog(window, "No results found.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			return;
 		}
 
@@ -328,13 +327,12 @@ public class Client {
 		}
 
 		resultList.setModel(model);
-
 	}
 
 	public void searchUsers(String username, JList<User> resultList) {
 		List<User> users = null;
 		try {
-			users = server.getUser(username);
+			users = server.getUsers(username);
 		} catch (RemoteException e) {
 			log.error("Error retrieving properties by city");
 			e.printStackTrace();
@@ -483,10 +481,10 @@ public class Client {
 		}
 	}
 
-	public void updateProperty(String address, String city, int capacity, double cost) {
+	public void updateProperty(String address, int capacity, double cost) {
 		try {
 			log.info("Updating property: " + address);
-			PropertyRegistrationError error = server.updateProperty(address, city, capacity, cost);
+			PropertyRegistrationError error = server.updateProperty(address, capacity, cost);
 
 			log.debug("Update result " + error);
 			switch (error) {

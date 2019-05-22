@@ -88,13 +88,12 @@ public interface IServer extends Remote {
 	 * Updates a already existing property with new data
 	 * 
 	 * @param address Address identifying the property
-	 * @param city This probably should be removed from the API. The city can't change, right?
 	 * @param capacity New capacity of the property
 	 * @param cost new price of the property per night
 	 * @return Error code if any
 	 * @throws RemoteException
 	 */
-	PropertyRegistrationError updateProperty (String address, String city, int capacity, double cost) throws RemoteException;
+	PropertyRegistrationError updateProperty (String address, int capacity, double cost) throws RemoteException;
 
 	/**
 	 * Error codes of @see checkOccupancy
@@ -128,7 +127,14 @@ public interface IServer extends Remote {
 	 * @return Returns a list of users
 	 * @throws RemoteException
 	 */
-	List<User> getUser(String username) throws RemoteException;
+	List<User> getUsers(String username) throws RemoteException;
+	/**
+	 * Gets the user matching the username
+	 * 
+	 * @param username String to search
+	 * @return User matching the query
+	 */
+	User getUser (String username) throws RemoteException;
 	/**
 	 * Updates a user data checking that the input data is valid.
 	 * @Todo: It can only be used by administrators.

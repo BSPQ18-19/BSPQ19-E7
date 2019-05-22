@@ -246,7 +246,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	 * @param username String to search
 	 * @return List of users matching the query. If there was an error in the query the return is null. If there were no matches the list is empty
 	 */
-	public synchronized List<User> getUser(String username) {
+	public synchronized List<User> getUsers(String username) {
 		// @Security: We should pass some kind of token to verify that the user requesting data from a user is an administrator
 
 		List<User> result = null;
@@ -273,7 +273,30 @@ public class Server extends UnicastRemoteObject implements IServer {
 			}
 		}
 		return result;
-
+	}
+	
+	/**
+	 * Gets the user matching the username
+	 * 
+	 * @param username String to search
+	 * @return User matching the query
+	 */
+	public synchronized User getUser (String username) throws RemoteException {
+		User user = null;
+		Transaction tx = null;
+		try {
+			tx = pm.currentTransaction();
+			tx.begin();
+			user = pm.getObjectById(User.class, username);
+			tx.commit();
+		} catch (JDOObjectNotFoundException e) {
+			log.error("User not found: " + username);
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+		return user;
 	}
 
 	/**
@@ -422,24 +445,20 @@ public class Server extends UnicastRemoteObject implements IServer {
 	 * @return Boolean whether the change of password was made successfully
 	 */
 	public Boolean changeUserPassword(String username, String password) throws RemoteException {
-		//TODO
 		Transaction tx = null;
 		User user = null;
 		Boolean chnged = false;
-		try{
+		try {
 			tx = pm.currentTransaction();
 			tx.begin();
 			user = pm.getObjectById(User.class, username);
-
-			if(password.equals(user.getPassword())) {
-
-			} else {
-				user.setPassword(password);
-				chnged=true;
-			}
+			user.setPassword(password);
+			chnged = true;
 			tx.commit();
 		} catch (JDOObjectNotFoundException e) {
-		}finally{
+			log.error("User: " + user);
+			log.error(e.getStackTrace());
+		} finally {
 			if (tx.isActive()) {
 				tx.rollback();
 			}
@@ -458,23 +477,26 @@ public class Server extends UnicastRemoteObject implements IServer {
 	 * @return Boolean whether the change of telephone was made successfully
 	 */
 	public Boolean changeUserTelephone(String username, String telephone) {
-		//TODO
 		Transaction tx = null;
 		User user = null;
-		Boolean chnged = false;
+		Boolean chnged = true;
 		try{
 			tx = pm.currentTransaction();
 			tx.begin();
 			user = pm.getObjectById(User.class, username);
-			String PhoneConst = "^[0-9]{9}$";
-			if (telephone.matches(PhoneConst)) {
+			// // @Temporary: telephone_regex is not working
+			if (telephone.matches("^[0-9]{9}$")) {
 				user.setTelephone(telephone);
-				chnged=true;
+			} else {
+				chnged = false;
+				System.out.println("error tlf regex");
 			}
-			else {System.out.println("Invalid phone number.");}
+
 			tx.commit();
 		} catch (JDOObjectNotFoundException e) {
-		}finally{
+			log.error("User: " + user);
+			log.error(e.getStackTrace());
+		} finally{
 			if (tx.isActive()) {
 				tx.rollback();
 			}
@@ -887,11 +909,10 @@ public class Server extends UnicastRemoteObject implements IServer {
 	 * Updates the information of a property
 	 * 
 	 * @param Address of the property to update
-	 * @param city This should remain the same !!! @Todo
 	 * @param capacity New capacity of the place
 	 * @param cost New price of the property per night
 	 */
-	public synchronized PropertyRegistrationError updateProperty (String address, String city, int capacity, double cost) throws RemoteException {
+	public synchronized PropertyRegistrationError updateProperty (String address, int capacity, double cost) throws RemoteException {
 
 		if(cost <= 0) {
 			return PropertyRegistrationError.INVALID_COST;
@@ -903,12 +924,14 @@ public class Server extends UnicastRemoteObject implements IServer {
 		Transaction tx = null;
 		Property property = null;
 		User host = null;
+		String city = null;
 
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
 			property = pm.getObjectById(Property.class, address);
 			host = property.getHost();
+			city = property.getCity();
 			tx.commit();	
 		} catch (JDOObjectNotFoundException e) {
 			log.info("Property not found: " + address);
