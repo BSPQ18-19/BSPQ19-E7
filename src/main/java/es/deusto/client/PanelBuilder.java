@@ -946,6 +946,7 @@ public class PanelBuilder {
 		btnPublish.addActionListener((e) -> {
 			if(!tfAddress.getText().isEmpty() && !tfCity.getText().isEmpty() && !tfCapacity.getText().isEmpty() && !tfCost.getText().isEmpty()) {
 				client.publishProperty(tfAddress.getText(), tfCity.getText(), Integer.parseInt(tfCapacity.getText()), Double.parseDouble(tfCost.getText()), name);
+				client.switchHostPropertiesManagement(name, kind);
 			} else {
 				JOptionPane.showMessageDialog(client.getWindow(), "You can not leave empty fields.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			}

@@ -67,8 +67,9 @@ public class Property implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Property [address=" + address + ", city=" + city + ", capacity=" + capacity + ", cost=" + cost
-				+ ", host=" + host + "]";
+		//return "Property [address=" + address + ", city=" + city + ", capacity=" + capacity + ", cost=" + cost
+		//		+ ", host=" + host + "]";
+		return "Property: "+address+", "+city+". "+capacity+" Personas."+cost+"€/Noche. Dueño: "+host.getName();
 	}
 
 }
