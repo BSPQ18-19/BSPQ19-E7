@@ -56,7 +56,7 @@ public class Reservation implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Reservation [property=" + property + ", guest=" + guest + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+		return "Reserv.[ Location: "+property.address+", "+property.city+". From:"+startDate+" To:"+endDate+" by "+guest.getName()+"]";
 	}
 
 }
