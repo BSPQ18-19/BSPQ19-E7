@@ -39,6 +39,7 @@ public class ServerTest {
     public void createUser() throws RemoteException {
 		{
 			RegistrationError error = server.registerUser("Test", "Test", "test@gmail.com", "901234567", "test", false);
+			
 			assertTrue(error.toString(), error == RegistrationError.NONE);
 		}
 		
@@ -68,9 +69,13 @@ public class ServerTest {
 		// Admin user is created by default, let's modify it
 		
 		
-		server.registerUser("Test", "test1", "test-email@gmail.com", "1234", "pass", true);
-		
-		server.updateUser("Test", "newPassword", User.UserKind.GUEST, "this method does not care about correct data!", "this is not checked!", "This is my new name", true);
+		RegistrationError reg_error = server.registerUser("Test", "test1", "test-email@gmail.com", "1234", "pass", true);
+		System.out.println(reg_error);
+		assertTrue(reg_error == RegistrationError.NONE);
+
+		RegistrationError upd_error = server.updateUser("Test", "newPassword", User.UserKind.GUEST, "this method does not care about correct data!", "this is not checked!", "This is my new name", true);
+		System.out.println(upd_error);
+		assertTrue(upd_error == RegistrationError.NONE);
 		
 		List<User> results = server.getUsers("Test");
 		
@@ -161,7 +166,7 @@ public class ServerTest {
 	}
 	
 	@Test
-	@PerfTest(threads=10, invocations=900)
+	@PerfTest(threads=1, invocations=800)
 	@Required(max = 3500, average = 3500, totalTime=5000)
 	public void testLogin() throws RemoteException {	
 		User user = server.login("admin", "admin");
@@ -194,6 +199,13 @@ public class ServerTest {
 		
 		// @Todo: Assert that the reservation is correct
 		
+	}
+	
+	@Test
+	@PerfTest(threads=10, invocations=1000)
+	@Required(average=5000)
+	public void testGetUser() throws RemoteException {
+		server.getUser("admin");
 	}
 	
 	@AfterClass

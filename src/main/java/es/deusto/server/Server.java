@@ -90,7 +90,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	 * 
 	 */
 	@Override
-	public synchronized RegistrationError registerUser(String name, String username, String email, String telephone, String password, boolean isHost) {
+	public synchronized RegistrationError registerUser(String username, String name, String email, String telephone, String password, boolean isHost) {
 		System.out.println(telephone);
 		// @Todo: In the future this method will only be used to register hosts and guests
 		// @Security Administrators will only be able to be created by other administrators. And should be
@@ -361,15 +361,15 @@ public class Server extends UnicastRemoteObject implements IServer {
 	 */
 	public synchronized RegistrationError updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException {
 		// Check all the input are correct
-		if(name.isEmpty() == true || username.isEmpty() == true || email.isEmpty() == true || telephone.isEmpty() == true || password.isEmpty() == true) {
-			return RegistrationError.INVALID_EMPTY_FIELD;
-		}
-		if (!Pattern.matches(email_regex, email)) {
-			return RegistrationError.INVALID_EMAIL;
-		}
-		if (!Pattern.matches(telephone_regex, telephone)) {
-			return RegistrationError.INVALID_TELEPHONE;
-		}
+//		if(name.isEmpty() == true || username.isEmpty() == true || email.isEmpty() == true || telephone.isEmpty() == true || password.isEmpty() == true) {
+//			return RegistrationError.INVALID_EMPTY_FIELD;
+//		}
+//		if (!Pattern.matches(email_regex, email)) {
+//			return RegistrationError.INVALID_EMAIL;
+//		}
+//		if (!Pattern.matches(telephone_regex, telephone)) {
+//			return RegistrationError.INVALID_TELEPHONE;
+//		}
 
 		Transaction tx = null;
 		User user = null;
@@ -393,25 +393,22 @@ public class Server extends UnicastRemoteObject implements IServer {
 			}
 		}
 
+		if (user == null) {
+			return RegistrationError.INVALID_NAME;
+		}
+		
 		try {
 			tx = pm.currentTransaction();
 			tx.begin();
 
-			if (user != null) {
-				// Update the user
-				log.info("Updating existing user");
-				user.setPassword(password);
-				user.setKind(kind);
-				user.setTelephone(telephone);
-				user.setEmail(email);
-				user.setName(name);
-				user.setVerified(verified);
-			}
-			else {
-				// Create a new user
-				log.info("Creating new user");
-				user = new User(username, password, kind, telephone, email, name, verified);
-			}
+			// Update the user
+			log.info("Updating existing user");
+			user.setPassword(password);
+			user.setKind(kind);
+			user.setTelephone(telephone);
+			user.setEmail(email);
+			user.setName(name);
+			user.setVerified(verified);
 
 			// Store the updated user
 			pm.makePersistent(user);
@@ -420,7 +417,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 			tx.commit();
 
 		} catch (JDOException e) {
-			log.error("User: " + user);
+			log.error("Error updating User: " + user);
 			log.error(e.getStackTrace());
 		} finally {
 			// @Robustness: I don't know if pm.currentTransaction can fail, but if it does

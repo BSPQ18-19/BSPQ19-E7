@@ -58,7 +58,7 @@ public interface IServer extends Remote {
 	 * @return Error code if any
 	 * @throws RemoteException
 	 */
-	RegistrationError registerUser(String name, String username, String email, String telephone, String password, boolean isHost) throws RemoteException;
+	RegistrationError registerUser(String username, String name, String email, String telephone, String password, boolean isHost) throws RemoteException;
 	
 	/**
 	 * Error codes of @see registerPorperty

@@ -145,7 +145,7 @@ public class Client {
 
 		try {
 			log.info("Registering user: " + username);
-			RegistrationError error = server.registerUser(name, username, email, telephone, password, isHost);
+			RegistrationError error = server.registerUser(username, name, email, telephone, password, isHost);
 
 			log.debug("Registration result " + error);
 			switch (error) {
