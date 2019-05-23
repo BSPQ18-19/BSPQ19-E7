@@ -73,7 +73,7 @@ public class ServerTest {
 		System.out.println(reg_error);
 		assertTrue(reg_error == RegistrationError.NONE);
 
-		RegistrationError upd_error = server.updateUser("Test", "newPassword", User.UserKind.GUEST, "this method does not care about correct data!", "this is not checked!", "This is my new name", true);
+		RegistrationError upd_error = server.updateUser("Test", "newPassword", User.UserKind.GUEST, "1111", "a@gmail.com", "test2", true);
 		System.out.println(upd_error);
 		assertTrue(upd_error == RegistrationError.NONE);
 		
@@ -84,10 +84,10 @@ public class ServerTest {
 		User user = results.get(0);
 		assertTrue(user.getUsername().equals("Test"));
 		assertTrue(user.getKind() == User.UserKind.GUEST);
-		assertTrue(user.getName().equals("This is my new name"));
+		assertTrue(user.getName().equals("test2"));
 		assertTrue(user.getPassword().equals("newPassword"));
-		assertTrue(user.getTelephone().equals("this method does not care about correct data!"));
-		assertTrue(user.getEmail().equals("this is not checked!"));
+		assertTrue(user.getTelephone().equals("1111"));
+		assertTrue(user.getEmail().equals("a@gmail.com"));
 		assertTrue(user.isVerified());
 		
 		

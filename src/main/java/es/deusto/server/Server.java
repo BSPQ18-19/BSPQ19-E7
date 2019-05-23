@@ -361,15 +361,15 @@ public class Server extends UnicastRemoteObject implements IServer {
 	 */
 	public synchronized RegistrationError updateUser(String username, String password, UserKind kind, String telephone, String email, String name, boolean verified) throws RemoteException {
 		// Check all the input are correct
-//		if(name.isEmpty() == true || username.isEmpty() == true || email.isEmpty() == true || telephone.isEmpty() == true || password.isEmpty() == true) {
-//			return RegistrationError.INVALID_EMPTY_FIELD;
-//		}
-//		if (!Pattern.matches(email_regex, email)) {
-//			return RegistrationError.INVALID_EMAIL;
-//		}
-//		if (!Pattern.matches(telephone_regex, telephone)) {
-//			return RegistrationError.INVALID_TELEPHONE;
-//		}
+		if(name.isEmpty() == true || username.isEmpty() == true || email.isEmpty() == true || telephone.isEmpty() == true || password.isEmpty() == true) {
+			return RegistrationError.INVALID_EMPTY_FIELD;
+		}
+		if (!Pattern.matches(email_regex, email)) {
+			return RegistrationError.INVALID_EMAIL;
+		}
+		if (!Pattern.matches(telephone_regex, telephone)) {
+			return RegistrationError.INVALID_TELEPHONE;
+		}
 
 		Transaction tx = null;
 		User user = null;
