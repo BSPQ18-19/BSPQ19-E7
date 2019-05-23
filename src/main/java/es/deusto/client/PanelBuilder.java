@@ -179,6 +179,7 @@ public class PanelBuilder {
 			String password2 = new String(tfRepeat.getPassword());
 			if (password.equals(password2)) {
 				client.register(tfName1.getText(), tfUserName1.getText(), tfEmail.getText(), tfPhone.getText(), new String(tfPassword1.getPassword()), hostCheckBox.isSelected());
+				client.switchLogin();
 			} else {
 				JOptionPane.showMessageDialog(client.getWindow(), "Passwords do not match", "Alert", JOptionPane.WARNING_MESSAGE);
 			}
