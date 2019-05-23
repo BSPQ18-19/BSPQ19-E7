@@ -313,7 +313,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 	public synchronized User login(String username, String password) throws RemoteException {
 
 		// @Refactor: Can we use 'getUser()' above, inside this method?
-
+		
 		log.info("Login " + username);
 		User user = null;
 		Transaction tx = null;
@@ -337,7 +337,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 		}
 
 		// Check passwords match
-		if (password.equals(user.getPassword())) {
+		if (user!=null && password.equals(user.getPassword())) {
 			return user;
 		} else {
 			return null;

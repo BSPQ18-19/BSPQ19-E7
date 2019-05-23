@@ -25,6 +25,8 @@ import es.deusto.server.jdo.User;
 import es.deusto.server.jdo.User.UserKind;
 
 public class PanelBuilder {
+	
+	static Font genericFont =  new Font("Arial", Font.PLAIN, 12);
 
 	/**
 	 * Creates the login panel
@@ -34,9 +36,6 @@ public class PanelBuilder {
 	 */
 	public static JPanel createLogin(Client client) {
 
-		// @Todo @Performance Avoid creating the font each time
-
-
 		JPanel pLogin = new JPanel();
 		pLogin.setBounds(0, 0, 434, 209);
 		pLogin.setLayout(null);
@@ -44,12 +43,12 @@ public class PanelBuilder {
 		JLabel lblUsername = new JLabel(client.text.getString("Username")+ ":");
 		lblUsername.setBounds(20, 127, 62, 15);
 		pLogin.add(lblUsername);
-		lblUsername.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblUsername.setFont(genericFont);
 
 		JLabel lblPassword = new JLabel(client.text.getString("Password")+":");
 		lblPassword.setBounds(223, 127, 59, 15);
 		pLogin.add(lblPassword);
-		lblPassword.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblPassword.setFont(genericFont);
 
 		JPasswordField tfPass = new JPasswordField();
 		tfPass.setBounds(292, 125, 117, 20);
@@ -99,12 +98,12 @@ public class PanelBuilder {
 		pReg.setVisible(true);
 
 		JLabel lblName1 = new JLabel(client.text.getString("Name")+":");
-		lblName1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblName1.setFont(genericFont);
 		lblName1.setBounds(20, 127, 62, 15);
 		pReg.add(lblName1);
 
 		JLabel lblUserName1 = new JLabel(client.text.getString("Username")+":");
-		lblUserName1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblUserName1.setFont(genericFont);
 		lblUserName1.setBounds(20, 153, 72, 15);
 		pReg.add(lblUserName1);
 
@@ -128,7 +127,7 @@ public class PanelBuilder {
 		pReg.add(btnBack1);
 
 		JLabel lblEmail = new JLabel(client.text.getString("Email")+":");
-		lblEmail.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblEmail.setFont(genericFont);
 		lblEmail.setBounds(20, 181, 82, 15);
 		pReg.add(lblEmail);
 
@@ -138,7 +137,7 @@ public class PanelBuilder {
 		pReg.add(tfEmail);
 
 		JLabel lblPhone = new JLabel(client.text.getString("Phone")+":");
-		lblPhone.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblPhone.setFont(genericFont);
 		lblPhone.setBounds(212, 127, 62, 15);
 		pReg.add(lblPhone);
 
@@ -153,12 +152,12 @@ public class PanelBuilder {
 		pReg.add(tfPassword1);
 
 		JLabel lblPassword1 = new JLabel(client.text.getString("Password")+":");
-		lblPassword1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblPassword1.setFont(genericFont);
 		lblPassword1.setBounds(212, 153, 59, 15);
 		pReg.add(lblPassword1);
 
 		JLabel lblRepeat = new JLabel(client.text.getString("Repeat_Password")+":");
-		lblRepeat.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblRepeat.setFont(genericFont);
 		lblRepeat.setBounds(212, 181, 82, 15);
 		pReg.add(lblRepeat);
 		
@@ -168,7 +167,7 @@ public class PanelBuilder {
 		pReg.add(tfRepeat);
 
 		JCheckBox hostCheckBox = new JCheckBox(client.text.getString("Host"));
-		hostCheckBox.setFont(new Font("Arial", Font.PLAIN, 12));
+		hostCheckBox.setFont(genericFont);
 		hostCheckBox.setBounds(112, 210, 82, 15);
 		pReg.add(hostCheckBox);
 
@@ -332,8 +331,6 @@ public class PanelBuilder {
 
 		// @Todo: Instead of having 'isNewUser' could we just check if 'selectedUser' is not null?
 
-		// @Todo @Performance Avoid creating the font each time
-
 		// @Todo: Enable/disable fields based on the selected UserKind
 
 		JPanel result = new JPanel();
@@ -348,7 +345,7 @@ public class PanelBuilder {
 		result.add(lblImg);
 
 		JLabel lblName1 = new JLabel(client.text.getString("Name")+":");
-		lblName1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblName1.setFont(genericFont);
 		lblName1.setBounds(20, 127, 62, 15);
 		result.add(lblName1);
 		
@@ -362,7 +359,7 @@ public class PanelBuilder {
 		result.add(tfName1);
 
 		JLabel lblUserName1 = new JLabel(client.text.getString("Username")+":");
-		lblUserName1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblUserName1.setFont(genericFont);
 		lblUserName1.setBounds(20, 153, 72, 15);
 		result.add(lblUserName1);
 
@@ -373,7 +370,7 @@ public class PanelBuilder {
 		result.add(tfUserName1);
 
 		JLabel lblEmail = new JLabel(client.text.getString("Email")+":");
-		lblEmail.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblEmail.setFont(genericFont);
 		lblEmail.setBounds(20, 181, 82, 15);
 		result.add(lblEmail);
 
@@ -387,7 +384,7 @@ public class PanelBuilder {
 		result.add(tfEmail);
 
 		JLabel lblPhone = new JLabel(client.text.getString("Phone")+":");
-		lblPhone.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblPhone.setFont(genericFont);
 		lblPhone.setBounds(212, 127, 62, 15);
 		result.add(lblPhone);
 
@@ -401,7 +398,7 @@ public class PanelBuilder {
 		result.add(tfPhone);
 
 		JLabel lblUserkind = new JLabel(client.text.getString("Kind"));
-		lblUserkind.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblUserkind.setFont(genericFont);
 		lblUserkind.setBounds(20, 25, 118, 20);
 		result.add(lblUserkind);
 
@@ -411,7 +408,7 @@ public class PanelBuilder {
 		result.add(userkindCombo);
 
 		JLabel lblVerified = new JLabel(client.text.getString("Verified"));
-		lblVerified.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblVerified.setFont(genericFont);
 		lblVerified.setBounds(20, 55, 118, 20);
 		result.add(lblVerified);
 
@@ -427,12 +424,12 @@ public class PanelBuilder {
 		result.add(tfPassword1);
 
 		JLabel lblPassword1 = new JLabel(client.text.getString("Password")+":");
-		lblPassword1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblPassword1.setFont(genericFont);
 		lblPassword1.setBounds(212, 153, 59, 15);
 		result.add(lblPassword1);
 
 		JLabel lblRepeat = new JLabel(client.text.getString("Repeat_Password")+":");
-		lblRepeat.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblRepeat.setFont(genericFont);
 		lblRepeat.setBounds(212, 181, 82, 15);
 		result.add(lblRepeat);
 
@@ -648,13 +645,13 @@ public class PanelBuilder {
 		center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
 
 		JLabel lblStartDate = new JLabel(client.text.getString("Start_date")+":");
-		lblStartDate.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblStartDate.setFont(genericFont);
 
 		JDateChooser dateChooserStart = new JDateChooser();
 		dateChooserStart.setDateFormatString("dd/MM/yyyy");
 
 		JLabel lblEndDate = new JLabel(client.text.getString("End_date")+":");
-		lblEndDate.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblEndDate.setFont(genericFont);
 
 		JDateChooser dateChooserEnd = new JDateChooser();
 		dateChooserEnd.setDateFormatString("dd/MM/yyyy");
@@ -707,7 +704,7 @@ public class PanelBuilder {
 		result.setLayout(null);
 
 		JLabel lblAddress = new JLabel(client.text.getString("Address")+":");
-		lblAddress.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblAddress.setFont(genericFont);
 		lblAddress.setBounds(20, 127, 62, 15);
 		result.add(lblAddress);
 
@@ -722,7 +719,7 @@ public class PanelBuilder {
 		result.add(tfAddress);
 
 		JLabel lblCity = new JLabel(client.text.getString("City")+":");
-		lblCity.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCity.setFont(genericFont);
 		lblCity.setBounds(20, 153, 72, 15);
 		result.add(lblCity);
 
@@ -734,7 +731,7 @@ public class PanelBuilder {
 		result.add(tfCity);
 
 		JLabel lblCapacity = new JLabel(client.text.getString("Capacity")+":");
-		lblCapacity.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCapacity.setFont(genericFont);
 		lblCapacity.setBounds(20, 181, 82, 15);
 		result.add(lblCapacity);
 
@@ -745,7 +742,7 @@ public class PanelBuilder {
 		result.add(tfCapacity);
 
 		JLabel lblCost = new JLabel(client.text.getString("Cost")+":");
-		lblCost.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCost.setFont(genericFont);
 		lblCost.setBounds(212, 127, 62, 15);
 		result.add(lblCost);
 
@@ -800,7 +797,7 @@ public class PanelBuilder {
 		result.setLayout(null);
 
 		JLabel lblProperty = new JLabel(client.text.getString("Property")+":");
-		lblProperty.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblProperty.setFont(genericFont);
 		lblProperty.setBounds(20, 127, 62, 15);
 		result.add(lblProperty);
 
@@ -815,7 +812,7 @@ public class PanelBuilder {
 		result.add(imgBanner1);
 
 		JLabel lblGuest = new JLabel(client.text.getString("Name")+":");
-		lblGuest.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblGuest.setFont(genericFont);
 		lblGuest.setBounds(20, 153, 72, 15);
 		result.add(lblGuest);
 
@@ -827,7 +824,7 @@ public class PanelBuilder {
 		result.add(tfGuest);
 
 		JLabel lblStartDate = new JLabel(client.text.getString("Start_date")+":");
-		lblStartDate.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblStartDate.setFont(genericFont);
 		lblStartDate.setBounds(20, 181, 82, 15);
 		result.add(lblStartDate);
 		
@@ -837,7 +834,7 @@ public class PanelBuilder {
 		dateChooserStart.setDateFormatString("dd/MM/yyyy");
 
 		JLabel lblEndDate = new JLabel(client.text.getString("End_date")+":");
-		lblEndDate.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblEndDate.setFont(genericFont);
 		lblEndDate.setBounds(212, 127, 62, 15);
 		result.add(lblEndDate);
 		
@@ -886,7 +883,6 @@ public class PanelBuilder {
 	 * @return
 	 */
 	public static JPanel createHostPropertyNew(Client client, String name, UserKind kind) {
-		//TODO
 		JPanel result = new JPanel();
 		result.setBounds(0, 0, 434, 209);
 		result.setLayout(null);
@@ -896,7 +892,7 @@ public class PanelBuilder {
 		result.add(imgBanner1);
 
 		JLabel lblAddress = new JLabel(client.text.getString("Address")+":");
-		lblAddress.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblAddress.setFont(genericFont);
 		lblAddress.setBounds(20, 127, 62, 15);
 		result.add(lblAddress);
 
@@ -906,7 +902,7 @@ public class PanelBuilder {
 		result.add(tfAddress);
 
 		JLabel lblCity = new JLabel(client.text.getString("City")+":");
-		lblCity.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCity.setFont(genericFont);
 		lblCity.setBounds(20, 153, 72, 15);
 		result.add(lblCity);
 
@@ -916,7 +912,7 @@ public class PanelBuilder {
 		result.add(tfCity);
 
 		JLabel lblCapacity = new JLabel(client.text.getString("Capacity")+":");
-		lblCapacity.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCapacity.setFont(genericFont);
 		lblCapacity.setBounds(20, 181, 82, 15);
 		result.add(lblCapacity);
 
@@ -926,7 +922,7 @@ public class PanelBuilder {
 		result.add(tfCapacity);
 
 		JLabel lblCost = new JLabel(client.text.getString("Cost")+":");
-		lblCost.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCost.setFont(genericFont);
 		lblCost.setBounds(212, 127, 62, 15);
 		result.add(lblCost);
 
@@ -980,7 +976,7 @@ public class PanelBuilder {
 		result.add(imgBanner1);
 		
 		JLabel lblUsername = new JLabel(client.text.getString("Username")+":");
-		lblUsername.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblUsername.setFont(genericFont);
 		lblUsername.setBounds(20, 127, 62, 15);
 		result.add(lblUsername);
 
@@ -992,7 +988,7 @@ public class PanelBuilder {
 		result.add(tfUsername);
 
 		JLabel lblGuest = new JLabel(client.text.getString("Name")+":");
-		lblGuest.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblGuest.setFont(genericFont);
 		lblGuest.setBounds(20, 153, 72, 15);
 		result.add(lblGuest);
 
@@ -1004,7 +1000,7 @@ public class PanelBuilder {
 		result.add(tfGuest);
 
 		JLabel lblPhone = new JLabel(client.text.getString("Telephone")+":");
-		lblPhone.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblPhone.setFont(genericFont);
 		lblPhone.setBounds(20, 181, 82, 15);
 		result.add(lblPhone);
 
@@ -1015,7 +1011,7 @@ public class PanelBuilder {
 		result.add(tfPhone);
 
 		JLabel lblEmail = new JLabel(client.text.getString("Email")+":");
-		lblEmail.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblEmail.setFont(genericFont);
 		lblEmail.setBounds(212, 127, 62, 15);
 		result.add(lblEmail);
 
@@ -1027,7 +1023,7 @@ public class PanelBuilder {
 		result.add(tfEmail);
 
 		JLabel lblPass = new JLabel(client.text.getString("Password")+":");
-		lblPass.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblPass.setFont(genericFont);
 		lblPass.setBounds(212, 153, 62, 15);
 		result.add(lblPass);
 
