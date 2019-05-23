@@ -94,27 +94,27 @@ public class PanelBuilder {
 
 		JPanel pReg = new JPanel();
 		pReg.setLayout(null);
-		pReg.setBounds(0, 0, 434, 286);
+		pReg.setBounds(48, 245, 352, 20);
 		pReg.setVisible(true);
 
 		JLabel lblName1 = new JLabel(client.text.getString("Name")+":");
 		lblName1.setFont(genericFont);
-		lblName1.setBounds(20, 127, 62, 15);
+		lblName1.setBounds(160, 115, 72, 15);
 		pReg.add(lblName1);
 
 		JLabel lblUserName1 = new JLabel(client.text.getString("Username")+":");
 		lblUserName1.setFont(genericFont);
-		lblUserName1.setBounds(20, 153, 72, 15);
+		lblUserName1.setBounds(48, 115, 62, 15);
 		pReg.add(lblUserName1);
 
 		JTextField tfUserName1 = new JTextField();
 		tfUserName1.setColumns(10);
-		tfUserName1.setBounds(89, 153, 118, 20);
+		tfUserName1.setBounds(48, 141, 95, 20);
 		pReg.add(tfUserName1);
 
 		JTextField tfName1 = new JTextField();
 		tfName1.setColumns(10);
-		tfName1.setBounds(89, 125, 118, 20);
+		tfName1.setBounds(160, 141, 95, 20);
 		pReg.add(tfName1);
 
 		JLabel imgBanner1 = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
@@ -123,52 +123,52 @@ public class PanelBuilder {
 
 		JButton btnBack1 = new JButton(client.text.getString("Back"));
 		btnBack1.addActionListener( (e) -> {client.switchLogin();} );
-		btnBack1.setBounds(212, 210, 89, 23);
+		btnBack1.setBounds(213, 341, 89, 23);
 		pReg.add(btnBack1);
 
 		JLabel lblEmail = new JLabel(client.text.getString("Email")+":");
 		lblEmail.setFont(genericFont);
-		lblEmail.setBounds(20, 181, 82, 15);
+		lblEmail.setBounds(48, 172, 62, 15);
 		pReg.add(lblEmail);
 
 		JTextField tfEmail = new JTextField();
 		tfEmail.setColumns(10);
-		tfEmail.setBounds(89, 179, 118, 20);
+		tfEmail.setBounds(48, 192, 352, 20);
 		pReg.add(tfEmail);
 
 		JLabel lblPhone = new JLabel(client.text.getString("Phone")+":");
 		lblPhone.setFont(genericFont);
-		lblPhone.setBounds(212, 127, 62, 15);
+		lblPhone.setBounds(276, 115, 62, 15);
 		pReg.add(lblPhone);
 
 		JTextField tfPhone = new JTextField();
 		tfPhone.setColumns(10);
-		tfPhone.setBounds(292, 125, 118, 20);
+		tfPhone.setBounds(276, 141, 95, 20);
 		pReg.add(tfPhone);
 
 		JPasswordField tfPassword1 = new JPasswordField();
 		tfPassword1.setColumns(10);
-		tfPassword1.setBounds(292, 151, 118, 20);
+		tfPassword1.setBounds(48, 245, 352, 20);
 		pReg.add(tfPassword1);
 
 		JLabel lblPassword1 = new JLabel(client.text.getString("Password")+":");
 		lblPassword1.setFont(genericFont);
-		lblPassword1.setBounds(212, 153, 59, 15);
+		lblPassword1.setBounds(48, 223, 62, 15);
 		pReg.add(lblPassword1);
 
 		JLabel lblRepeat = new JLabel(client.text.getString("Repeat_Password")+":");
 		lblRepeat.setFont(genericFont);
-		lblRepeat.setBounds(212, 181, 82, 15);
+		lblRepeat.setBounds(48, 276, 82, 15);
 		pReg.add(lblRepeat);
 		
 		JPasswordField tfRepeat = new JPasswordField();
 		tfRepeat.setColumns(10);
-		tfRepeat.setBounds(292, 179, 118, 20);
+		tfRepeat.setBounds(48, 302, 352, 20);
 		pReg.add(tfRepeat);
 
 		JCheckBox hostCheckBox = new JCheckBox(client.text.getString("Host"));
 		hostCheckBox.setFont(genericFont);
-		hostCheckBox.setBounds(112, 210, 82, 15);
+		hostCheckBox.setBounds(124, 349, 82, 15);
 		pReg.add(hostCheckBox);
 
 
@@ -183,7 +183,7 @@ public class PanelBuilder {
 				JOptionPane.showMessageDialog(client.getWindow(), "Passwords do not match", "Alert", JOptionPane.WARNING_MESSAGE);
 			}
 		});
-		btnReg1.setBounds(311, 210, 89, 23);
+		btnReg1.setBounds(311, 341, 89, 23);
 		pReg.add(btnReg1);
 
 		//JLabel imglabel = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p3.png")));
@@ -700,12 +700,12 @@ public class PanelBuilder {
 	 */
 	public static JPanel createPropertyEdit(Client client, Property selectedProp, boolean isNewProperty, UserKind kind, String id) {
 		JPanel result = new JPanel();
-		result.setBounds(0, 0, 434, 209);
+		result.setBounds(0, 0, 436, 260);
 		result.setLayout(null);
 
 		JLabel lblAddress = new JLabel(client.text.getString("Address")+":");
 		lblAddress.setFont(genericFont);
-		lblAddress.setBounds(20, 127, 62, 15);
+		lblAddress.setBounds(20, 115, 62, 15);
 		result.add(lblAddress);
 
 		JLabel imgBanner1 = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
@@ -714,41 +714,41 @@ public class PanelBuilder {
 
 		JTextField tfAddress = new JTextField(selectedProp != null ? selectedProp.getAddress() : "");
 		tfAddress.setColumns(10);
-		tfAddress.setBounds(89, 125, 118, 20);
+		tfAddress.setBounds(20, 141, 391, 20);
 		tfAddress.setEnabled(false);
 		result.add(tfAddress);
 
 		JLabel lblCity = new JLabel(client.text.getString("City")+":");
 		lblCity.setFont(genericFont);
-		lblCity.setBounds(20, 153, 72, 15);
+		lblCity.setBounds(20, 172, 72, 15);
 		result.add(lblCity);
 
 		JTextField tfCity = new JTextField();
 		tfCity.setColumns(10);
-		tfCity.setBounds(89, 153, 118, 20);
+		tfCity.setBounds(20, 198, 118, 20);
 		tfCity.setEnabled(false);
 		tfCity.setText(selectedProp != null ? selectedProp.getCity() : "");
 		result.add(tfCity);
 
 		JLabel lblCapacity = new JLabel(client.text.getString("Capacity")+":");
 		lblCapacity.setFont(genericFont);
-		lblCapacity.setBounds(20, 181, 82, 15);
+		lblCapacity.setBounds(156, 172, 82, 15);
 		result.add(lblCapacity);
 
 		JTextField tfCapacity = new JTextField();
 		tfCapacity.setColumns(10);
-		tfCapacity.setBounds(89, 179, 118, 20);
+		tfCapacity.setBounds(156, 198, 118, 20);
 		tfCapacity.setText(selectedProp != null ? Integer.toString(selectedProp.getCapacity()) : "");
 		result.add(tfCapacity);
 
 		JLabel lblCost = new JLabel(client.text.getString("Cost")+":");
 		lblCost.setFont(genericFont);
-		lblCost.setBounds(212, 127, 62, 15);
+		lblCost.setBounds(293, 172, 62, 15);
 		result.add(lblCost);
 
 		JTextField tfCost = new JTextField();
 		tfCost.setColumns(10);
-		tfCost.setBounds(292, 125, 118, 20);
+		tfCost.setBounds(293, 198, 118, 20);
 		tfCost.setText(selectedProp != null ? Double.toString(selectedProp.getCost()) : "");
 		result.add(tfCost);
 
@@ -760,7 +760,7 @@ public class PanelBuilder {
 				client.switchHostPropertiesManagement(selectedProp.getHost().getUsername(), kind);
 			}
 		});
-		btnBack.setBounds(212, 210, 89, 23);
+		btnBack.setBounds(223, 229, 89, 23);
 		result.add(btnBack);
 
 		JButton btnUpdate = new JButton(client.text.getString("Update"));
@@ -771,7 +771,7 @@ public class PanelBuilder {
 				JOptionPane.showMessageDialog(client.getWindow(), "You can not leave empty fields.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			}
 		});
-		btnUpdate.setBounds(311, 210, 89, 23);
+		btnUpdate.setBounds(322, 229, 89, 23);
 		result.add(btnUpdate);	
 
 		//JLabel labelBe = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p6.png")));
@@ -893,49 +893,49 @@ public class PanelBuilder {
 
 		JLabel lblAddress = new JLabel(client.text.getString("Address")+":");
 		lblAddress.setFont(genericFont);
-		lblAddress.setBounds(20, 127, 62, 15);
+		lblAddress.setBounds(20, 115, 62, 15);
 		result.add(lblAddress);
 
 		JTextField tfAddress = new JTextField();
 		tfAddress.setColumns(10);
-		tfAddress.setBounds(89, 125, 118, 20);
+		tfAddress.setBounds(20, 141, 391, 20);
 		result.add(tfAddress);
 
 		JLabel lblCity = new JLabel(client.text.getString("City")+":");
 		lblCity.setFont(genericFont);
-		lblCity.setBounds(20, 153, 72, 15);
+		lblCity.setBounds(20, 172, 72, 15);
 		result.add(lblCity);
 
 		JTextField tfCity = new JTextField();
 		tfCity.setColumns(10);
-		tfCity.setBounds(89, 153, 118, 20);
+		tfCity.setBounds(20, 198, 118, 20);
 		result.add(tfCity);
 
 		JLabel lblCapacity = new JLabel(client.text.getString("Capacity")+":");
 		lblCapacity.setFont(genericFont);
-		lblCapacity.setBounds(20, 181, 82, 15);
+		lblCapacity.setBounds(156, 172, 82, 15);
 		result.add(lblCapacity);
 
 		JTextField tfCapacity = new JTextField();
 		tfCapacity.setColumns(10);
-		tfCapacity.setBounds(89, 179, 118, 20);
+		tfCapacity.setBounds(156, 198, 118, 20);
 		result.add(tfCapacity);
 
 		JLabel lblCost = new JLabel(client.text.getString("Cost")+":");
 		lblCost.setFont(genericFont);
-		lblCost.setBounds(212, 127, 62, 15);
+		lblCost.setBounds(293, 172, 62, 15);
 		result.add(lblCost);
 
 		JTextField tfCost = new JTextField();
 		tfCost.setColumns(10);
-		tfCost.setBounds(292, 125, 118, 20);
+		tfCost.setBounds(293, 198, 118, 20);
 		result.add(tfCost);
 
 		JButton btnBack = new JButton(client.text.getString("Back"));
 		btnBack.addActionListener( (e) -> {
 			client.switchHostPropertiesManagement(name, kind);
 		});
-		btnBack.setBounds(212, 210, 89, 23);
+		btnBack.setBounds(223, 229, 89, 23);
 		result.add(btnBack);
 
 		JButton btnPublish = new JButton(client.text.getString("Publish"));
@@ -947,7 +947,7 @@ public class PanelBuilder {
 				JOptionPane.showMessageDialog(client.getWindow(), "You can not leave empty fields.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			}
 		});
-		btnPublish.setBounds(311, 210, 89, 23);
+		btnPublish.setBounds(322, 229, 89, 23);
 		result.add(btnPublish);	
 
 		//JLabel imglabel = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p2.png")));
@@ -968,7 +968,7 @@ public class PanelBuilder {
 		User user = client.getUser(name);
 		
 		JPanel result = new JPanel();
-		result.setBounds(0, 0, 434, 209);
+		result.setBounds(0, 0, 434, 310);
 		result.setLayout(null);
 
 		JLabel imgBanner1 = new JLabel(new ImageIcon(Client.class.getResource("/imgs/banner.png")));
@@ -977,59 +977,59 @@ public class PanelBuilder {
 		
 		JLabel lblUsername = new JLabel(client.text.getString("Username")+":");
 		lblUsername.setFont(genericFont);
-		lblUsername.setBounds(20, 127, 62, 15);
+		lblUsername.setBounds(48, 115, 62, 15);
 		result.add(lblUsername);
 
 		JTextField tfUsername = new JTextField();
 		tfUsername.setColumns(10);
-		tfUsername.setBounds(89, 125, 118, 20);
+		tfUsername.setBounds(48, 141, 95, 20);
 		tfUsername.setText(user.getUsername());
 		tfUsername.setEnabled(false);
 		result.add(tfUsername);
 
 		JLabel lblGuest = new JLabel(client.text.getString("Name")+":");
 		lblGuest.setFont(genericFont);
-		lblGuest.setBounds(20, 153, 72, 15);
+		lblGuest.setBounds(160, 115, 72, 15);
 		result.add(lblGuest);
 
 		JTextField tfGuest = new JTextField();
 		tfGuest.setColumns(10);
-		tfGuest.setBounds(89, 153, 118, 20);
+		tfGuest.setBounds(160, 141, 95, 20);
 		tfGuest.setText(user.getName());
 		tfGuest.setEnabled(false);
 		result.add(tfGuest);
 
 		JLabel lblPhone = new JLabel(client.text.getString("Telephone")+":");
 		lblPhone.setFont(genericFont);
-		lblPhone.setBounds(20, 181, 82, 15);
+		lblPhone.setBounds(276, 115, 82, 15);
 		result.add(lblPhone);
 
 		JTextField tfPhone = new JTextField();
 		tfPhone.setColumns(10);
-		tfPhone.setBounds(89, 179, 118, 20);
+		tfPhone.setBounds(276, 141, 95, 20);
 		tfPhone.setText(user.getTelephone());
 		result.add(tfPhone);
 
 		JLabel lblEmail = new JLabel(client.text.getString("Email")+":");
 		lblEmail.setFont(genericFont);
-		lblEmail.setBounds(212, 127, 62, 15);
+		lblEmail.setBounds(48, 172, 62, 15);
 		result.add(lblEmail);
 
 		JTextField tfEmail = new JTextField();
 		tfEmail.setColumns(10);
-		tfEmail.setBounds(292, 125, 118, 20);
+		tfEmail.setBounds(48, 192, 352, 20);
 		tfEmail.setText(user.getEmail());
 		tfEmail.setEnabled(false);
 		result.add(tfEmail);
 
 		JLabel lblPass = new JLabel(client.text.getString("Password")+":");
 		lblPass.setFont(genericFont);
-		lblPass.setBounds(212, 153, 62, 15);
+		lblPass.setBounds(48, 227, 62, 15);
 		result.add(lblPass);
 
 		JPasswordField tfPass = new JPasswordField();
 		tfPass.setColumns(10);
-		tfPass.setBounds(292, 153, 118, 20);
+		tfPass.setBounds(48, 245, 352, 20);
 		tfPass.setText(user.getPassword());
 		result.add(tfPass);
 
@@ -1041,7 +1041,7 @@ public class PanelBuilder {
 				client.createMainWindowHost(name, kind);
 			}
 		});
-		btnBack.setBounds(212, 210, 89, 23);
+		btnBack.setBounds(213, 276, 89, 23);
 		result.add(btnBack);
 
 		JButton btnUpdate = new JButton(client.text.getString("Update"));
@@ -1052,7 +1052,7 @@ public class PanelBuilder {
 				JOptionPane.showMessageDialog(client.getWindow(), "You can not leave empty fields.", "Alert", JOptionPane.WARNING_MESSAGE, null);
 			}
 		});
-		btnUpdate.setBounds(311, 210, 89, 23);
+		btnUpdate.setBounds(311, 276, 89, 23);
 		result.add(btnUpdate);	
 		
 		//JLabel labelB = new JLabel(new ImageIcon(Client.class.getResource("/imgs/p4.png")));
