@@ -90,14 +90,10 @@ public class Client {
 	private JFrame createInitWindow(Client client) {
 
 		JFrame result = new JFrame("[RoomRental] Login");
-
 		result.setSize(450, 265);
 		result.setResizable(false);
-
 		JPanel login_panel = PanelBuilder.createLogin(client);
-
 		result.add(login_panel);
-
 		return result;
 	}
 
