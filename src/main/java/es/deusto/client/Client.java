@@ -55,13 +55,9 @@ public class Client {
 		Locale locale = Locale.getDefault();
 		text = ResourceBundle.getBundle("app_text", locale);
 
-		System.out.println();
-
-
 		this.window = createInitWindow(this);
 
-		BasicConfigurator.configure();
-		log = Logger.getLogger(Client.class);
+		log = Logger.getLogger("Client");
 
 		if (args.length != 3) {
 			System.out.println("Use: java [policy] [codebase] Client.Client [host] [port] [server]");
