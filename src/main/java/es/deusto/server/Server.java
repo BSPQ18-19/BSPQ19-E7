@@ -71,8 +71,7 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 		// @Todo: Delete this code. This is a super @HACK so that tests can run!
 		if (log == null) {
-			log = Logger.getLogger(Server.class);
-			PropertyConfigurator.configure("src/main/resources/log4j.properties");
+			log = Logger.getLogger("Server");
 		}
 	}
 
@@ -971,21 +970,10 @@ public class Server extends UnicastRemoteObject implements IServer {
 
 	public static void main(String[] args) {
 		{
-			// @Investigate how to correctly configure the logger
-			//			try {
-			//				BasicConfigurator.configure();
-			log = Logger.getLogger(Server.class);
-			PropertyConfigurator.configure("src/main/resources/log4j.properties");
-			//				FileAppender fa;
-			//				fa = new FileAppender(new PatternLayout(PatternLayout.TTCC_CONVERSION_PATTERN),
-			//						"logger_log.log", true);
-			//				log.addAppender(fa);
-			//			} catch (IOException e) {
-			// TODO Auto-generated catch block
-			//				e.printStackTrace();
-			//			}
+			log = Logger.getLogger("Server");
 		}
 
+		log.info("logger set up");
 		if (args.length != 3) {
 			System.out.println("How to invoke: java [policy] [codebase] Server.Server [host] [port] [server]");
 			log.warn("Wrong number of arguments passed: " + args);
